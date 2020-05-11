@@ -16,15 +16,14 @@ phases:
   build:
     commands:
       - echo Build started
-      - npm run build
-      #- tsc -p tsconfig.json
+      #- npm run build
+      - tsc -p tsconfig.json
   post_build:
     commands:
       # - node ./dist/main.js
 artifacts:
   files:
-    - dist/**/*
+    - 'dist/**/*'
     - package.json
     - package-lock.json
     - tsconfig.json
-    - node_modules/**/*
