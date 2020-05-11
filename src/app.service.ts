@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Back end of Vibrantcreator!';
+    return 'VIBRANT CREATOR api version 1.0';
   }
 }

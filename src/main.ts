@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
-    .setTitle('Vibrant creator backend API')
-    .setDescription('This is an API that is going to run in the backend')
+    .setTitle('VIBRANT CREATOR backend API v1.0')
+    .setDescription('Vibrant Creator api will be the backend data server for the frontend web app.')
     .setVersion('1.0')
     .build()
 
