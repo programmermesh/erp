@@ -20,7 +20,8 @@ phases:
       #- tsc -p tsconfig.json
   post_build:
     commands:
-      # - node ./dist/main.js
+      - echo Starting the server
+      - node dist/main.js
 artifacts:
   files:
     - 'dist/**/*'
