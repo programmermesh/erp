@@ -10,6 +10,7 @@ phases:
   pre_build:
     commands:
       - echo Installing source dependencies
+      - rimraf dist
       - npm ci && npm cache clean --force
       # upgrade AWS CLI to the latest version
       - pip install --upgrade awscli
@@ -29,3 +30,4 @@ artifacts:
     - package-lock.json
     - tsconfig.json
     - .npmrc
+    - 'node_modules/**/*'
