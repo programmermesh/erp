@@ -1,10 +1,21 @@
-version: 0.1
+version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 10
+  pre_build:
     commands:
-      # Install dependencies needed
-      - npm install
-
+      - npm install -g typescript @nestjs/cli
+      - npm ci && npm cache clean --force
       # upgrade AWS CLI to the latest version
       - pip install --upgrade awscli
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run build
+      #- tsc -p tsconfig.json
+  post_build:
+    commands:
+      -echo Build completed on `date`
+      # - node ./dist/main.js
