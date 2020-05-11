@@ -21,7 +21,7 @@ phases:
   post_build:
     commands:
       - echo Starting the server
-      - node dist/main.js
+      #- node dist/main.js
 artifacts:
   files:
     - 'dist/**/*'
