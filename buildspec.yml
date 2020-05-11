@@ -12,10 +12,9 @@ phases:
       - pip install --upgrade awscli
   build:
     commands:
-      - echo Build started on `date`
+      - echo Build started
       - npm run build
       #- tsc -p tsconfig.json
   post_build:
     commands:
-      -echo Build completed on `date`
       # - node ./dist/main.js
