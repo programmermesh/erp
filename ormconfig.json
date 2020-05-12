@@ -1,0 +1,11 @@
+{
+    "type": "postgres",
+    "host": "vibrantcreator-staging-db.cmtcu0ugajsv.eu-north-1.rds.amazonaws.com",
+    "port": 5432,
+    "username": "staging_admin",
+    "password": "r5Z-7hs-HxD-xa6",
+    "database": "vb_development",
+    "entities": ["dist/**/*.entity.js"],
+    "synchronize": true,
+    "logging": true
+}

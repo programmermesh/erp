@@ -2,7 +2,10 @@
 /dist
 /node_modules
 
-ormconfig.json
+.env
+
+# We will need a way to generate the ormconfig.json after build
+# ormconfig.json
 
 # Logs
 logs
