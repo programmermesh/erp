@@ -7,7 +7,8 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('VIBRANT CREATOR backend API v1.0')
-    .setDescription('Vibrant Creator api will be the backend data server for the frontend web app.')
+    //.setDescription('Vibrant Creator api will be the backend data server for the frontend web app.')
+    .setDescription('This is a test')
     .setVersion('1.0')
     .build()
 
