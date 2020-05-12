@@ -10,7 +10,8 @@ phases:
   pre_build:
     commands:
       - echo Installing source dependencies
-      - npm ci && npm cache clean --force
+      - npm ci
+      #- npm cache clean --force 
       # upgrade AWS CLI to the latest version
       - pip install --upgrade awscli
   build:
