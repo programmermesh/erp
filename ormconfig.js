@@ -12,7 +12,7 @@ module.exports = [{
   database: DB_DATABASE,
   synchronize: true,
   entities: ['./dist/**/*.entity.js'], // requires npm run build first
-  //entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
+  // entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
   logging: true
   /*,
   subscribers: [
