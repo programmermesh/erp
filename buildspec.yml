@@ -30,4 +30,4 @@ artifacts:
     - tsconfig.json
     - .npmrc
     - 'node_modules/**/*'
-    - ormconfig.json
+    - ormconfig.js
