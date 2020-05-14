@@ -3,11 +3,13 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    OneToMany
  } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
+import { CompanyTeamMembersEntity } from '../companies/company-team-members.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -99,5 +101,9 @@ export class UserEntity {
     @ApiProperty({ description: 'This will be the ID of the user that last updated the company entity' })
     @Column({ type: 'varchar', length: 200, nullable: true })
     updated_by?: string   
+
+    /* A USER can be a part of MANY company team members group */
+    @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.user )
+    team_members: CompanyTeamMembersEntity
 
 }

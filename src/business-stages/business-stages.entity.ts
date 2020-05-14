@@ -1,7 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { 
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+    OneToMany
+  } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
+import { CompanyBusinessStagesEntity } from '../companies/company-business-stages.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -20,6 +28,10 @@ export class BusinessStagesEntity {
     @Column('varchar', { length: 255, nullable: true })
     @ApiPropertyOptional()
     description: string
+
+    /* One business_stage can have many company_business_stages assigned to it */
+    @OneToMany( type => CompanyBusinessStagesEntity, business_stage => business_stage.company )
+    companies: CompanyBusinessStagesEntity[]
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date

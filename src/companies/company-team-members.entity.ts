@@ -4,7 +4,7 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToOne
+    ManyToOne,
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
@@ -12,6 +12,7 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyEntity } from './company.entity'
 import { RolesEntity } from '../roles/roles.entity'
 import { AccessTypesEntity } from '../access-types/access-types.entity'
+import { UserEntity } from '../users/user.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -31,11 +32,10 @@ export class CompanyTeamMembersEntity {
     @ApiPropertyOptional()
     invite_accepted: boolean
 
-    /**
-     * Missing relation
-     * user_id
-     * role_id_access_id
-     */
+    /* Many companies can have One user as a team member */
+    @ApiProperty({ description: 'This is the id of the team member in the USERS table' })
+    @ManyToOne(type => UserEntity, user => user.team_members)
+    user: UserEntity
 
     /* Many team members can belong to one role*/
     @ApiProperty({ description: 'This will be the ID of the role the member is assigned to' })

@@ -1,7 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { 
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+    OneToMany
+  } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
+import { CompanySustainableGoalsEntity } from '../companies/company-sustainable-goals.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -25,6 +33,10 @@ export class SustainableGoalEntity {
     @Column('varchar', { length: 255, nullable: true })
     @ApiPropertyOptional()
     description: string
+
+    /* One sustainable goal can be assigned to many companies */
+    @OneToMany( type => CompanySustainableGoalsEntity, sustainable_goal => sustainable_goal.company )
+    companies: CompanySustainableGoalsEntity[]
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date

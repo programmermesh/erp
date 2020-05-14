@@ -17,6 +17,12 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 import { UserEntity } from '../users/user.entity'
 import { CompanyTeamMembersEntity } from './company-team-members.entity'
 import { RolesEntity } from '../roles/roles.entity'
+import { CompanyCustomerSegmentsEntity } from './company-customer-segments.entity'
+import { CompanyBusinessSectorsEntity } from './company-business-sectors.entity';
+import { CompanyBusinessStagesEntity } from './company-business-stages.entity'
+import { CompanySustainableGoalsEntity } from './company-sustainable-goals.entity'
+import { CompanyValuesEntity } from './company-values.entity'
+import { CostAndRevenuesEntity } from './cost-and-revenues.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -177,7 +183,31 @@ export class CompanyEntity {
     @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.company )
     team_members: CompanyTeamMembersEntity[]
 
+    /* One company can have many customer segments */
+    @OneToMany( type => CompanyCustomerSegmentsEntity, customer_segment => customer_segment.company  )
+    customer_segments: CompanyCustomerSegmentsEntity[]
+
+    /* One company can be in many business sectors */
+    @OneToMany( type => CompanyBusinessSectorsEntity, business_sector => business_sector.company )
+    business_sectors: CompanyBusinessSectorsEntity[]
+
+    /* One company can have many business stages */
+    @OneToMany( type => CompanyBusinessStagesEntity, business_stage => business_stage.company )
+    business_stages: CompanyBusinessStagesEntity[]
+
+    /* One company can have many sustainable goals */
+    @OneToMany( type=> CompanySustainableGoalsEntity, sustainable_goal => sustainable_goal.company )
+    sustainable_goals: CompanySustainableGoalsEntity[]
+
     /* One company can have many roles*/
     @OneToMany( type => RolesEntity, role => role.company )
     roles: RolesEntity[]
+
+    /* One company can have many values */
+    @OneToMany( type => CompanyValuesEntity, value => value.company )
+    values: CompanyValuesEntity[]
+
+    /* A company can have many cost and revenues entities */
+    @OneToMany( type => CostAndRevenuesEntity, costs_and_revenues => costs_and_revenues.company )
+    costs_and_revenues: CostAndRevenuesEntity
 }

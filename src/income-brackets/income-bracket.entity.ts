@@ -9,24 +9,32 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { CompanyTeamMembersEntity } from '../companies/company-team-members.entity'
+import { CustomerEntity } from '../customers/customer.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
-@Entity('access_types')
-export class AccessTypesEntity {
+@Entity('income_brackets')
+export class IncomeBracketEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string    
 
-    @ApiProperty({ description: 'This is the unique access type name'})
+    @ApiProperty({ description: 'This is the title/value of the education_stage '})
     @IsOptional({ groups: [UPDATE] })
     @IsNotEmpty({ groups: [CREATE] })
     @Column('varchar',{ length: 255, unique: true})
-    name: string
+    title: string
 
-    /* One access_type can be assgned to many team members */
-    @OneToMany(type => CompanyTeamMembersEntity, team_member => team_member.access_type )
-    team_members: CompanyTeamMembersEntity[]
+    @ApiProperty({ description: 'The is the minimum income'})
+    @Column('numeric')
+    minimum_income: number
+
+    @ApiProperty({ description: 'The is the maximum income'})
+    @Column('numeric')
+    maximum: number
+
+    /* One income bracket can have MANY customers*/
+    @OneToMany( type => CustomerEntity, customer => customer.income_bracket )
+    customers: CustomerEntity[]
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date
