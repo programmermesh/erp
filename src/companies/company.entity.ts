@@ -23,6 +23,10 @@ import { CompanyBusinessStagesEntity } from './company-business-stages.entity'
 import { CompanySustainableGoalsEntity } from './company-sustainable-goals.entity'
 import { CompanyValuesEntity } from './company-values.entity'
 import { CostAndRevenuesEntity } from './cost-and-revenues.entity'
+import { ConnectionGroupsEntity } from '../lead-list/connection-groups.entity'
+import { LeadListEntity } from '../lead-list/lead-list.entity'
+import { CompanyMilestonesEntity } from '../company-milestones/company-milestones.entity'
+import { PitchDecksEntity } from '../pitch-decks/pitch-decks.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -209,5 +213,26 @@ export class CompanyEntity {
 
     /* A company can have many cost and revenues entities */
     @OneToMany( type => CostAndRevenuesEntity, costs_and_revenues => costs_and_revenues.company )
-    costs_and_revenues: CostAndRevenuesEntity
+    costs_and_revenues: CostAndRevenuesEntity[]
+
+    /* One company can have many connections groups */
+    @OneToMany( type => ConnectionGroupsEntity, connection_group => connection_group.company )
+    connection_groups: ConnectionGroupsEntity[]
+
+    /* One company can have many lead list */
+    @OneToMany( type => LeadListEntity, lead_list => lead_list.main_company )
+    lead_lists: LeadListEntity[]
+    
+    /* One company can have many entities as a lead company */
+    @OneToMany( type => LeadListEntity, lead_list => lead_list.lead_company )
+    lead_lists_company: LeadListEntity[]
+
+    /* One compnay can have many milestones */
+    @OneToMany( type => CompanyMilestonesEntity, company_milestones => company_milestones.milestone_archived )
+    company_milestones: CompanyMilestonesEntity[]
+
+    /* One company can have many pick decks */
+    @OneToMany( type => PitchDecksEntity, pick_decks => pick_decks.company )
+    pick_decks: PitchDecksEntity[]
+
 }
