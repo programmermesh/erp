@@ -27,6 +27,11 @@ import { ConnectionGroupsEntity } from '../lead-list/connection-groups.entity'
 import { LeadListEntity } from '../lead-list/lead-list.entity'
 import { CompanyMilestonesEntity } from '../company-milestones/company-milestones.entity'
 import { PitchDecksEntity } from '../pitch-decks/pitch-decks.entity'
+import { MarketPotentialEntity } from '../market-potentials/market-potential.entity'
+import { RiskAnalysisEntity } from '../risks/risk-analysis.entity'
+import { RiskAssessmentEntity } from '../risks/risk-assessment.entity'
+import { CompanyNetworksEntity } from '../network-connections/company-networks.entity'
+import { NetworkConversationEntity } from '../network-connections/network-conversation.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -184,55 +189,78 @@ export class CompanyEntity {
     created_by: UserEntity
     
     /* One company can have many team members */
-    @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.company )
+    @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.company)
     team_members: CompanyTeamMembersEntity[]
 
     /* One company can have many customer segments */
-    @OneToMany( type => CompanyCustomerSegmentsEntity, customer_segment => customer_segment.company  )
+    @OneToMany( type => CompanyCustomerSegmentsEntity, customer_segment => customer_segment.company)
     customer_segments: CompanyCustomerSegmentsEntity[]
 
     /* One company can be in many business sectors */
-    @OneToMany( type => CompanyBusinessSectorsEntity, business_sector => business_sector.company )
+    @OneToMany( type => CompanyBusinessSectorsEntity, business_sector => business_sector.company)
     business_sectors: CompanyBusinessSectorsEntity[]
 
     /* One company can have many business stages */
-    @OneToMany( type => CompanyBusinessStagesEntity, business_stage => business_stage.company )
+    @OneToMany( type => CompanyBusinessStagesEntity, business_stage => business_stage.company)
     business_stages: CompanyBusinessStagesEntity[]
 
     /* One company can have many sustainable goals */
-    @OneToMany( type=> CompanySustainableGoalsEntity, sustainable_goal => sustainable_goal.company )
+    @OneToMany( type=> CompanySustainableGoalsEntity, sustainable_goal => sustainable_goal.company)
     sustainable_goals: CompanySustainableGoalsEntity[]
 
     /* One company can have many roles*/
-    @OneToMany( type => RolesEntity, role => role.company )
+    @OneToMany( type => RolesEntity, role => role.company)
     roles: RolesEntity[]
 
     /* One company can have many values */
-    @OneToMany( type => CompanyValuesEntity, value => value.company )
+    @OneToMany( type => CompanyValuesEntity, value => value.company)
     values: CompanyValuesEntity[]
 
     /* A company can have many cost and revenues entities */
-    @OneToMany( type => CostAndRevenuesEntity, costs_and_revenues => costs_and_revenues.company )
+    @OneToMany( type => CostAndRevenuesEntity, costs_and_revenues => costs_and_revenues.company)
     costs_and_revenues: CostAndRevenuesEntity[]
 
     /* One company can have many connections groups */
-    @OneToMany( type => ConnectionGroupsEntity, connection_group => connection_group.company )
+    @OneToMany( type => ConnectionGroupsEntity, connection_group => connection_group.company)
     connection_groups: ConnectionGroupsEntity[]
 
     /* One company can have many lead list */
-    @OneToMany( type => LeadListEntity, lead_list => lead_list.main_company )
+    @OneToMany( type => LeadListEntity, lead_list => lead_list.main_company)
     lead_lists: LeadListEntity[]
     
     /* One company can have many entities as a lead company */
-    @OneToMany( type => LeadListEntity, lead_list => lead_list.lead_company )
+    @OneToMany( type => LeadListEntity, lead_list => lead_list.lead_company)
     lead_lists_company: LeadListEntity[]
 
     /* One compnay can have many milestones */
-    @OneToMany( type => CompanyMilestonesEntity, company_milestones => company_milestones.milestone_archived )
+    @OneToMany( type => CompanyMilestonesEntity, company_milestones => company_milestones.milestone_archived)
     company_milestones: CompanyMilestonesEntity[]
 
     /* One company can have many pick decks */
-    @OneToMany( type => PitchDecksEntity, pick_decks => pick_decks.company )
+    @OneToMany( type => PitchDecksEntity, pick_decks => pick_decks.company)
     pick_decks: PitchDecksEntity[]
 
+    /* One company can have many market potentials */
+    @OneToMany( type => MarketPotentialEntity, market_potential => market_potential.created_at)
+    market_potentials: MarketPotentialEntity[]
+
+    /* One company can have many risk analysis */
+    @OneToMany( type => RiskAnalysisEntity, risks_analysis => risks_analysis.company )
+    risks_analysis: RiskAnalysisEntity[]
+
+    /* One company can have many risk assessments */
+    @OneToMany( type => RiskAssessmentEntity, risks_assessment => risks_assessment.company)
+    risks_assessments: RiskAssessmentEntity[]
+
+    /* One company can have many connections */
+    @OneToMany( type => CompanyNetworksEntity, company_network => company_network.company)
+    company_networks: CompanyNetworksEntity[]
+
+    /* One company can have many entiries on the network table as connected_to */
+    @OneToMany( type => CompanyNetworksEntity, company_network => company_network.connected_company)
+    company_to_company_network: CompanyNetworksEntity[]
+
+    /* One company can create many Conversations */
+    @OneToMany( type => NetworkConversationEntity, network_conversation => network_conversation.company )
+    network_converstaions: NetworkConversationEntity[]
 }

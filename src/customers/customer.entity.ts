@@ -12,6 +12,7 @@ import { EducationStagesEntity } from '../education-stages/education-stages.enti
 import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
 import { CompanyCustomerSegmentsEntity } from '../companies/company-customer-segments.entity'
 import { CustomerProblemsEntity } from './customer-problems.entity'
+import { MarketPotentialsCustomerEntity } from '../market-potentials/market-potentials-customer.entity'
 
 @Entity('customers')
 export class CustomerEntity {
@@ -73,4 +74,8 @@ export class CustomerEntity {
     /* One customer can have many Problems entries */
     @OneToMany( type => CustomerProblemsEntity, customer_problem => customer_problem.customer )
     customer_problems: CustomerProblemsEntity[]
+
+    /* One customer can elong to many market_potentials_customer entities */
+    @OneToMany( type => MarketPotentialsCustomerEntity, market_potentials_customer => market_potentials_customer.customers )
+    market_potentials_customers: MarketPotentialsCustomerEntity[]
 }

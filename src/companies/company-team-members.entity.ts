@@ -5,6 +5,7 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne,
+    OneToMany
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
@@ -13,6 +14,7 @@ import { CompanyEntity } from './company.entity'
 import { RolesEntity } from '../roles/roles.entity'
 import { AccessTypesEntity } from '../access-types/access-types.entity'
 import { UserEntity } from '../users/user.entity'
+import { RiskAnalysisUserEntity } from '../risks/risk-analysis-user.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -50,6 +52,10 @@ export class CompanyTeamMembersEntity {
     /* Many team members can be assigned to one role */
     @ManyToOne( type => AccessTypesEntity, access_type => access_type.team_members )
     access_type: AccessTypesEntity
+
+    /* One team member can assigned many risks analysis */
+    @OneToMany( type=> RiskAnalysisUserEntity, risk_analysis_user => risk_analysis_user.company_team_members )
+    risk_analysis_users: RiskAnalysisUserEntity[]
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date
