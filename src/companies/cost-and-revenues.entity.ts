@@ -13,6 +13,10 @@ import { CompanyEntity } from './company.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
+export enum COST_OR_REVENUE {
+  cost = 'cost',
+  revenue = 'revenue'
+}
 
 @Entity('costs_and_revenues')
 export class CostAndRevenuesEntity {
@@ -34,9 +38,13 @@ export class CostAndRevenuesEntity {
     estimated_cost: number
 
     /* PENDING enum field type */
-    @ApiProperty({  description: 'This is the first that tells if the entry is a cost or revenue'})
-    @Column('varchar', { default: "cost", length:10} )
-    is_cost_or_revenue: string
+    @ApiProperty({  description: 'This an enum to specify if its cost or revenue', enum: ['cost', 'revenue'] })
+    @Column({
+      type: 'enum',
+      enum: COST_OR_REVENUE,
+      default: COST_OR_REVENUE.cost
+    })
+    type: COST_OR_REVENUE
 
     /* Many values belong to one company*/
     @ApiProperty({ description: 'This is the ID of the company the costs_and_revenue belongs to' })

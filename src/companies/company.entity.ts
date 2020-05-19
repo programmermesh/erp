@@ -32,6 +32,8 @@ import { RiskAnalysisEntity } from '../risks/risk-analysis.entity'
 import { RiskAssessmentEntity } from '../risks/risk-assessment.entity'
 import { CompanyNetworksEntity } from '../network-connections/company-networks.entity'
 import { NetworkConversationEntity } from '../network-connections/network-conversation.entity'
+import { CompanyRelationEntity } from '../relations-and-channels/company-relation.entity'
+import { CompetitorEntity } from '../competition/competitor.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -257,10 +259,18 @@ export class CompanyEntity {
     company_networks: CompanyNetworksEntity[]
 
     /* One company can have many entiries on the network table as connected_to */
-    @OneToMany( type => CompanyNetworksEntity, company_network => company_network.connected_company)
+    @OneToMany( type => CompanyNetworksEntity, company_network => company_network.invited_company)
     company_to_company_network: CompanyNetworksEntity[]
 
     /* One company can create many Conversations */
     @OneToMany( type => NetworkConversationEntity, network_conversation => network_conversation.company )
     network_converstaions: NetworkConversationEntity[]
+
+    /* One company can have many company_relations */
+    @OneToMany( type => CompanyRelationEntity, company_relation => company_relation.companies )
+    company_relations: CompanyRelationEntity[]
+
+    /* One company can have many competitors */
+    @OneToMany( type => CompetitorEntity, competitor => competitor.company )
+    competitors: CompetitorEntity[] 
 }

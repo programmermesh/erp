@@ -8,6 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { CompanyEntity } from '../companies/company.entity'
+import { RISK_ASSESSTMENT_TYPE } from '../shared_files/enum_values'
 
 @Entity('risk_assessments')
 export class RiskAssessmentEntity {
@@ -22,10 +23,13 @@ export class RiskAssessmentEntity {
     @Column('text', { nullable: true })
     description: string
 
-    /* PENDING :: use of enum values ['strength', 'weakness', 'opportunities', 'weakness']*/
-    @ApiProperty({ description: 'This is the type of the risk assessment'})
-    @Column('varchar', { length: 255, default:'strength', nullable: true})
-    assessment_type: string
+    
+    @ApiProperty({ description: 'This is the type of the risk assessment', enum:  ['strengths', 'weakness', 'opportunities', 'threats']})
+    @Column({
+      type: 'enum',
+      enum: RISK_ASSESSTMENT_TYPE
+    })
+    type: RISK_ASSESSTMENT_TYPE
 
     /* Many risks_assessments can belong to one company */
     @ApiProperty({ description: 'This is the ID of the company that the risk assessment belongs to' })

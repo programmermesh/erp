@@ -8,6 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { CompanyEntity } from '../companies/company.entity'
+import { MONTHS_OF_THE_YEAR } from '../shared_files/enum_values'
 
 @Entity('company_milestones')
 export class CompanyMilestonesEntity {
@@ -23,9 +24,13 @@ export class CompanyMilestonesEntity {
     description: string
 
     /* PENDING ENUM THE MONTHS */
-    @ApiProperty({ description: 'This is the month', enum: [1,2,3,4,5,6,7,8,9,10,11,12]})
-    @Column('integer', { default: 1})
-    month: number
+    @ApiProperty({ description: 'This is the month', enum: MONTHS_OF_THE_YEAR})
+    @Column({
+      type: 'enum',
+      enum: MONTHS_OF_THE_YEAR,
+      default: MONTHS_OF_THE_YEAR.January
+    })
+    month: MONTHS_OF_THE_YEAR
 
     /* PENDING GET THE YEAR*/
     @ApiProperty({ description: 'This is the year'})

@@ -18,7 +18,7 @@ export class EducationStagesEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string    
 
-    @ApiProperty({ description: 'This is the ttle/value of the education_stage '})
+    @ApiProperty({ description: 'This is the title/value of the education_stage '})
     @IsOptional({ groups: [UPDATE] })
     @IsNotEmpty({ groups: [CREATE] })
     @Column('varchar',{ length: 255})
