@@ -7,6 +7,7 @@ import {
     OneToMany
  } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { Exclude } from 'class-transformer'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyTeamMembersEntity } from '../companies/company-team-members.entity'
@@ -39,6 +40,7 @@ export class UserEntity {
     @ApiProperty({ description: 'This is the user password' })
     @IsNotEmpty({ groups: [CREATE] })
     @IsOptional({ groups: [UPDATE] })
+    @Exclude()
     @Column('varchar', { length: 255 })
     password: string
 

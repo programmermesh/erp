@@ -1,4 +1,46 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 
+@ApiTags('Users')
 @Controller('users')
-export class UsersController {}
+export class UsersController {
+    @Get()
+    @ApiOperation({ summary: 'Get all users', description: 'This will be used to get a list of user profiles but restricted to super admin only'  })
+    @ApiResponse({ status: 200, description: 'List of users fetching successful.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    getUsers(): string {
+        return 'This will replaced with a GET all users response data object'
+    }
+
+    @Get('/:id')
+    @ApiOperation({ summary: 'Get a user profile' , description: 'This will be used to get the a user profile using the ID' })
+    @ApiResponse({ status: 200, description: 'User profile fetching successful.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    getUserById(): string {
+        return 'This will replaced with a GET user response data object'
+    }
+
+    @Post()
+    @ApiOperation({summary: 'Register a user', description: 'This will be used to create a new user / register' })
+    @ApiResponse({ status: 200, description: 'Creating new user successful.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    registerUser(): string {
+        return 'This will replaced with a POST response data object'
+    }
+
+    @Patch('/:id')
+    @ApiOperation({ summary: 'Update a user', description: 'This will be used to update a profile details using the ID' })
+    @ApiResponse({ status: 200, description: 'Updating the user details successful.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    updateUserDetails(): string {
+        return 'This will replaced with an UPDATE user response data object'
+    }
+
+    @Delete('/:id')
+    @ApiOperation({ summary: 'Delete a user', description: 'This will be used to delete a user profiles but restricted to super admin only' })
+    @ApiResponse({ status: 200, description: 'Deleting of the user successful.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    deleteUser(): string {
+        return 'This will replaced with a DELETE user response data object'
+    }
+}
