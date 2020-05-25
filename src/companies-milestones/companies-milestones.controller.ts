@@ -13,7 +13,7 @@ export class CompaniesMilestonesController {
     }
 
     @Get('/companies/:companyId/milestones/:id')
-    @ApiOperation({ summary: 'Get a company milestone profile' , description: 'This will be used to get the a company milestone profile using the ID' })
+    @ApiOperation({ summary: 'Get a company milestone profile' , description: 'This will be used to get the a company milestone using the ID' })
     @ApiResponse({ status: 200, description: 'company milestone profile fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     getById(): string {
