@@ -1,5 +1,8 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, UsePipes } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { User } from './interfaces/user.interface'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @ApiTags('Users')
 @Controller('users')
@@ -24,16 +27,16 @@ export class UsersController {
     @ApiOperation({summary: 'Register a user', description: 'This will be used to create a new user / register' })
     @ApiResponse({ status: 200, description: 'Creating new user successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    registerUser(): string {
-        return 'This will replaced with a POST response data object'
+    registerUser(@Body() createUserDto: CreateUserDto) {
+        return createUserDto
     }
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a user', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the user details successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    updateUserDetails(): string {
-        return 'This will replaced with an UPDATE user response data object'
+    updateUserDetails( @Body() updateUserDto: UpdateUserDto ){
+        return updateUserDto
     }
 
     @Delete('/:id')

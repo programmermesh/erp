@@ -7,8 +7,8 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { CompanyEntity } from '../companies/company.entity'
-import { RISK_ASSESSTMENT_TYPE } from '../shared_files/enum_values'
+import { CompanyEntity } from '../modules/companies/company.entity'
+import { RISK_ASSESSTMENT_TYPE } from '../common/enum_values'
 
 @Entity('risk_assessments')
 export class RiskAssessmentEntity {

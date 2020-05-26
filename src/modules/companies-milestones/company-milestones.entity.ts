@@ -8,7 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { CompanyEntity } from '../companies/company.entity'
-import { MONTHS_OF_THE_YEAR } from '../shared_files/enum_values'
+import { MONTHS_OF_THE_YEAR } from '../../common/enum_values'
 
 @Entity('company_milestones')
 export class CompanyMilestonesEntity {

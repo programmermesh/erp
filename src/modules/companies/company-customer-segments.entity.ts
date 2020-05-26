@@ -11,7 +11,7 @@ import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyEntity } from './company.entity'
 import { CustomerSegmentEntity } from '../customer-segments/customer-segment.entity'
-import { CustomerEntity } from '../customers/customer.entity'
+import { CustomerEntity } from '../../customers/customer.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 

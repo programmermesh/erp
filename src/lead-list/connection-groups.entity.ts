@@ -8,7 +8,7 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { CompanyEntity } from '../companies/company.entity'
+import { CompanyEntity } from '../modules/companies/company.entity'
 import { ConnectionGroupsLeadListEntity } from './connection-groups-lead-list.entity'
 
 @Entity('connection_groups')

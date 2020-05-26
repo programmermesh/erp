@@ -8,7 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { CustomerSegTypeSubcategoryEntity } from './customer-seg-type-subcategory.entity'
-import { CompanyCustomerSegmentDetailsEntity } from '../customer-segments/company-customer-segment-details.entity'
+import { CompanyCustomerSegmentDetailsEntity } from '../modules/customer-segments/company-customer-segment-details.entity'
 
 @Entity('customer_seg_types_subcategories_values')
 export class CustSegTypesSubcategoriesValueEntity {

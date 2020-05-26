@@ -8,7 +8,7 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { CompanyEntity } from '../companies/company.entity'
+import { CompanyEntity } from '../modules/companies/company.entity'
 import { RiskAnalysisUserEntity } from './risk-analysis-user.entity'
 
 @Entity('risk_analysis')

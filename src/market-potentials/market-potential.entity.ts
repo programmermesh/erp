@@ -9,7 +9,7 @@ import {
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { MarketPotentialsFileEntity } from './market-potentials-file.entity'
-import { CompanyEntity } from '../companies/company.entity'
+import { CompanyEntity } from '../modules/companies/company.entity'
 import { PotentialsEstimateCoverageEntity } from './potentials-estimate-coverage.entity'
 import { MarketPotentialsCustomerEntity } from './market-potentials-customer.entity'
 

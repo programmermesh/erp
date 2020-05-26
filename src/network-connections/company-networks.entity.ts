@@ -8,9 +8,9 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { CompanyEntity } from '../companies/company.entity'
+import { CompanyEntity } from '../modules/companies/company.entity'
 import { ConversationsMembersEntity } from './conversations-members.entity'
-import { COMPANY_NETWORK_INVITES_STATUS } from '../shared_files/enum_values'
+import { COMPANY_NETWORK_INVITES_STATUS } from '../common/enum_values'
 
 @Entity('company_networks')
 export class CompanyNetworksEntity {

@@ -1,5 +1,8 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { CreateCustomerSegmentDto } from './dto/create-customer-segment.dto'
+import { UpdateCustomerSegmentDto } from './dto/update-customer-segment.dto'
+import { ValidParamId } from '../../common/valid-param-id.dto'
 
 @ApiTags('Customer Segment (System Data)')
 @Controller('customer_segments')
@@ -16,7 +19,7 @@ export class CustomerSegmentsController {
     @ApiOperation({ summary: 'Get a customer segments' , description: 'This will be used to get the a customer segments using the ID' })
     @ApiResponse({ status: 200, description: 'Customer segments fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getById(): string {
+    getById(@Param() id: ValidParamId): string {
         return 'This will replaced with a GET customer segments response data object'
     }
 
@@ -24,16 +27,19 @@ export class CustomerSegmentsController {
     @ApiOperation({summary: 'Create a customer segment', description: 'This will be used to create a new customer segment the will be used in the system but restricted to super admin' })
     @ApiResponse({ status: 200, description: 'Creating new customer segment successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    create(): string {
-        return 'This will replaced with a POST response data object'
+    create(@Body() createCustomerSegmentDto: CreateCustomerSegmentDto) {
+        return createCustomerSegmentDto
     }
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a customer segment', description: 'This will be used to update a customer segment details using the ID but only restricted to the super admin' })
     @ApiResponse({ status: 200, description: 'Updating the customer segment successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    update(): string {
-        return 'This will replaced with an UPDATE customer segment response data object'
+    update(
+        @Param()id: ValidParamId,
+        @Body() updateCustomerSegment: UpdateCustomerSegmentDto
+    ) {
+        return updateCustomerSegment
     }
 
     @Delete('/:id')

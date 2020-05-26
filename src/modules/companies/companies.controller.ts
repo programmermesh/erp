@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { CreateCompanyDto } from './dto/create-company.dto'
+import { UpdateCompanyDto } from './dto/update-company.dto'
 
 @ApiTags('Companies')
 @Controller('companies')
@@ -24,16 +26,16 @@ export class CompaniesController {
     @ApiOperation({summary: 'Register/Create a company', description: 'This will be used to create a new company the will be user the currently logged in user' })
     @ApiResponse({ status: 200, description: 'Creating new company successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    create(): string {
-        return 'This will replaced with a POST response data object'
+    create(@Body() createCompanyDto: CreateCompanyDto){
+        return createCompanyDto
     }
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    update(): string {
-        return 'This will replaced with an UPDATE company response data object'
+    update(@Body() updateCompanyDto: UpdateCompanyDto){
+        return updateCompanyDto
     }
 
     @Delete('/:id')

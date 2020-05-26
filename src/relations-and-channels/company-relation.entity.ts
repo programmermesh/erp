@@ -8,7 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { RelationEntity } from './relation.entity'
-import { CompanyEntity } from '../companies/company.entity'
+import { CompanyEntity } from '../modules/companies/company.entity'
 
 @Entity('company_relations')
 export class CompanyRelationEntity {
