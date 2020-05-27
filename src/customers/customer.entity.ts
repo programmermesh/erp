@@ -10,7 +10,7 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { EducationStagesEntity } from '../education-stages/education-stages.entity'
 import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
-import { CompanyCustomerSegmentsEntity } from '../modules/companies/company-customer-segments.entity'
+import { CompanyCustomerSegmentsEntity } from '../modules/companies-customer-segments/company-customer-segments.entity'
 import { CustomerProblemsEntity } from './customer-problems.entity'
 import { MarketPotentialsCustomerEntity } from '../market-potentials/market-potentials-customer.entity'
 

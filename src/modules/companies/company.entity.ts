@@ -15,12 +15,12 @@ import {
   } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { UserEntity } from '../users/user.entity'
-import { CompanyTeamMembersEntity } from './company-team-members.entity'
+import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
 import { RolesEntity } from '../companies-user-roles/roles.entity'
-import { CompanyCustomerSegmentsEntity } from './company-customer-segments.entity'
-import { CompanyBusinessSectorsEntity } from './company-business-sectors.entity';
-import { CompanyBusinessStagesEntity } from './company-business-stages.entity'
-import { CompanySustainableGoalsEntity } from './company-sustainable-goals.entity'
+import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
+import { CompanyBusinessSectorsEntity } from '../companies-business-sectors/company-business-sectors.entity';
+import { CompanyBusinessStagesEntity } from '../companies-business-sectors/company-business-stages.entity'
+import { CompanySustainableGoalsEntity } from '../companies-sustainable-goals/company-sustainable-goals.entity'
 import { CompanyValuesEntity } from './company-values.entity'
 import { CostAndRevenuesEntity } from './cost-and-revenues.entity'
 import { ConnectionGroupsEntity } from '../../lead-list/connection-groups.entity'

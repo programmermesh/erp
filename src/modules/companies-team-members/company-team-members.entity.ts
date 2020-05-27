@@ -10,7 +10,7 @@ import {
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { CompanyEntity } from './company.entity'
+import { CompanyEntity } from '../companies/company.entity'
 import { RolesEntity } from '../companies-user-roles/roles.entity'
 import { AccessTypesEntity } from '../access-types/access-types.entity'
 import { UserEntity } from '../users/user.entity'

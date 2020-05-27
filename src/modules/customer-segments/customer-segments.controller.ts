@@ -19,7 +19,7 @@ export class CustomerSegmentsController {
     @ApiOperation({ summary: 'Get a customer segments' , description: 'This will be used to get the a customer segments using the ID' })
     @ApiResponse({ status: 200, description: 'Customer segments fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getById(@Param() id: ValidParamId): string {
+    getById(@Param('id') id: ValidParamId): string {
         return 'This will replaced with a GET customer segments response data object'
     }
 
@@ -36,7 +36,7 @@ export class CustomerSegmentsController {
     @ApiResponse({ status: 200, description: 'Updating the customer segment successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     update(
-        @Param()id: ValidParamId,
+        @Param('id') id: ValidParamId,
         @Body() updateCustomerSegment: UpdateCustomerSegmentDto
     ) {
         return updateCustomerSegment
@@ -46,7 +46,7 @@ export class CustomerSegmentsController {
     @ApiOperation({ summary: 'Delete a customer segment', description: 'This will be used to delete a customer segment but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the customer segment successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    delete(): string {
+    delete( @Param('id') id: ValidParamId ): string {
         return 'This will replaced with a DELETE customer segment response data object'
     }
 }

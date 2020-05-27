@@ -8,7 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { CompanyEntity } from './company.entity'
+import { CompanyEntity } from '../companies/company.entity'
 import { SustainableGoalEntity } from '../sustainable-goals/sustainable-goal.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
