@@ -9,7 +9,7 @@ import {
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { NetworkConversationEntity } from './network-conversation.entity'
-import { CompanyNetworksEntity } from './company-networks.entity'
+import { CompanyNetworksEntity } from '../modules/companies-connections/company-networks.entity'
 
 @Entity('conversations_members')
 export class ConversationsMembersEntity {

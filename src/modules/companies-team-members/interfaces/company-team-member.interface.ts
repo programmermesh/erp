@@ -1,4 +1,4 @@
-export class CompanyTeamMembersInterface {
+export interface CompanyTeamMembersInterface {
     id: string
     invite_email: string    
     invite_accepted: boolean

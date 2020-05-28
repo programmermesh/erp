@@ -1,4 +1,4 @@
-export class CompanyInterface {
+export interface CompanyInterface {
     id: string
     name: string
     address: string

@@ -1,3 +1,15 @@
+export enum GENDER {
+    male = 'male',
+    female = 'female'
+}
+
+export enum RELATIONSHIP_STATUS {
+    single = 'single',
+    married = 'married',
+    divorced = 'divorced',
+    widowed = 'widowed'
+}
+
 export enum MONTHS_OF_THE_YEAR {    
         January = 1,
         February,
@@ -11,6 +23,11 @@ export enum MONTHS_OF_THE_YEAR {
         October,
         November,
         December
+}
+
+export enum COST_OR_REVENUE {
+    cost = 'cost',
+    revenue = 'revenue'
 }
 
 export enum RISK_ASSESSTMENT_TYPE {

@@ -7,8 +7,8 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { MarketPotentialEntity } from './market-potential.entity'
-import { CustomerEntity } from '../customers/customer.entity'
+import { MarketPotentialEntity } from '../modules/companies-market-potentials/market-potential.entity'
+import { CustomerEntity } from '../modules/companies-customers/customer.entity'
 
 @Entity('market_potentials_customers')
 export class MarketPotentialsCustomerEntity {

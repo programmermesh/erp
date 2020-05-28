@@ -1,46 +1,63 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { CreateCompanyValueDto } from './dto/create-company-value.dto'
+import { UpdateCompanyValueDto } from './dto/update-company-value.dto'
 
 @ApiTags('Companies Values')
-@Controller()
+@Controller('/companies/:companyId/values')
 export class CompaniesValuesController {
-    @Get('/companies/:companyId/values')
+    @Get()
     @ApiOperation({ summary: 'Get all company values', description: 'This will be used to get a list of company values'  })
     @ApiResponse({ status: 200, description: 'List of company values fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    get(): string {
-        return 'This will replaced with a GET all company values response data object'
+    get(
+        @Param('companyId') companyId: string
+    ) {
+        return { companyId }
     }
 
-    @Get('/companies/:companyId/values/:id')
+    @Get('/:id')
     @ApiOperation({ summary: 'Get a company value' , description: 'This will be used to get the a company value using the ID' })
     @ApiResponse({ status: 200, description: 'company values fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getById(): string {
-        return 'This will replaced with a GET company values response data object'
+    getById(
+        @Param('companyId') companyId: string,
+        @Param('id') id: string
+    ) {
+        return { id, companyId }
     }
 
-    @Post('/companies/:companyId/values')
+    @Post()
     @ApiOperation({summary: 'Register a company values', description: 'This will be used to create a new company values' })
     @ApiResponse({ status: 200, description: 'Creating new company values successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    create(): string {
-        return 'This will replaced with a POST response data object'
+    create(
+        @Param('companyId') companyId: string,
+        @Body() createCompanyValueDto: CreateCompanyValueDto
+    ) {
+        return { companyId, createCompanyValueDto }
     }
 
-    @Patch('/companies/:companyId/values/:id')
+    @Patch('/:id')
     @ApiOperation({ summary: 'Update a company values', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company values details successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    update(): string {
-        return 'This will replaced with an UPDATE company values response data object'
+    update(
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
+        @Body() updateCompanyValueDto: UpdateCompanyValueDto
+    ) {
+        return { id, companyId, updateCompanyValueDto }
     }
 
-    @Delete('/companies/:companyId/values/:id')
+    @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company value', description: 'This will be used to delete a company value' })
     @ApiResponse({ status: 200, description: 'Deleting of the company value successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    delete(): string {
-        return 'This will replaced with a DELETE company value response data object'
+    delete(
+        @Param('companyId') companyId: string,
+        @Param('id') id: string
+    ) {
+        return { id, companyId }
     }
 }

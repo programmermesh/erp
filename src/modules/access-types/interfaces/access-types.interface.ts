@@ -1,4 +1,4 @@
-export class AccessTypeInterface {
+export interface AccessTypeInterface {
     id: string    
     name: string
     created_at: Date

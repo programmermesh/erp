@@ -1,4 +1,4 @@
-export class CompanySustainableGoalsInterface {
+export interface CompanySustainableGoalsInterface {
     id: string
     objective: string
     description?: string

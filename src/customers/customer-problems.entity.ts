@@ -8,7 +8,7 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { CustomerEntity } from '../customers/customer.entity'
+import { CustomerEntity } from '../modules/companies-customers/customer.entity'
 import { CustomerProblemsSolutionsEntity } from './customer-problems-solutions.entity'
 
 @Entity('customer_problems')

@@ -1,46 +1,66 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { CreateCompanyCustomerDto } from './dto/create-company-customer.dto'
+import { UpdateCompanyCustomerDto } from './dto/update-company-customer.interface'
 
 @ApiTags('Companies Customers')
-@Controller()
+@Controller('/companies/:companyId/customers')
 export class CompaniesCustomersController {
-    @Get('/companies/:companyId/customers')
+    @Get()
     @ApiOperation({ summary: 'Get all company customers', description: 'This will be used to get a list of company customers'  })
     @ApiResponse({ status: 200, description: 'List of company customers fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    get(): string {
-        return 'This will replaced with a GET all company customers response data object'
+    get(
+        @Param('companyId') companyId: string
+    ) {
+        return { companyId }
     }
 
-    @Get('/companies/:companyId/customers/:id')
+    @Get('/:id')
     @ApiOperation({ summary: 'Get a company customer' , description: 'This will be used to get the a company customer using the ID' })
     @ApiResponse({ status: 200, description: 'company customers fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getById(): string {
-        return 'This will replaced with a GET company customers response data object'
+    getById(
+        @Param('companyId') companyId: string,
+        @Param('id') id: string
+    ) {
+        return { 
+             id,
+             companyId
+        }
     }
 
-    @Post('/companies/:companyId/customers')
+    @Post()
     @ApiOperation({summary: 'Register a company customer', description: 'This will be used to create a new company customer' })
     @ApiResponse({ status: 200, description: 'Creating new company customer successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    create(): string {
-        return 'This will replaced with a POST response data object'
+    create(
+        @Param('companyId') companyId: string,
+        @Body() createCompanyCustomerDto: CreateCompanyCustomerDto
+    ) {
+        return { companyId, createCompanyCustomerDto }
     }
 
-    @Patch('/companies/:companyId/customers/:id')
+    @Patch('/:id')
     @ApiOperation({ summary: 'Update a company customers', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company customers details successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    update(): string {
-        return 'This will replaced with an UPDATE company customers response data object'
+    update(
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
+        @Body() updateCompanyCustomerDto: UpdateCompanyCustomerDto
+    ) {
+        return { id, companyId, updateCompanyCustomerDto }
     }
 
-    @Delete('/companies/:companyId/customers/:id')
+    @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company customer', description: 'This will be used to delete a company customer' })
     @ApiResponse({ status: 200, description: 'Deleting of the company customer successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    delete(): string {
-        return 'This will replaced with a DELETE company customer response data object'
+    delete(
+        @Param('companyId') companyId: string,
+        @Param('id') id: string
+    ){
+        return { id, companyId }
     }
 }

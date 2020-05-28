@@ -8,11 +8,12 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { EducationStagesEntity } from '../education-stages/education-stages.entity'
-import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
-import { CompanyCustomerSegmentsEntity } from '../modules/companies-customer-segments/company-customer-segments.entity'
-import { CustomerProblemsEntity } from './customer-problems.entity'
-import { MarketPotentialsCustomerEntity } from '../market-potentials/market-potentials-customer.entity'
+import { EducationStagesEntity } from '../../education-stages/education-stages.entity'
+import { IncomeBracketEntity } from '../../income-brackets/income-bracket.entity'
+import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
+import { CustomerProblemsEntity } from '../../customers/customer-problems.entity'
+import { MarketPotentialsCustomerEntity } from '../../market-potentials/market-potentials-customer.entity'
+import { GENDER, RELATIONSHIP_STATUS } from '../../common/enum_values'
 
 @Entity('customers')
 export class CustomerEntity {
@@ -30,16 +31,22 @@ export class CustomerEntity {
     @ApiProperty({ description: 'This is the maximum age'})
     @Column('int')
     maximum_age: number
+    
+    @ApiProperty({ description: 'This is the gender of the customer', enum: GENDER})
+    @Column({
+      type: 'enum',
+      enum: GENDER,
+      default: GENDER.male
+    })
+    sex: GENDER
 
-    /*PENDING ENUM for sex/gender*/
-    @ApiProperty({ description: 'This is the gender of the customer'})
-    @Column('varchar',{ length: 30, nullable: true})
-    sex: string
-
-    /*PENDING ENUM for relationship status*/
-    @ApiProperty({ description: 'This is the relationship status of the customer'})
-    @Column('varchar',{ length: 30})
-    relationship_status: string
+    @ApiProperty({ description: 'This is the relationship status of the customer', enum: RELATIONSHIP_STATUS})
+    @Column({
+      type: 'enum',
+      enum: RELATIONSHIP_STATUS,
+      default: RELATIONSHIP_STATUS.single
+    })
+    relationship_status: RELATIONSHIP_STATUS
 
     @ApiProperty({ description: 'This is the occupation of the customer'})
     @Column('varchar',{ length: 100, nullable: true})

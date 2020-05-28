@@ -1,4 +1,4 @@
-export class CompanyUserRoleInterface {
+export interface CompanyUserRoleInterface {
     id: string
     name: string
     company_id: string

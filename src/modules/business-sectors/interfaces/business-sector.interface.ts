@@ -1,4 +1,4 @@
-export class BusinessSectorInterface {
+export interface BusinessSectorInterface {
     id: string  
     name: string    
     description: string

@@ -9,14 +9,10 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { CompanyEntity } from './company.entity'
+import { CompanyEntity } from '../companies/company.entity'
+import { COST_OR_REVENUE } from '../../common/enum_values'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
-
-export enum COST_OR_REVENUE {
-  cost = 'cost',
-  revenue = 'revenue'
-}
 
 @Entity('costs_and_revenues')
 export class CostAndRevenuesEntity {

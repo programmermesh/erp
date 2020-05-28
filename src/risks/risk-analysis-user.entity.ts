@@ -7,7 +7,7 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { RiskAnalysisEntity } from './risk-analysis.entity'
+import { RiskAnalysisEntity } from '../modules/companies-risks/risk-analysis/risk-analysis.entity'
 import { CompanyTeamMembersEntity } from '../modules/companies-team-members/company-team-members.entity'
 
 @Entity('risk_analysis_users')

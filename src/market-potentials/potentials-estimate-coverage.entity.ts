@@ -7,7 +7,7 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { MarketPotentialEntity } from './market-potential.entity'
+import { MarketPotentialEntity } from '../modules/companies-market-potentials/market-potential.entity'
 
 @Entity('potentials_estimate_coverage')
 export class PotentialsEstimateCoverageEntity {

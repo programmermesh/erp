@@ -9,7 +9,7 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsNotEmpty } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
-import { CustomerEntity } from '../customers/customer.entity'
+import { CustomerEntity } from '../modules/companies-customers/customer.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 

@@ -1,4 +1,4 @@
-export class SustainableGoalInterface {
+export interface SustainableGoalInterface {
     id: string  
     name: string
     image_uri: string
