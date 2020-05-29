@@ -8,8 +8,8 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { ChannelDetailEntity } from './channel-detail.entity'
-import { RelationEntity } from './relation.entity'
+import { ChannelDetailEntity } from './details/channel-detail.entity'
+import { RelationEntity } from '../relations/relation.entity'
 
 @Entity('channels')
 export class ChannelEntity {

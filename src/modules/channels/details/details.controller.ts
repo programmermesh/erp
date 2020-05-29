@@ -1,46 +1,63 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { CreateChannelDetailDto } from './dto/create-channel-details.dto'
+import { UpdateChannelDetailDto } from './dto/update-channel-details.dto'
 
 @ApiTags('channel details Details (System Data)')
-@Controller('channels')
+@Controller('channels/:channelId/details')
 export class DetailsController {
-    @Get('/:channel_id/details')
+    @Get()
     @ApiOperation({ summary: 'Get all channel details', description: 'This will be used to get a list of channel details and restricted to super admin only'  })
     @ApiResponse({ status: 200, description: 'List of channel details fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    get(): string {
-        return 'This will replaced with a GET all channel details response data object'
+    get(
+        @Param('channelId') channelId: string
+    ) {
+        return { channelId, data: [] }
     }
 
-    @Get('/:channel_id/details/:id')
+    @Get('/:id')
     @ApiOperation({ summary: 'Get a channel details' , description: 'This will be used to get the a channel details using the ID' })
     @ApiResponse({ status: 200, description: 'channel details fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getById(): string {
-        return 'This will replaced with a GET channel details response data object'
+    getById(
+        @Param('channelId') channelId: string,
+        @Param('id') id: string
+    ) {
+        return { id, channelId }
     }
 
-    @Post('/:channel_id/details')
+    @Post()
     @ApiOperation({summary: 'Create a channel', description: 'This will be used to create a new channel the will be used in the system but restricted to super admin' })
     @ApiResponse({ status: 200, description: 'Creating new channel successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    create(): string {
-        return 'This will replaced with a POST response data object'
+    create(
+        @Param('channelId') channelId: string,
+        @Body() createChannelDetailDto: CreateChannelDetailDto
+    ) {
+        return { channelId, createChannelDetailDto }
     }
 
-    @Patch('/:channel_id/details/:id')
+    @Patch('/:id')
     @ApiOperation({ summary: 'Update a channel', description: 'This will be used to update a channel details using the ID but only restricted to the super admin' })
     @ApiResponse({ status: 200, description: 'Updating the channel successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    update(): string {
-        return 'This will replaced with an UPDATE channel response data object'
+    update(
+        @Param('channelId') channelId: string,
+        @Param('id') id: string,
+        @Body() updateChannelDetailDto: UpdateChannelDetailDto
+    ) {
+        return { id, updateChannelDetailDto }
     }
 
-    @Delete('/:channel_id/details/:id')
+    @Delete('/:id')
     @ApiOperation({ summary: 'Delete a channel', description: 'This will be used to delete a channel but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the channel successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    delete(): string {
-        return 'This will replaced with a DELETE channel response data object'
+    delete(
+        @Param('channelId') channelId: string,
+        @Param('id') id: string
+    ){
+        return { id, channelId }
     }
 }

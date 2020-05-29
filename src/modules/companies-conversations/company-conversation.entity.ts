@@ -8,9 +8,9 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { CompanyEntity } from '../modules/companies/company.entity'
-import { ConversationMessageEntity } from './conversation-message.entity'
-import { ConversationsMembersEntity } from './conversations-members.entity'
+import { CompanyEntity } from '../companies/company.entity'
+import { ConversationMessageEntity } from '../companies-conversations-messages/conversation-message.entity'
+import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 
 @Entity('network_conversations')
 export class NetworkConversationEntity {

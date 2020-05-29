@@ -7,8 +7,8 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { ChannelEntity } from './channel.entity'
-import { CompanyRelationEntity } from './company-relation.entity'
+import { ChannelEntity } from '../channels/channel.entity'
+import { CompanyRelationEntity } from '../companies-relations/company-relation.entity'
 
 @Entity('relations')
 export class RelationEntity {

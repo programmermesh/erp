@@ -8,9 +8,10 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { NetworkConversationEntity } from './network-conversation.entity'
-import { CompanyNetworksEntity } from '../modules/companies-connections/company-networks.entity'
-
+import { NetworkConversationEntity } from '../companies-conversations/company-conversation.entity'
+import { CompanyEntity } from '../companies/company.entity'
+import { ConversationMessageEntity } from '../companies-conversations-messages/conversation-message.entity'
+ 
 @Entity('conversations_members')
 export class ConversationsMembersEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -22,13 +23,17 @@ export class ConversationsMembersEntity {
     network_conversations: NetworkConversationEntity
 
     /* Many conversations_member entry can be part of a single company network */
-    @ApiProperty({ description: 'This is the ID  of the company network the company is a member of ' })
-    @ManyToOne( type => CompanyNetworksEntity, company_network => company_network.conversations_members )
-    company_networks: CompanyNetworksEntity
+    @ApiProperty({ description: 'This is the ID  of the company ' })
+    @ManyToOne( type => CompanyEntity, company => company.conversation_members )
+    company: CompanyEntity
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date
 
     @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     updated_at?: Date
+
+    /* One company in a conversation group can write many messages */
+    @OneToMany( type => ConversationMessageEntity, conversation_message => conversation_message.sent_by )
+    conversation_message: ConversationMessageEntity[]
 }

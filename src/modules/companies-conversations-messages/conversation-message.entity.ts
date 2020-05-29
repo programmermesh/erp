@@ -7,7 +7,8 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { NetworkConversationEntity } from './network-conversation.entity'
+import { NetworkConversationEntity } from '../companies-conversations/company-conversation.entity'
+import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 
 @Entity('conversations_messages')
 export class ConversationMessageEntity {
@@ -24,8 +25,8 @@ export class ConversationMessageEntity {
     message: string
 
     @ApiProperty({ description: 'The id of the writer of the message' })
-    @Column('varchar', { length: 50 })
-    sent_by: string
+    @ManyToOne( type => ConversationsMembersEntity, conversations_members => conversations_members.conversation_message )
+    sent_by: ConversationsMembersEntity
 
     /* PENDING enum : read, archived, unread */
     @ApiProperty({ description: 'This is the status of the message' })

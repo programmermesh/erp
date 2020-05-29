@@ -31,9 +31,10 @@ import { MarketPotentialEntity } from '../companies-market-potentials/market-pot
 import { RiskAnalysisEntity } from '../companies-risks/risk-analysis/risk-analysis.entity'
 import { RiskAssessmentEntity } from '../companies-risks/risk-assessments/risk-assessment.entity'
 import { CompanyNetworksEntity } from '../companies-connections/company-networks.entity'
-import { NetworkConversationEntity } from '../../network-connections/network-conversation.entity'
-import { CompanyRelationEntity } from '../../relations-and-channels/company-relation.entity'
+import { NetworkConversationEntity } from '../companies-conversations/company-conversation.entity'
+import { CompanyRelationEntity } from '../companies-relations/company-relation.entity'
 import { CompetitorEntity } from '../companies-competitions/competitor.entity'
+import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -273,4 +274,8 @@ export class CompanyEntity {
     /* One company can have many competitors */
     @OneToMany( type => CompetitorEntity, competitor => competitor.company )
     competitors: CompetitorEntity[] 
+
+    /* One company can be a member in many conversations */
+    @OneToMany( type => ConversationsMembersEntity, conversation_member => conversation_member.company )
+    conversation_members: ConversationsMembersEntity[]
 }

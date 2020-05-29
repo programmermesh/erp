@@ -1,4 +1,4 @@
-import { NetworkConversationEntity } from './network-conversation.entity';
+import { NetworkConversationEntity } from './company-conversation.entity';
 
 describe('NetworkConversationEntity', () => {
   it('should be defined', () => {

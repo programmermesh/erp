@@ -9,7 +9,7 @@ import {
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { CompanyEntity } from '../companies/company.entity'
-import { ConversationsMembersEntity } from '../../network-connections/conversations-members.entity'
+import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 import { COMPANY_NETWORK_INVITES_STATUS } from '../../common/enum_values'
 
 @Entity('company_networks')
@@ -42,10 +42,6 @@ export class CompanyNetworksEntity {
     @ApiProperty({ description: 'This is the ID of the company invited to be part of the company network to' })
     @ManyToOne( type => CompanyEntity, company => company.company_to_company_network)
     invited_company: CompanyEntity
-
-    /* One company in a network can be a member of many conversations */
-    @OneToMany( type => ConversationsMembersEntity, conversation_member => conversation_member.company_networks )
-    conversations_members: ConversationsMembersEntity[]
 
     /*PENDING CONNECTION TO THE INVESTORS table*/
 
