@@ -8,7 +8,7 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { CustSegTypesSubcategoriesValueEntity } from '../../customer-segmentation/cust-seg-types-subcategories-value.entity'
+import { CustSegTypesSubcategoriesValueEntity } from '../customer-segm-type-subcategory-values/cust-seg-types-subcategories-value.entity'
 
 @Entity('company_customer_segment_details')
 export class CompanyCustomerSegmentDetailsEntity {

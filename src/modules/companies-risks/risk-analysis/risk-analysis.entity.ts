@@ -9,7 +9,7 @@ import {
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { CompanyEntity } from '../../companies/company.entity'
-import { RiskAnalysisUserEntity } from '../../../risks/risk-analysis-user.entity'
+import { RiskAnalysisUserEntity } from '../../companies-risk-analysis-users/risk-analysis-user.entity'
 
 @Entity('risk_analysis')
 export class RiskAnalysisEntity {

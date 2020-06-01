@@ -8,10 +8,10 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
-import { MarketPotentialsFileEntity } from '../../market-potentials/market-potentials-file.entity'
+import { MarketPotentialsFileEntity } from '../companies-market-potential-files/market-potentials-file.entity'
 import { CompanyEntity } from '../companies/company.entity'
-import { PotentialsEstimateCoverageEntity } from '../../market-potentials/potentials-estimate-coverage.entity'
-import { MarketPotentialsCustomerEntity } from '../../market-potentials/market-potentials-customer.entity'
+import { PotentialsEstimateCoverageEntity } from '../companies-market-potential-estimates-coverage/potentials-estimate-coverage.entity'
+import { MarketPotentialsCustomerEntity } from '../companies-market-potential-customers/market-potentials-customer.entity'
 
 @Entity('market_potentials')
 export class MarketPotentialEntity {

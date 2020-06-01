@@ -21,6 +21,7 @@ import { CompaniesConnectionsModule } from './modules/companies-connections/comp
 import { CompaniesMilestonesModule } from './modules/companies-milestones/companies-milestones.module';
 import { RiskAnalysisModule } from './modules/companies-risks/risk-analysis/risk-analysis.module';
 import { RiskAssessmentsModule } from './modules/companies-risks/risk-assessments/risk-assessments.module';
+import { CompanyRiskAnalysisUsersModule } from './modules/companies-risk-analysis-users/company-risk-analysis-users.module';
 import { CompaniesLeadListModule } from './modules/companies-lead-list/companies-lead-list.module';
 import { CompaniesPitchDecksModule } from './modules/companies-pitch-decks/companies-pitch-decks.module';
 import { CompaniesCostAndRevenuesModule } from './modules/companies-cost-and-revenues/companies-cost-and-revenues.module';
@@ -34,6 +35,14 @@ import { ChannelsModule } from './modules/channels/channels.module';
 import { CompaniesConversationsModule } from './modules/companies-conversations/companies-conversations.module';
 import { CompaniesConversationsMembersModule } from './modules/companies-conversations-members/companies-conversations-members.module';
 import { CompaniesConversationsMessagesModule } from './modules/companies-conversations-messages/companies-conversations-messages.module';
+import { CompaniesMarketPotentialFilesModule } from './modules/companies-market-potential-files/companies-market-potential-files.module';
+import { CompaniesMarketPotentialEstimatesCoverageModule } from './modules/companies-market-potential-estimates-coverage/companies-market-potential-estimates-coverage.module';
+import { CompaniesMarketPotentialCustomersModule } from './modules/companies-market-potential-customers/companies-market-potential-customers.module';
+import { EducationStagesModule } from './modules/education-stages/education-stages.module';
+import { IncomeBracketsModule } from './modules/income-brackets/income-brackets.module';
+import { CustomerSegmentationTypeModule } from './modules/customer-segmentation-type/customer-segmentation-type.module';
+import { CustomerSegmTypeSubcategoryModule } from './modules/customer-segm-type-subcategory/customer-segm-type-subcategory.module';
+import { CustomerSegmTypeSubcategoryValuesModule } from './modules/customer-segm-type-subcategory-values/customer-segm-type-subcategory-values.module';
 
 @Module({
   imports: [ 
@@ -50,7 +59,7 @@ import { CompaniesConversationsMessagesModule } from './modules/companies-conver
     CompaniesCostAndRevenuesModule, CompaniesValuesModule, CompaniesCompetitionsModule,
     CompaniesMarketPotentialsModule, CompaniesCustomersSegmentationsModule, CompaniesRelationsModule,
     RelationsModule, ChannelsModule, CompaniesConversationsModule, CompaniesConversationsMembersModule, 
-    CompaniesConversationsMessagesModule,
+    CompaniesConversationsMessagesModule, CompanyRiskAnalysisUsersModule, CompaniesMarketPotentialFilesModule, CompaniesMarketPotentialEstimatesCoverageModule, CompaniesMarketPotentialCustomersModule, EducationStagesModule, IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule
   ],
   controllers: [AppController],
   providers: [AppService],

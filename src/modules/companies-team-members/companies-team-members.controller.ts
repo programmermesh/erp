@@ -4,7 +4,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { CreateCompanyTeamMemberDto } from './dto/create-company-team-member.dto'
 import { UpdateCompanyTeamMemberDto } from './dto/update-company-team-member.dto'
 
-@ApiTags('Company Team Memers')
+@ApiTags('Company Team Members')
 @Controller('/companies/:companyId/team_members')
 export class CompaniesTeamMembersController {
     @Get()

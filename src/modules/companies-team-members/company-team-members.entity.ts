@@ -14,7 +14,7 @@ import { CompanyEntity } from '../companies/company.entity'
 import { RolesEntity } from '../companies-user-roles/roles.entity'
 import { AccessTypesEntity } from '../access-types/access-types.entity'
 import { UserEntity } from '../users/user.entity'
-import { RiskAnalysisUserEntity } from '../../risks/risk-analysis-user.entity'
+import { RiskAnalysisUserEntity } from '../companies-risk-analysis-users/risk-analysis-user.entity'
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
