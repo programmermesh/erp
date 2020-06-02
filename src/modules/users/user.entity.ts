@@ -8,7 +8,7 @@ import {
  } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
-import { IsOptional, IsNotEmpty } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsEmail } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
 
@@ -22,6 +22,7 @@ export class UserEntity {
     @ApiProperty({ description: 'This is the email of the company. Will be unique'})
     @IsOptional({ groups: [UPDATE] })
     @IsNotEmpty({ groups: [CREATE] })
+    @IsEmail()
     @Column('varchar',{ length: 255, unique: true })
     email: string
 
@@ -98,11 +99,7 @@ export class UserEntity {
     created_at: Date
     
     @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at?: Date
-
-    @ApiProperty({ description: 'This will be the ID of the user that last updated the company entity' })
-    @Column({ type: 'varchar', length: 200, nullable: true })
-    updated_by?: string   
+    updated_at?: Date  
 
     /* A USER can be a part of MANY company team members group */
     @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.user )

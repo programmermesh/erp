@@ -1,5 +1,6 @@
-import { Controller, Get, Post, Patch, Delete, Body, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, UsePipes, Param, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { UsersService } from './users.service'
 import { User } from './interfaces/user.interface'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -7,30 +8,38 @@ import { UpdateUserDto } from './dto/update-user.dto'
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
+    constructor(private readonly userService: UsersService){}
+
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get()
     @ApiOperation({ summary: 'Get all users', description: 'This will be used to get a list of user profiles but restricted to super admin only'  })
     @ApiResponse({ status: 200, description: 'List of users fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getUsers(): string {
-        return 'This will replaced with a GET all users response data object'
+    async getUsers() {
+        return await this.userService.getUsers()
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Get('/:id')
     @ApiOperation({ summary: 'Get a user profile' , description: 'This will be used to get the a user profile using the ID' })
     @ApiResponse({ status: 200, description: 'User profile fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    getUserById(): string {
-        return 'This will replaced with a GET user response data object'
+    async getUserById(
+        @Param('id') id: string
+    ){
+        return await this.userService.getUserById(id)
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post()
     @ApiOperation({summary: 'Register a user', description: 'This will be used to create a new user / register' })
     @ApiResponse({ status: 200, description: 'Creating new user successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    registerUser(@Body() createUserDto: CreateUserDto) {
-        return createUserDto
+    async createUser(@Body() createUserDto: CreateUserDto) {
+        return await this.userService.createUser(createUserDto)
     }
 
+    @UseInterceptors(ClassSerializerInterceptor)
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a user', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the user details successful.'})

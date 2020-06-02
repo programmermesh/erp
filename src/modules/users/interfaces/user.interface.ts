@@ -12,8 +12,7 @@ export interface User {
     twitter: string
     youtube: string
     others: string
-    is_active: boolean 
+    is_active: boolean
     created_at: Date
-    updated_at: Date
-    updated_by: string  
+    updated_at: Date 
 }

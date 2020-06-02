@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { CreateChannelDetailDto } from './dto/create-channel-details.dto'
 import { UpdateChannelDetailDto } from './dto/update-channel-details.dto'
 
-@ApiTags('channel details Details (System Data)')
+@ApiTags('Channels Details (System Data)')
 @Controller('channels/:channelId/details')
 export class DetailsController {
     @Get()

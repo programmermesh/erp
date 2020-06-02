@@ -4,7 +4,7 @@ import { CreateBusinessStageDto } from './dto/create-business-stage.dto'
 import { UpdateBusinessStageDto } from './dto/update-business-stage.dto'
 import { ValidParamId } from '../../common/valid-param-id.dto'
 
-@ApiTags('Business stasges (System Data)')
+@ApiTags('Business stages (System Data)')
 @Controller('business_stages')
 export class BusinessStagesController {
     @Get()

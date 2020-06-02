@@ -2,7 +2,7 @@ import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 import { CreateCompanyConversationDto } from './dto/create-company-conversation.dto'
 
-@ApiTags('Companies Converstions')
+@ApiTags('Companies Conversations')
 @Controller('/companies/:companyId/conversations')
 export class CompaniesConversationsController {
     @Get()
