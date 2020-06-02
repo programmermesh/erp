@@ -43,6 +43,11 @@ import { IncomeBracketsModule } from './modules/income-brackets/income-brackets.
 import { CustomerSegmentationTypeModule } from './modules/customer-segmentation-type/customer-segmentation-type.module';
 import { CustomerSegmTypeSubcategoryModule } from './modules/customer-segm-type-subcategory/customer-segm-type-subcategory.module';
 import { CustomerSegmTypeSubcategoryValuesModule } from './modules/customer-segm-type-subcategory-values/customer-segm-type-subcategory-values.module';
+import { CompaniesCustomerSegmentDetailsModule } from './modules/companies-customer-segment-details/companies-customer-segment-details.module';
+import { CompaniesCustomersProblemsModule } from './modules/companies-customers-problems/companies-customers-problems.module';
+import { CompaniesCustomersProblemsSolutionsModule } from './modules/companies-customers-problems-solutions/companies-customers-problems-solutions.module';
+import { CompaniesConnectionGroupsModule } from './modules/companies-connection-groups/companies-connection-groups.module';
+import { CompaniesConnectionGroupsLeadlistModule } from './modules/companies-connection-groups-leadlist/companies-connection-groups-leadlist.module';
 
 @Module({
   imports: [ 
@@ -59,7 +64,11 @@ import { CustomerSegmTypeSubcategoryValuesModule } from './modules/customer-segm
     CompaniesCostAndRevenuesModule, CompaniesValuesModule, CompaniesCompetitionsModule,
     CompaniesMarketPotentialsModule, CompaniesCustomersSegmentationsModule, CompaniesRelationsModule,
     RelationsModule, ChannelsModule, CompaniesConversationsModule, CompaniesConversationsMembersModule, 
-    CompaniesConversationsMessagesModule, CompanyRiskAnalysisUsersModule, CompaniesMarketPotentialFilesModule, CompaniesMarketPotentialEstimatesCoverageModule, CompaniesMarketPotentialCustomersModule, EducationStagesModule, IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule
+    CompaniesConversationsMessagesModule, CompanyRiskAnalysisUsersModule, CompaniesMarketPotentialFilesModule, 
+    CompaniesMarketPotentialEstimatesCoverageModule, CompaniesMarketPotentialCustomersModule, EducationStagesModule, 
+    IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule,
+     CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
+     CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule
   ],
   controllers: [AppController],
   providers: [AppService],

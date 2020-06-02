@@ -9,7 +9,7 @@ import {
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { CompanyEntity } from '../companies/company.entity'
-import { ConnectionGroupsLeadListEntity } from '../../lead-list/connection-groups-lead-list.entity'
+import { ConnectionGroupsLeadListEntity } from '../companies-connection-groups-leadlist/connection-groups-lead-list.entity'
 
 @Entity('lead_list')
 export class LeadListEntity {

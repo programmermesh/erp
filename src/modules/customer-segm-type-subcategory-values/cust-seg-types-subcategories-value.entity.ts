@@ -8,7 +8,7 @@ import {
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { CustomerSegTypeSubcategoryEntity } from '../customer-segm-type-subcategory/customer-seg-type-subcategory.entity'
-import { CompanyCustomerSegmentDetailsEntity } from '../customer-segments/company-customer-segment-details.entity'
+import { CompanyCustomerSegmentDetailsEntity } from '../companies-customer-segment-details/company-customer-segment-details.entity'
 
 @Entity('customer_seg_types_subcategories_values')
 export class CustSegTypesSubcategoriesValueEntity {
@@ -17,7 +17,7 @@ export class CustSegTypesSubcategoriesValueEntity {
 
     @ApiProperty({ description: 'This is the title of the subcategory value'})
     @Column('varchar', { length: 255, nullable: true, unique: true })
-    value: string
+    title: string
 
     /* Many values can fall under one subcategory */
     @ManyToOne( type => CustomerSegTypeSubcategoryEntity, 

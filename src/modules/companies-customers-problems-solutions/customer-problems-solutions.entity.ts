@@ -7,7 +7,7 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { CustomerProblemsEntity } from '../customers/customer-problems.entity'
+import { CustomerProblemsEntity } from '../companies-customers-problems/customer-problems.entity'
 
 @Entity('customer_problems_solutions')
 export class CustomerProblemsSolutionsEntity {

@@ -8,12 +8,10 @@ import {
     OneToMany
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional} from '@nestjs/swagger'
-import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyEntity } from '../companies/company.entity'
 import { CustomerSegmentEntity } from '../customer-segments/customer-segment.entity'
 import { CustomerEntity } from '../companies-customers/customer.entity'
-
-const { CREATE, UPDATE } = CrudValidationGroups;
+import { CompanyCustomerSegmentDetailsEntity } from '../companies-customer-segment-details/company-customer-segment-details.entity'
 
 @Entity('company_customer_segments')
 export class CompanyCustomerSegmentsEntity {
@@ -33,6 +31,10 @@ export class CompanyCustomerSegmentsEntity {
     /* One csutomer segement can have many customers assigned to it */
     @OneToMany( type => CustomerEntity, customer => customer.company_customer_segment )
     customers: CustomerEntity[]
+
+    /* One company customer segment can have many details  */
+    @OneToMany( type => CompanyCustomerSegmentDetailsEntity, company_customer_segment_details => company_customer_segment_details.company_customer_segments )
+    company_customer_segment_details: CompanyCustomerSegmentDetailsEntity[]
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date

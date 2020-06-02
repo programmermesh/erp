@@ -7,8 +7,8 @@ import {
     ManyToOne
   } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { ConnectionGroupsEntity } from './connection-groups.entity'
-import { LeadListEntity } from '../modules/companies-lead-list/lead-list.entity'
+import { ConnectionGroupsEntity } from '../companies-connection-groups/connection-groups.entity'
+import { LeadListEntity } from '../companies-lead-list/lead-list.entity'
 
 @Entity('connection_groups_lead_list')
 export class ConnectionGroupsLeadListEntity {

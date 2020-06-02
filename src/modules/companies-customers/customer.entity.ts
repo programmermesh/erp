@@ -11,7 +11,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { EducationStagesEntity } from '../education-stages/education-stages.entity'
 import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
 import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
-import { CustomerProblemsEntity } from '../../customers/customer-problems.entity'
+import { CustomerProblemsEntity } from '../companies-customers-problems/customer-problems.entity'
 import { MarketPotentialsCustomerEntity } from '../companies-market-potential-customers/market-potentials-customer.entity'
 import { GENDER, RELATIONSHIP_STATUS } from '../../common/enum_values'
 

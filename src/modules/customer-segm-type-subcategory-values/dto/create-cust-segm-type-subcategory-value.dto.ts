@@ -6,7 +6,7 @@ export class CreateCustSegTypesSubcategoriesValueDto {
     @ApiProperty({ description: 'This is the title of the subcategory value'})
     @IsString()
     @IsNotEmpty()
-    readonly value: string
+    readonly title: string
 
     @ApiProperty({ description: "This is the ID of the Customer segmentation subcategory" })
     @IsUUID()

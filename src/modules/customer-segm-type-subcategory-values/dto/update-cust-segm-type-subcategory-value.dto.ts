@@ -5,5 +5,5 @@ export class UpdateCustSegTypesSubcategoriesValueDto {
     @ApiProperty({ description: 'This is the title of the subcategory value'})
     @IsString()
     @IsNotEmpty()
-    readonly value: string
+    readonly title: string
 }

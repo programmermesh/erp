@@ -23,7 +23,7 @@ import { CompanyBusinessStagesEntity } from '../companies-business-sectors/compa
 import { CompanySustainableGoalsEntity } from '../companies-sustainable-goals/company-sustainable-goals.entity'
 import { CompanyValuesEntity } from '../companies-values/company-values.entity'
 import { CostAndRevenuesEntity } from '../companies-cost-and-revenues/cost-and-revenues.entity'
-import { ConnectionGroupsEntity } from '../../lead-list/connection-groups.entity'
+import { ConnectionGroupsEntity } from '../companies-connection-groups/connection-groups.entity'
 import { LeadListEntity } from '../companies-lead-list/lead-list.entity'
 import { CompanyMilestonesEntity } from '../companies-milestones/company-milestones.entity'
 import { PitchDecksEntity } from '../companies-pitch-decks/pitch-decks.entity'
