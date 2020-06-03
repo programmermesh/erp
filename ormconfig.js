@@ -13,11 +13,10 @@ module.exports = [{
   synchronize: true,
   entities: ['./dist/**/*.entity.js'], // requires npm run build first
   // entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
-  logging: true
-  /*,
+  logging: true,
   subscribers: [
-    "src/**.module/*-subscriber.ts"
-  ],
+    './dist/subscribers/*-subscriber.js'
+  ]/*,
   migrations: [
     "src/migrations/*.ts"
   ] */

@@ -1,5 +1,8 @@
-import { Controller, Post, Patch, Get, Body } from '@nestjs/common';
+import { Controller, Post, Patch, Get, Body, UseGuards, Request } from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger'
+import  { AuthService } from './auth.service'
+import { UsersService } from '../users/users.service'
+import { AuthGuard } from '../../common/guards'
 
 import { LoginDto } from './dto/login-dto'
 import { RefreshTokenDto } from './dto/token-refresh.dto'
@@ -8,12 +11,25 @@ import { ResetPasswordRequestDto, UpdatePasswordRequestDto } from './dto/reset-p
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
+    constructor(
+        private readonly usersService: UsersService, 
+        private readonly authService: AuthService 
+    ){}
+    
     @Post('/login')
     @ApiOperation({ summary: 'Login a user', description: 'Logins a user using an email and password then gives them a TOKEN & REFRESH_TOKEN' })
     @ApiResponse({ status: 201, description: 'Login successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    login( @Body() loginDto: LoginDto){
-        return loginDto
+    async login( 
+        @Body() loginDto: LoginDto
+    ){
+        return this.authService.login(loginDto)
+    }
+
+    @Get('/test_guard')
+    @UseGuards(AuthGuard)
+    testGuard(): string{
+        return 'Only logged in user can view this'
     }
 
     @Post('/token') 

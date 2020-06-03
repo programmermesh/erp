@@ -44,15 +44,20 @@ export class UsersController {
     @ApiOperation({ summary: 'Update a user', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the user details successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    updateUserDetails( @Body() updateUserDto: UpdateUserDto ){
-        return updateUserDto
+    async updateUser(
+        @Param('id') id: string,
+        @Body() updateUserDto: UpdateUserDto 
+    ){
+        return await this.userService.updateUser(id, updateUserDto)
     }
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a user', description: 'This will be used to delete a user profiles but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the user successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
-    deleteUser(): string {
-        return 'This will replaced with a DELETE user response data object'
+    async deleteUser(
+        @Param('id') id: string
+    ){
+        return await this.userService.deleteUser(id)
     }
 }

@@ -7,10 +7,10 @@ import {
     OneToMany
  } from 'typeorm'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { Exclude } from 'class-transformer'
-import { IsOptional, IsNotEmpty, IsEmail } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsEmail, IsString } from 'class-validator';
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
+import { Exclude } from 'class-transformer';
 
 const { CREATE, UPDATE } = CrudValidationGroups;
 
@@ -20,8 +20,7 @@ export class UserEntity {
     id: string    
 
     @ApiProperty({ description: 'This is the email of the company. Will be unique'})
-    @IsOptional({ groups: [UPDATE] })
-    @IsNotEmpty({ groups: [CREATE] })
+    @IsNotEmpty()
     @IsEmail()
     @Column('varchar',{ length: 255, unique: true })
     email: string
@@ -39,10 +38,10 @@ export class UserEntity {
     surname: string
 
     @ApiProperty({ description: 'This is the user password' })
-    @IsNotEmpty({ groups: [CREATE] })
-    @IsOptional({ groups: [UPDATE] })
+    @IsNotEmpty()
+    @IsString()
     @Exclude()
-    @Column('varchar', { length: 255 })
+    @Column('varchar', { length: 255})
     password: string
 
     @ApiProperty({ description: 'This is the user URI to the user profile photo' })
@@ -104,5 +103,4 @@ export class UserEntity {
     /* A USER can be a part of MANY company team members group */
     @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.user )
     team_members: CompanyTeamMembersEntity
-
 }
