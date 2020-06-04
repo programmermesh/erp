@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Patch, Delete, Body, UsePipes, Param, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { Controller, Get, Post, Patch, Delete, Body, UsePipes, Param, UseInterceptors, ClassSerializerInterceptor, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
+import { AuthGuard } from '../../common/guards'
 import { UsersService } from './users.service'
-import { User } from './interfaces/user.interface'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 
@@ -12,6 +12,8 @@ export class UsersController {
 
     @UseInterceptors(ClassSerializerInterceptor)
     @Get()
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Get all users', description: 'This will be used to get a list of user profiles but restricted to super admin only'  })
     @ApiResponse({ status: 200, description: 'List of users fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -21,6 +23,8 @@ export class UsersController {
 
     @UseInterceptors(ClassSerializerInterceptor)
     @Get('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Get a user profile' , description: 'This will be used to get the a user profile using the ID' })
     @ApiResponse({ status: 200, description: 'User profile fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -41,6 +45,8 @@ export class UsersController {
 
     @UseInterceptors(ClassSerializerInterceptor)
     @Patch('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Update a user', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the user details successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
@@ -52,6 +58,8 @@ export class UsersController {
     }
 
     @Delete('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Delete a user', description: 'This will be used to delete a user profiles but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the user successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})

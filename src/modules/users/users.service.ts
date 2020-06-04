@@ -1,8 +1,7 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserEntity as User } from './user.entity'
-import { LoginDto } from '../auth/dto/login-dto'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 
@@ -13,9 +12,9 @@ export class UsersService {
     getUsers(): Promise<User[]>{
         return this.userRepo.find({
             order: {
-                created_at: 'DESC'
+                createdAt: 'DESC'
             }
-        })
+        });
     }
 
     async getUserById(id: string){
@@ -23,7 +22,7 @@ export class UsersService {
         if(user){
             return user
         }else{
-            throw new HttpException('Cannot find user', HttpStatus.NOT_FOUND);
+            throw new NotFoundException(`User with ID "${id}" not found`)
         } 
     }
 
@@ -44,27 +43,40 @@ export class UsersService {
         
     }
 
-    async updateUser(id: string, data: UpdateUserDto){
+    async updateUser(id: string, data: UpdateUserDto): Promise<any>{
         const user = await this.userRepo.findOne(id)
         if(user){
-            return this.userRepo.update(id, data)
+            const result = await this.userRepo.update(id, data)
+            if(result.affected === 0){
+                throw new NotFoundException(`User with ID "${id}" could not be updated`)
+            }
+            return Promise.resolve({
+                status: 'success',
+                result
+            })
         }else{
-            throw new HttpException('Cannot delete. User not found', HttpStatus.NOT_FOUND);
+            throw new NotFoundException(`User with ID "${id}" not found`)
         } 
                 
     }
 
-    async deleteUser(id: string){
-        const user = await this.userRepo.findOne(id)
-        if(user){
-            return this.userRepo.delete(id)
-        }else{
-            throw new HttpException('Cannot find user', HttpStatus.NOT_FOUND);
-        } 
+    async deleteUser(id: string): Promise<any>{
+        // verify first (PENDING)
+        const result = await this.userRepo.delete(id)
+        if(result.affected === 0){
+            throw new NotFoundException(`User with ID "${id}" could not be deleted`)
+        }
+
+        return Promise.resolve({
+            result,
+            status: 'success'
+        })
     }
 
     async getUserByEmail(email: string): Promise<User>{
-        return this.userRepo.findOne({email: email})
+        return this.userRepo.findOne({ 
+            where: {email}
+        })
     }
         
 }

@@ -15,6 +15,7 @@ async function bootstrap () {
     .setDescription('Vibrant Creator api will be the backend data server for the frontend web app.')
     .setVersion('1.0')
     .setBasePath(API_PREFIX)
+    .addBearerAuth()
     .build()
 
   const document = SwaggerModule.createDocument(app, options)

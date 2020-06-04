@@ -1,7 +1,6 @@
 import { Controller, Post, Patch, Get, Body, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiResponse, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger'
+import { ApiTags, ApiResponse, ApiCreatedResponse, ApiOperation, ApiBearerAuth } from '@nestjs/swagger'
 import  { AuthService } from './auth.service'
-import { UsersService } from '../users/users.service'
 import { AuthGuard } from '../../common/guards'
 
 import { LoginDto } from './dto/login-dto'
@@ -12,7 +11,6 @@ import { ResetPasswordRequestDto, UpdatePasswordRequestDto } from './dto/reset-p
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly usersService: UsersService, 
         private readonly authService: AuthService 
     ){}
     
@@ -28,6 +26,7 @@ export class AuthController {
 
     @Get('/test_guard')
     @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     testGuard(): string{
         return 'Only logged in user can view this'
     }
