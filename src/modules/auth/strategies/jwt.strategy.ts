@@ -14,19 +14,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(@InjectRepository(AuthRepository) private authRepository: AuthRepository) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET_KEY || JWT_CONSTANTS.secret
+      secretOrKey: process.env.JWT_SECRET_KEY || JWT_CONSTANTS.secret,
+      ignoreExpiration: false
     });
   }
 
   async validate(payload: JwtPayload): Promise<UserEntity> {
-    const { email } = payload;
-    this.logger.debug(`Validating payload: ${JSON.stringify(payload)}`)
-    
+    const { email } = payload;    
     const user = await this.authRepository.findOne({ email })
     if (!user) {
       throw new UnauthorizedException();
     }
-
-    return user;
+    this.logger.debug(`The user is validated`)
+    return user
   }
 }

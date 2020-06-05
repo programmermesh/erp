@@ -1,11 +1,10 @@
-import { IsUUID, IsNotEmpty } from 'class-validator'
-export class ValidParamId {    
+import { IsUUID, IsNotEmpty, IsOptional } from 'class-validator'
+export class ValidParamId { 
+    @IsOptional()   
     @IsNotEmpty()
     @IsUUID() readonly id: string
-}
 
-export class ValidParamCompanyId {
     @IsNotEmpty()
+    @IsOptional()
     @IsUUID() readonly companyId: string
 }
-

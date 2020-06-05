@@ -1,19 +1,20 @@
-import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean} from 'class-validator'
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsUUID} from 'class-validator'
+import { ApiProperty, ApiPropertyOptional, ApiBearerAuth } from '@nestjs/swagger'
 
 export class CreateCompanyDto {
     @ApiProperty({ description: 'This is the name of the company' })
     @IsNotEmpty()
     @IsString() readonly name: string
 
-    @ApiProperty()
+    @ApiProperty({ description: " The address for the company"})
     @IsNotEmpty()
     @IsString() readonly address: string
 
+    @ApiProperty({ description: "The country the company is registered or located" })
     @IsNotEmpty()
     @IsString() readonly country: string
 
-    @ApiProperty()
+    @ApiProperty({ description: "The city the company is located in" })
     @IsNotEmpty()
     @IsString() readonly city: string
 

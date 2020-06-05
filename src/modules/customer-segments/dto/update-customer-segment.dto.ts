@@ -7,6 +7,11 @@ export class UpdateCustomerSegmentDto {
     @IsOptional()
     @ApiPropertyOptional()
     @IsString() readonly name: string
+
+    @ApiProperty({ description: 'This is the unique customer segment CODE '})
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional() readonly initials: string
     
     @ApiProperty({ description: 'This is the unique color code for the segment '})
     @IsOptional()

@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserEntity as User } from './user.entity'
@@ -8,6 +8,8 @@ import { UpdateUserDto } from './dto/update-user.dto'
 @Injectable()
 export class UsersService {
     constructor (@InjectRepository(User) private readonly userRepo: Repository<User> ){}
+
+    private logger = new Logger('Userservice')
     
     getUsers(): Promise<User[]>{
         return this.userRepo.find({
@@ -17,12 +19,12 @@ export class UsersService {
         });
     }
 
-    async getUserById(id: string){
-        const user = await this.userRepo.findOne(id)
-        if(user){
-            return user
+    async getUserById(user: User){
+        const userFound = await this.userRepo.findOne(user.id)
+        if(userFound){
+            return userFound
         }else{
-            throw new NotFoundException(`User with ID "${id}" not found`)
+            throw new NotFoundException(`User with ID "${user.id}" not found`)
         } 
     }
 
@@ -43,25 +45,27 @@ export class UsersService {
         
     }
 
-    async updateUser(id: string, data: UpdateUserDto): Promise<any>{
-        const user = await this.userRepo.findOne(id)
-        if(user){
-            const result = await this.userRepo.update(id, data)
-            if(result.affected === 0){
-                throw new NotFoundException(`User with ID "${id}" could not be updated`)
-            }
+    async updateUser(user: User, updateData: UpdateUserDto): Promise<any>{
+        const userFound = await this.userRepo.findOne(user.id)
+        if(!userFound){
+            throw new NotFoundException(`User with ID "${user.id}" not found`)
+        }
+        try {
+            this.userRepo.merge(userFound, updateData)
+            const result = await this.userRepo.save(userFound)
+            const { password, ...return_result } = result //remove password from result
             return Promise.resolve({
                 status: 'success',
-                result
+                return_result
             })
-        }else{
-            throw new NotFoundException(`User with ID "${id}" not found`)
+        } catch (error) {
+            this.logger.error(error.message, error.stack)
+            throw new InternalServerErrorException()
         } 
                 
     }
 
     async deleteUser(id: string): Promise<any>{
-        // verify first (PENDING)
         const result = await this.userRepo.delete(id)
         if(result.affected === 0){
             throw new NotFoundException(`User with ID "${id}" could not be deleted`)

@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-//import { UsersModule } from '../users/users.module'
 import { PassportModule } from '@nestjs/passport'
 import { JwtModule } from '@nestjs/jwt'
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { JWT_CONSTANTS } from './contants'
 import { AuthRepository } from './repositories/auth.repository'
 import { JwtStrategy } from './strategies/jwt.strategy'
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ResetPasswordRequestEntity } from './reset-password.entity'
 
 @Module({
-  imports: [ //UsersModule, 
+  imports: [  
     PassportModule.register({ 
       defaultStrategy: 'jwt',
       property: 'user',
@@ -20,7 +21,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       secret: process.env.JWT_SECRET_KEY || JWT_CONSTANTS.secret,
       signOptions: { expiresIn: process.env.JWT_EXPIRATION_TIME || '3600s' }
     }),
-    TypeOrmModule.forFeature([AuthRepository])
+    TypeOrmModule.forFeature([AuthRepository, ResetPasswordRequestEntity])    
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],

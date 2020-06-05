@@ -1,4 +1,4 @@
-import { Entity, Column , OneToOne, JoinColumn, OneToMany } from 'typeorm'
+import { Entity, Column , OneToMany,  ManyToOne } from 'typeorm'
 import { AbstractEntity } from '../../common/abstract.entity'
 import { UserEntity } from '../users/user.entity'
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
@@ -37,7 +37,7 @@ export class CompanyEntity extends AbstractEntity{
     @Column('varchar', { length: 200 })
     city: string
 
-    @Column('varchar',{ length: 255, unique: true })
+    @Column('varchar',{ length: 255 })
     email: string
 
     @Column('varchar', { length: 100 })
@@ -105,10 +105,10 @@ export class CompanyEntity extends AbstractEntity{
 
     @Column({ type: 'varchar', length: 200, nullable: true })
     updated_by?: string
-    
-    /* one Company can only be created by one user  */
-    @OneToOne(type => UserEntity)
-    @JoinColumn()
+       
+
+    /* Many Companies can be created by one user */
+    @ManyToOne( type => UserEntity, user => user.owner )
     created_by: UserEntity
     
     /* One company can have many team members */

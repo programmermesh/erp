@@ -6,7 +6,7 @@ export abstract class AbstractEntity{
 
     @CreateDateColumn({
         type: 'timestamp without time zone',
-        name: 'updated_at',
+        name: 'created_at',
         default: () => 'CURRENT_TIMESTAMP'
     })
     createdAt: Date
