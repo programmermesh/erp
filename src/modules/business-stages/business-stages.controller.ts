@@ -54,7 +54,9 @@ export class BusinessStagesController {
     @ApiOperation({ summary: 'Delete a business stage', description: 'This will be used to delete a business stage but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the business stage successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    delete(@Param() params: ValidParamId){
+    delete(
+        @Param() params: ValidParamId
+    ){
         return this.businessStagesService.delete(params.id)
     }
 }

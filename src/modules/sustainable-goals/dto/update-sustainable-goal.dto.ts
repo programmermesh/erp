@@ -16,10 +16,4 @@ export class UpdateSustainableGoalDto {
     @ApiPropertyOptional()
     readonly image_uri: string
 
-    @ApiProperty({ description: 'Simple summary of what the field is' })
-    @ApiPropertyOptional()
-    @IsOptional()
-    @IsNotEmpty()
-    @IsString()
-    readonly description: string
 }
