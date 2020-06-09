@@ -191,7 +191,7 @@ export class CompaniesTeamMembersService {
     } 
     
     private async sendInvitationEmail(id: string, invite_email: string,params: ValidParamId, newUser?: boolean){
-        const invitation_url =  `${process.env.BASE_URL}companies/${params.companyId}/team_member_invitation/${id}`
+        const invitation_url =  `${process.env.BASE_URL}companies/${params.companyId}/team_members/${id}/invitation`
         // IF newUser add a parameter
         const compose = `Hello! <br><br> You have been invited to be part a team member<br><br>`+
                 `<a href='${invitation_url}/'>Click here to review your invitation</a>`
