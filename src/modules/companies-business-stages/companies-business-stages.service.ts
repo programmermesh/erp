@@ -2,33 +2,33 @@ import { Injectable, NotFoundException, Logger, InternalServerErrorException } f
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
 
-import { CompanyEntity as Company } from '../companies/company.entity'
 import { ValidParamId } from '../../common/valid-param-id.dto';
+import { CompanyEntity as Company } from '../companies/company.entity'
 import { UserEntity as User } from '../users/user.entity'
-import { BusinessSectorsEntity as BusinessSector } from '../business-sectors/business-sectors.entity'
-import { CreateCompanyBusinessSectorDto } from './dto/create-company-business-sector.dto'
-import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from './company-business-sectors.entity'
+import { CreateCompanyBusinessStageDto } from './dto/create-company-business-stage.dto'
+import { CompanyBusinessStagesEntity as CompanyBusinessStage } from './company-business-stages.entity'
+import { BusinessStagesEntity as BusinessStage } from '../business-stages/business-stages.entity'
 
 @Injectable()
-export class CompaniesBusinessSectorsService {
+export class CompaniesBusinessStagesService {
     constructor(
-        @InjectRepository(CompanyBusinessSector) private readonly companyBusinessSectorRepo: Repository<CompanyBusinessSector>,
+        @InjectRepository(CompanyBusinessStage) private readonly companyBusinessStageRepo: Repository<CompanyBusinessStage>,
         @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
-        @InjectRepository(BusinessSector) private readonly businessSectorRepo: Repository<BusinessSector>
+        @InjectRepository(BusinessStage) private readonly businessStageRepo: Repository<BusinessStage>
     ){}
 
-    private logger = new Logger('CompanyBusinessSectorsService')
-    private entity_prefix_name: string = 'Company business sector'
+    private logger = new Logger('CompanyBusinessStagesService')
+    private entity_prefix_name: string = 'Company business stage'
     
-    async getAll(params: ValidParamId, user: User): Promise<CompanyBusinessSector[]>{
-        return await this.companyBusinessSectorRepo.find({
+    async getAll(params: ValidParamId, user: User): Promise<CompanyBusinessStage[]>{
+        return await this.companyBusinessStageRepo.find({
             where: {
                 company: {
                     id: params.companyId,
                     created_by: user
                 }                
             },
-            relations: ['business_sector']
+            relations: ['business_stage']
         });
     }
 
@@ -43,10 +43,10 @@ export class CompaniesBusinessSectorsService {
         } 
     }
 
-    async create(params: ValidParamId, user: User, newData: CreateCompanyBusinessSectorDto): Promise<any>{
-        const requestFound = await this.companyBusinessSectorRepo.findOne({
+    async create(params: ValidParamId, user: User, newData: CreateCompanyBusinessStageDto): Promise<any>{
+        const requestFound = await this.companyBusinessStageRepo.findOne({
             where: {
-                business_sector: newData.business_sector ,
+                business_stage: newData.business_stage ,
                 company: { 
                     id: params.companyId , 
                     created_by: user 
@@ -58,10 +58,10 @@ export class CompaniesBusinessSectorsService {
         }else{ 
             
             try {   
-                const newEntry = new CompanyBusinessSector()
+                const newEntry = new CompanyBusinessStage()
                 newEntry.company = await this.companyRepo.findOne(params.companyId)
-                newEntry.business_sector = await this.businessSectorRepo.findOne(newData.business_sector)
-                const result = await this.companyBusinessSectorRepo.save(newEntry)                
+                newEntry.business_stage = await this.businessStageRepo.findOne(newData.business_stage)
+                const result = await this.companyBusinessStageRepo.save(newEntry)                
                 
                 return Promise.resolve({
                     status: 'success',
@@ -83,7 +83,7 @@ export class CompaniesBusinessSectorsService {
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' cannot be found `)
         }
 
-        const result = await this.companyBusinessSectorRepo.delete(params.id)
+        const result = await this.companyBusinessStageRepo.delete(params.id)
         if(result.affected === 0){
             throw new NotFoundException(`${this.entity_prefix_name} with ID "${params.id}" could not be deleted`)
         }
@@ -95,7 +95,7 @@ export class CompaniesBusinessSectorsService {
     }
 
     private async findOneEntityById(params: ValidParamId, user: User){
-        const requestFound = await this.companyBusinessSectorRepo.findOne({
+        const requestFound = await this.companyBusinessStageRepo.findOne({
             where: { 
                 id: params.id,
                 company: { 

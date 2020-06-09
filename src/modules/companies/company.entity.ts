@@ -5,7 +5,7 @@ import { CompanyTeamMembersEntity } from '../companies-team-members/company-team
 import { RolesEntity } from '../companies-user-roles/roles.entity'
 import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
 import { CompanyBusinessSectorsEntity } from '../companies-business-sectors/company-business-sectors.entity';
-import { CompanyBusinessStagesEntity } from '../companies-business-sectors/company-business-stages.entity'
+import { CompanyBusinessStagesEntity } from '../companies-business-stages/company-business-stages.entity'
 import { CompanySustainableGoalsEntity } from '../companies-sustainable-goals/company-sustainable-goals.entity'
 import { CompanyValuesEntity } from '../companies-values/company-values.entity'
 import { CostAndRevenuesEntity } from '../companies-cost-and-revenues/cost-and-revenues.entity'

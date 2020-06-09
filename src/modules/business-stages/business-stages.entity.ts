@@ -1,6 +1,6 @@
 import { Entity, Column,  OneToMany } from 'typeorm'
 import { IsOptional, IsNotEmpty } from 'class-validator';
-import { CompanyBusinessStagesEntity } from '../companies-business-sectors/company-business-stages.entity'
+import { CompanyBusinessStagesEntity } from '../companies-business-stages/company-business-stages.entity'
 import { AbstractEntity } from '../../common/abstract.entity'
 
 @Entity('business_stages')

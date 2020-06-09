@@ -15,7 +15,7 @@ export class CompaniesBusinessSectorsController {
     constructor(private readonly companiesBusinessSectorsService: CompaniesBusinessSectorsService ){}
 
     @Get()
-    @ApiOperation({ summary: 'Get all company business sectors', description: 'This will be used to get a list of company business sectors and restricted to super admin only'  })
+    @ApiOperation({ summary: 'Get all company business sectors', description: 'This will be used to get a list of company business sectors '  })
     @ApiResponse({ status: 200, description: 'List of company business sectors fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
@@ -26,7 +26,7 @@ export class CompaniesBusinessSectorsController {
     }
 
     @Post()
-    @ApiOperation({summary: 'Create a company business sector', description: 'This will be used to create a new company business sector the will be used in the system but restricted to super admin' })
+    @ApiOperation({summary: 'Create a company business sector', description: 'This will be used to create a new company business sector the will be used in the system ' })
     @ApiResponse({ status: 200, description: 'Creating new company business sector successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     create(
@@ -38,15 +38,13 @@ export class CompaniesBusinessSectorsController {
     }
 
     @Delete('/:id')
-    @ApiOperation({ summary: 'Delete a company business sector', description: 'This will be used to delete a company business sector but restricted to super admin only' })
+    @ApiOperation({ summary: 'Delete a company business sector', description: 'This will be used to delete a company business sector ' })
     @ApiResponse({ status: 200, description: 'Deleting of the company business sector successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     delete(
         @Param() params: ValidParamId,
-        @Request() req,
-        @Param('companyId') company_id: string
-        
+        @Request() req,        
     ){
-        return params
+        return this.companiesBusinessSectorsService.delete(params, req.user)
     }
 }

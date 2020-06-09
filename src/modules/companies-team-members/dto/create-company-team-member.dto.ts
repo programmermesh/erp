@@ -8,9 +8,9 @@ export class CreateCompanyTeamMemberDto {
     
     @ApiProperty({ description: "This is the ID of the role been assigned" })
     @IsNotEmpty()
-    @IsUUID() readonly role_id: string
+    @IsUUID() readonly role: string
 
     @ApiProperty({ description: "This is the ID of the access type been assigned" })
     @IsNotEmpty()
-    @IsUUID() readonly access_type_id: string
+    @IsUUID() readonly access_type: string
 }

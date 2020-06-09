@@ -1,38 +1,52 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
-import { ValidParamId } from '../../common/valid-param-id.dto'
-import { CreateCompanyCustomerSegment } from './dto/create-comp-customer-segment.dto'
+import { Controller, Get, Post, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
+
+import { AuthGuard } from '../../common/guards'
+import { ValidParamId } from "../../common/valid-param-id.dto"
+import { CompaniesCustomerSegmentsService } from './companies-customer-segments.service'
+import { CreateCompanyCustomerSegmentDto } from './dto/create-comp-customer-segment.dto'
 
 @ApiTags('Company Customer Segments')
-@Controller()
+@Controller('/companies/:companyId/customer_segments')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompaniesCustomerSegmentsController {
-    @Get('/companies/:companyId/customer_segments')
-    @ApiOperation({ summary: 'Get all company customer segments', description: 'This will be used to get a list of company customer segments and restricted to super admin only'  })
+
+    constructor(
+        private readonly companiesCustomerSegmentsService:CompaniesCustomerSegmentsService
+    ){}
+
+    @Get()
+    @ApiOperation({ summary: 'Get all company customer segments', description: 'This will be used to get a list of company customer segments '  })
     @ApiResponse({ status: 200, description: 'List of company customer segments fetching successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
-    get( @Param('companyId') company_id: ValidParamId ): string {
-        return 'This will replaced with a GET all company customer segments response data object'
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    get(
+        @Param() params: ValidParamId,
+        @Request() req
+    ){
+        return this.companiesCustomerSegmentsService.getAll(params, req.user)
     }
 
-    @Post('/companies/:companyId/customer_segments')
-    @ApiOperation({summary: 'Create a company customer segment', description: 'This will be used to create a new company customer segment the will be used in the system but restricted to super admin' })
+    @Post()
+    @ApiOperation({summary: 'Create a company customer segment', description: 'This will be used to create a new company customer segment ' })
     @ApiResponse({ status: 200, description: 'Creating new company customer segment successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create( 
-        @Param('companyId') company_id: ValidParamId,
-        @Body() createCompanyCustomerSegmentDto: CreateCompanyCustomerSegment
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() createCompanyCustomerSegmentDto: CreateCompanyCustomerSegmentDto
     ){
-        return createCompanyCustomerSegmentDto
+        return this.companiesCustomerSegmentsService.create(params, req.user, createCompanyCustomerSegmentDto)
     }
 
-    @Delete('/companies/:companyId/customer_segments/:id')
-    @ApiOperation({ summary: 'Delete a company customer segment', description: 'This will be used to delete a company customer segment but restricted to super admin only' })
+    @Delete('/:id')
+    @ApiOperation({ summary: 'Delete a company customer segment', description: 'This will be used to delete a company customer segment ' })
     @ApiResponse({ status: 200, description: 'Deleting of the company customer segment successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param('companyId') company_id: ValidParamId,
-        @Param('id') segment_id: ValidParamId
+        @Param() params: ValidParamId,
+        @Request() req
     ){
-        return { segment_id, company_id }
+        return this.companiesCustomerSegmentsService.delete(params,req.user)
     }
 }
