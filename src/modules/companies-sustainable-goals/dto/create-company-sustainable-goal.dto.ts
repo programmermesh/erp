@@ -19,6 +19,6 @@ export class CreateCompanySustainableGoalDto {
     @ApiProperty({ description: 'This will be the ID of the sustainable goal the field is assigned to' })
     @IsNotEmpty()
     @IsUUID()
-    readonly sustainable_goal_id: string
+    readonly sustainable_goal: string
 
 }

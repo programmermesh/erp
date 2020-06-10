@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
 
 import { CreateSustainableGoalDto } from './dto/create-sustainable-goal.dto'
 import { UpdateSustainableGoalDto } from './dto/update-sustainable-goal.dto'
 import { SustainableGoalsService } from './sustainable-goals.service'
 import { ValidParamId } from '../../common/valid-param-id.dto'
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Sustainable Goals (System Data)')
 @Controller('sustainable_goals')
@@ -48,6 +49,21 @@ export class SustainableGoalsController {
         @Body() updateSustainableGoalDto: UpdateSustainableGoalDto
     ) {
         return this.sustainableGoalsService.update(params.id, updateSustainableGoalDto)
+    }
+
+    @Patch('/:id/upload_image')
+    @ApiOperation({ summary: 'Upload a sustainable goal image', description: 'This will be used to update a sustainable goal image using the ID but only restricted to the super admin' })
+    @ApiResponse({ status: 200, description: 'Upload the sustainable goal Image successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    @UseInterceptors(FileInterceptor('file'))
+    uploadLogo(
+        @Param() params: ValidParamId,
+        @UploadedFile() file: any
+    ){
+        return this.sustainableGoalsService.updateSustainableGoalImage(
+            params,
+            file
+        )
     }
 
     @Delete('/:id')

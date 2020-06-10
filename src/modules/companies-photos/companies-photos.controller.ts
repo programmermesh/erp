@@ -1,14 +1,21 @@
-import { Controller, Post, UseInterceptors,  UploadedFile, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { Request, Controller, Post, UseInterceptors,  UploadedFile, Param, Body, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { UploadLogoDto } from './dto/upload-logo.dto'
-import { UploadProfilePhotoDto } from './dto/upload-profile-photo.dto'
 
-// Will use aws-sdk multer multer-s3 to upload to s3
+import { ValidParamId } from '../../common/valid-param-id.dto'
+import { AuthGuard } from '../../common/guards'
+import { CompaniesPhotosService } from './companies-photos.service'
+import { FILETYPE } from '../../common/enum_values';
 
 @ApiTags('Upload Company Logo and Profile Photo')
-@Controller('/companies/:id')
+@Controller('/companies/:companyId')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompaniesPhotosController {
+    
+    constructor(
+        private readonly companiesPhotosService: CompaniesPhotosService
+    ){}
 
     @Post('/logo')
     @ApiOperation({
@@ -16,14 +23,19 @@ export class CompaniesPhotosController {
         description: 'This will be used to upload a company logo. Will use AWS S3 to upload the photos to' 
     })
     @ApiResponse({ status: 200, description: 'Upload a company logo successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
-    @UseInterceptors(FileInterceptor('logo'))
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    @UseInterceptors(FileInterceptor('file'))
     uploadLogo(
-        @Param('id') company_id: string,
-        @UploadedFile() logo: UploadLogoDto,
-        @Body() logo_file: UploadLogoDto
+        @Param() params: ValidParamId,
+        @Request() req,
+        @UploadedFile() file: any
     ){
-        return { company_id, logo }
+        return this.companiesPhotosService.uploadFile(
+            params,
+            file,
+            FILETYPE.logo,
+            req.user
+        )
     }
 
     @Post('/profile_photo')
@@ -32,14 +44,19 @@ export class CompaniesPhotosController {
         description: 'This will be used to create a new company profile photo. Will use AWS S3 to upload the photos to' 
     })
     @ApiResponse({ status: 200, description: 'Upload a company profile photo successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
-    @UseInterceptors(FileInterceptor('profile_photo'))
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    @UseInterceptors(FileInterceptor('file'))
     uploadProfilePhoto(
-        @Param('id') company_id: string,
-        @UploadedFile() profile_photo: UploadProfilePhotoDto,
-        @Body() profile_photo_file: UploadProfilePhotoDto
+        @Param() params: ValidParamId,
+        @Request() req,
+        @UploadedFile() file: any
     ){
-        return { company_id, profile_photo }
+        return this.companiesPhotosService.uploadFile(
+            params,
+            file,
+            FILETYPE.profile_photo,
+            req.user
+        )
     }
 }
 

@@ -13,7 +13,7 @@ export class SustainableGoalEntity extends AbstractEntity {
 
     @Column('varchar', { length: 300, nullable: true })
     @IsOptional()
-    image_uri: string
+    sustainable_goal_image: string
     
     /* One sustainable goal can be assigned to many companies */
     @OneToMany( type => CompanySustainableGoalsEntity, sustainable_goal => sustainable_goal.company )

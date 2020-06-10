@@ -2,10 +2,10 @@ import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request }
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ValidParamId } from '../../common/valid-param-id.dto'
+import { AuthGuard } from '../../common/guards'
 import { CreateCompanyUserRoleDto } from './dto/create-company-user-role.dto'
 import { UpdateCompanyUserRoleDto } from './dto/update-company-user-role.dto'
 import { CompaniesUserRolesService } from './companies-user-roles.service'
-import { AuthGuard } from '../../common/guards'
 
 @ApiTags('Company User Roles')
 @Controller('/companies/:companyId/user_roles')
@@ -28,7 +28,7 @@ export class CompaniesUserRolesController {
     @Get('/:id')
     @ApiOperation({ summary: 'Get a company user roles' , description: 'This will be used to get the a company user roles using the ID' })
     @ApiResponse({ status: 200, description: 'company user roles fetching successful.'})
-      @ApiResponse({ status: 401, description: 'Unauthorized'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
         @Request() req

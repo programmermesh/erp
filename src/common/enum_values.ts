@@ -42,4 +42,11 @@ export enum COMPANY_NETWORK_INVITES_STATUS {
     accepted = 'accepted',
     denied = 'denied'
 }
+
+//file field names according to how they are in the tables
+export enum FILETYPE {
+    logo = 'logo',
+    profile_photo = 'profile_photo',
+    sustainable_goal_image = 'sustainable_goal_image'
+}
   
