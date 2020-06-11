@@ -10,7 +10,6 @@ export class CreateCompanyCostAndRevenuesDto {
 
     @ApiProperty({ description: 'The summary description'})
     @IsString()
-    @IsOptional()
     @ApiPropertyOptional()
     readonly description: string
 

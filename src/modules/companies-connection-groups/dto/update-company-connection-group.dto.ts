@@ -14,5 +14,5 @@ export class UpdateConnectionGroupsDto {
     @IsNotEmpty()    
     @IsOptional()
     @ApiPropertyOptional()
-    readonly cover_photo: string
+    readonly connection_group_cover_photo: string
 }

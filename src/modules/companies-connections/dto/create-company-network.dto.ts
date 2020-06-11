@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsNotEmpty, IsUUID } from "class-validator";
 
-export class CreateCompanyNetworkDto {
+export class CreateCompanyConnectionkDto {
     @ApiProperty({ description: 'This is the role that the company will have in the network' })
     @IsString()
     @IsNotEmpty()
@@ -15,5 +15,5 @@ export class CreateCompanyNetworkDto {
     @ApiProperty({ description: 'This is the ID of the company invited to be part of the company network to' })
     @IsNotEmpty()
     @IsUUID()
-    readonly invited_company_id: string
+    readonly invited_company: string
 }

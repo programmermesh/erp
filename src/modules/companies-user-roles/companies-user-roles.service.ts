@@ -5,9 +5,9 @@ import { Repository } from 'typeorm';
 import { RolesEntity as UserRole } from './roles.entity'
 import { CompanyEntity as Company } from '../companies/company.entity'
 import { UserEntity as User } from '../users/user.entity'
+import { ValidParamId } from '../../common/valid-param-id.dto';
 import { CreateCompanyUserRoleDto } from './dto/create-company-user-role.dto'
 import { UpdateCompanyUserRoleDto } from './dto/update-company-user-role.dto'
-import { ValidParamId } from '../../common/valid-param-id.dto';
 
 @Injectable()
 export class CompaniesUserRolesService {

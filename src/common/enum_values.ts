@@ -47,6 +47,7 @@ export enum COMPANY_NETWORK_INVITES_STATUS {
 export enum FILETYPE {
     logo = 'logo',
     profile_photo = 'profile_photo',
-    sustainable_goal_image = 'sustainable_goal_image'
+    sustainable_goal_image = 'sustainable_goal_image',
+    pitch_decks_image = 'pitch_decks_image'
 }
   

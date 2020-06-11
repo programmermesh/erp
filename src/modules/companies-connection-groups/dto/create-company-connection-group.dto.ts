@@ -6,9 +6,4 @@ export class CreateConnectionGroupsDto {
     @IsString()
     @IsNotEmpty()
     readonly name: string
-
-    @ApiProperty({ description: 'This is the url for the group photo'})
-    @IsString()
-    @IsNotEmpty()
-    readonly cover_photo: string
 }

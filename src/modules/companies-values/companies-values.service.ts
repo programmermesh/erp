@@ -5,24 +5,23 @@ import { Repository } from 'typeorm';
 import { CompanyEntity as Company } from '../companies/company.entity'
 import { UserEntity as User } from '../users/user.entity'
 import { ValidParamId } from '../../common/valid-param-id.dto';
-import { uploadImageToS3 } from '../../utils/s3UploadImages'
-import { ConnectionGroupsEntity as ConnectionGroup } from './connection-groups.entity'
-import { CreateConnectionGroupsDto } from './dto/create-company-connection-group.dto'
-import { UpdateConnectionGroupsDto } from './dto/update-company-connection-group.dto'
+import { CreateCompanyValueDto } from './dto/create-company-value.dto'
+import { UpdateCompanyValueDto } from './dto/update-company-value.dto'
+import { CompanyValuesEntity as CompanyValue } from './company-values.entity'
 
 @Injectable()
-export class CompaniesConnectionGroupsService {
+export class CompaniesValuesService {
     constructor (
         @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
-        @InjectRepository(ConnectionGroup) private readonly companyConnectionGroupRepo: Repository<ConnectionGroup> 
+        @InjectRepository(CompanyValue) private readonly companyValueRepo: Repository<CompanyValue> 
     ){}
-    private logger = new Logger('CompaniesConnectionGroupService')
-    private entity_prefix_name: string = 'Company Connection Groups'
+    private logger = new Logger('CompaniesCostAndRevenuesService')
+    private entity_prefix_name: string = 'Company Costs and Revenues'
     
-    async getAll( params: ValidParamId, user: User ): Promise<ConnectionGroup[]>{
-        return await this.companyConnectionGroupRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<CompanyValue[]>{
+        return await this.companyValueRepo.find({
             select:[
-                "name","connection_group_cover_photo",
+                "title" , "summary", "color_code",
                 "id","createdAt", "updatedAt"
             ],
             where: {
@@ -38,7 +37,7 @@ export class CompaniesConnectionGroupsService {
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyConnectionGroupById(params, user)
+        const requestFound = await this.findCompanyCostAndRevenueById(params, user)
         if(requestFound){
             return requestFound
         }else{
@@ -46,10 +45,10 @@ export class CompaniesConnectionGroupsService {
         } 
     }
 
-    async create(params: ValidParamId, user: User, newData: CreateConnectionGroupsDto): Promise<any>{
-        const requestFound = await this.companyConnectionGroupRepo.findOne({ 
+    async create(params: ValidParamId, user: User, newData: CreateCompanyValueDto): Promise<any>{
+        const requestFound = await this.companyValueRepo.findOne({ 
             where: { 
-                name:newData.name,
+                title: newData.title,
                 company:{
                     id: params.companyId,
                     created_by: user
@@ -57,17 +56,17 @@ export class CompaniesConnectionGroupsService {
             } 
         })
         if(requestFound){
-            throw new NotFoundException(`${this.entity_prefix_name} with name '${newData.name}' already exists`)
+            throw new NotFoundException(`${this.entity_prefix_name} with name '${newData.title}' already exists`)
         }else{   
             try {    
-                const newEntry = new ConnectionGroup()
+                const newEntry = new CompanyValue()
                 const saveThis = {
                     ...newData,
                     company: await this.companyRepo.findOne(params.companyId)
                 }
-                this.companyConnectionGroupRepo.merge(newEntry, saveThis)                   
+                this.companyValueRepo.merge(newEntry, saveThis)                   
 
-                const result = await this.companyConnectionGroupRepo.save(newEntry)                
+                const result = await this.companyValueRepo.save(newEntry)                
                 
                 return Promise.resolve({
                     status: 'success',
@@ -81,16 +80,16 @@ export class CompaniesConnectionGroupsService {
         
     }
 
-    async update(params: ValidParamId, user: User, updateData: UpdateConnectionGroupsDto): Promise<any>{
+    async update(params: ValidParamId, user: User, updateData: UpdateCompanyValueDto): Promise<any>{
         
-        const requestFound = await this.findCompanyConnectionGroupById(params,user)
+        const requestFound = await this.findCompanyCostAndRevenueById(params,user)
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
         }
 
         try {
-            this.companyConnectionGroupRepo.merge(requestFound, updateData)
-            const result = await this.companyConnectionGroupRepo.save(requestFound)
+            this.companyValueRepo.merge(requestFound, updateData)
+            const result = await this.companyValueRepo.save(requestFound)
             return Promise.resolve({
                 status: 'success',
                 result
@@ -101,34 +100,10 @@ export class CompaniesConnectionGroupsService {
         }        
                 
     }
-
-    async uploadConnectionGroupCoverImage(params: ValidParamId, user: User, file:any){
-        const requestFound = await this.findCompanyConnectionGroupById(params,user)
-        if(!requestFound){
-            throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
-        }
-
-        const urlKey = `connection_groups_cover_photos/${params.companyId}/${Date.now().toString()}-${file.originalname}`
-        
-        const data = await uploadImageToS3(
-            params,
-            file,
-            urlKey
-        )
-        if(data.success){
-            //update the sustainable goal table
-            requestFound.connection_group_cover_photo = data.url
-            const updateImage = await this.companyConnectionGroupRepo.save(requestFound)
-            return Promise.resolve({
-                status: 'success',
-                updateImage
-            }) 
-        }
-    }
     
 
     async delete(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.companyConnectionGroupRepo.findOne({ 
+        const requestFound = await this.companyValueRepo.findOne({ 
             where: { 
                 id: params.id,
                 company: {
@@ -142,7 +117,7 @@ export class CompaniesConnectionGroupsService {
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' cannot be found `)
         }
 
-        const result = await this.companyConnectionGroupRepo.delete(params.id)
+        const result = await this.companyValueRepo.delete(params.id)
         if(result.affected === 0){
             throw new NotFoundException(`${this.entity_prefix_name} with ID "${params.id}" could not be deleted`)
         }
@@ -153,8 +128,8 @@ export class CompaniesConnectionGroupsService {
         })
     }
 
-    private async findCompanyConnectionGroupById(params: ValidParamId, user: User){
-        const requestFound = await this.companyConnectionGroupRepo.findOne({ 
+    private async findCompanyCostAndRevenueById(params: ValidParamId, user: User){
+        const requestFound = await this.companyValueRepo.findOne({ 
             where: { 
                 id: params.id,
                 company: {

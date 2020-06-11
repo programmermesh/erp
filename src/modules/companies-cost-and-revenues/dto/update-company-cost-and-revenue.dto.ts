@@ -13,6 +13,7 @@ export class UpdateCompanyCostAndRevenuesDto {
     @ApiProperty({ description: 'The summary description'})
     @IsString()
     @IsOptional()
+    @IsNotEmpty()
     @ApiPropertyOptional()
     readonly description: string
 

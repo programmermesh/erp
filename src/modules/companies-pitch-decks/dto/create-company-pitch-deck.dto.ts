@@ -22,6 +22,7 @@ export class CreateCompanyPitchDeckDto {
     @IsOptional()
     @ApiPropertyOptional()
     @IsString()
+    @IsNotEmpty()
     readonly link: string
 
     @ApiProperty({ description: 'This is the url for cover_image of the pick deck'})

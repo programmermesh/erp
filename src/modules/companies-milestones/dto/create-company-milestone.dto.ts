@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger"
 import { IsString, IsNotEmpty, IsEnum, IsNumber, IsBoolean } from "class-validator"
 import { MONTHS_OF_THE_YEAR } from '../../../common/enum_values'
 
-export class CreateCompanyMilestone {
+export class CreateCompanyMilestoneDto {
     @ApiProperty({ description: 'This is the title of the milestone'})
     @IsString()
     @IsNotEmpty()

@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { IsString, IsNotEmpty, IsEnum, IsNumber, IsBoolean, IsOptional } from "class-validator"
 import { MONTHS_OF_THE_YEAR } from '../../../common/enum_values'
 
-export class UpdateCompanyMilestone {
+export class UpdateCompanyMilestoneDto {
     @ApiProperty({ description: 'This is the title of the milestone'})
     @IsOptional()
     @ApiPropertyOptional()

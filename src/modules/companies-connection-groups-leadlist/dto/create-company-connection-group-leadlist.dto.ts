@@ -5,10 +5,10 @@ export class CreateConnectionGroupsLeadListDto {
     @ApiProperty({ description: 'This is the id of the connection group' })
     @IsUUID()
     @IsNotEmpty()
-    readonly connection_groupId: string
+    readonly connection_group_id: string
 
     @ApiProperty({ description: 'This is the id of the lead list' })
     @IsNotEmpty()
     @IsUUID()
-    lead_listId: string
+    readonly lead_list_id: string
 }

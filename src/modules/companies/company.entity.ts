@@ -152,7 +152,7 @@ export class CompanyEntity extends AbstractEntity{
     lead_lists: LeadListEntity[]
     
     /* One company can have many entities as a lead company */
-    @OneToMany( type => LeadListEntity, lead_list => lead_list.lead_company)
+    @OneToMany( type => LeadListEntity, lead_list => lead_list.added_lead_company)
     lead_lists_company: LeadListEntity[]
 
     /* One compnay can have many milestones */
