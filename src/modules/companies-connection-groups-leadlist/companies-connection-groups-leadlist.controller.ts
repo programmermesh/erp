@@ -1,19 +1,30 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
+
+import { ValidParamId } from '../../common/valid-param-id.dto'
+import { AuthGuard } from '../../common/guards'
+import { CompaniesConnectionGroupsLeadlistService } from './companies-connection-groups-leadlist.service'
 import { CreateConnectionGroupsLeadListDto } from './dto/create-company-connection-group-leadlist.dto'
 
 @ApiTags('Companies Connection groups leadlist ')
-@Controller('companies/:companyId/connection_groups/:conn_groupId/leadlist')
+@Controller('companies/:companyId/connection_groups/:connection_groupId/lead_list')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompaniesConnectionGroupsLeadlistController {
+
+    constructor(
+        private readonly companiesConnectionGroupsLeadlistService: CompaniesConnectionGroupsLeadlistService
+    ){}
+
     @Get()
     @ApiOperation({ summary: 'Get all company connection group leadlists ', description: 'This will be used to get a list of company connection group leadlists and restricted to super admin only'  })
     @ApiResponse({ status: 200, description: 'List of company connection group leadlists fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     get(
-        @Param('companyId') companyId: string,
-        @Param('conn_groupId') connection_groupId: string
+        @Param() params: ValidParamId,
+        @Request() req
     ) {
-        return { companyId, connection_groupId , data: [] }
+        return this.companiesConnectionGroupsLeadlistService.getAll(params,req.user)
     }
 
     @Get('/:id')
@@ -21,11 +32,10 @@ export class CompaniesConnectionGroupsLeadlistController {
     @ApiResponse({ status: 200, description: 'company connection group leadlists fetching successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     getById(
-        @Param('companyId') companyId: string,
-        @Param('conn_groupId') connection_groupId: string,
-        @Param('id') id: string,
+        @Param() params: ValidParamId,
+        @Request() req
     ){
-        return { id, companyId, connection_groupId }
+        return this.companiesConnectionGroupsLeadlistService.getById(params,req.user)
     }
 
     @Post()
@@ -33,11 +43,15 @@ export class CompaniesConnectionGroupsLeadlistController {
     @ApiResponse({ status: 200, description: 'Creating new company connection group leadlist successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     create(
-        @Param('companyId') companyId: string,
-        @Param('conn_groupId') connection_groupId: string,
+        @Param() params: ValidParamId,
+        @Request() req,
         @Body() createConnectionGroupsLeadListDto: CreateConnectionGroupsLeadListDto
     ) {
-        return { companyId, connection_groupId, createConnectionGroupsLeadListDto}
+        return this.companiesConnectionGroupsLeadlistService.create(
+            params,
+            req.user,
+            createConnectionGroupsLeadListDto
+        )
     }
 
     
@@ -46,10 +60,9 @@ export class CompaniesConnectionGroupsLeadlistController {
     @ApiResponse({ status: 200, description: 'Deleting of the company connection group leadlist successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     delete(
-        @Param('companyId') companyId: string,
-        @Param('conn_groupId') connection_groupId: string,
-        @Param('id') id: string,
+        @Param() params: ValidParamId,
+        @Request() req
     ){
-        return { id, companyId, connection_groupId }
+        return this.companiesConnectionGroupsLeadlistService.delete(params, req.user)
     }
 }

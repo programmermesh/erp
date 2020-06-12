@@ -2,27 +2,27 @@ import { Injectable, NotFoundException, Logger, InternalServerErrorException } f
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
 
+import { ValidParamId } from '../../common/valid-param-id.dto';
 import { CompanyEntity as Company } from '../companies/company.entity'
 import { UserEntity as User } from '../users/user.entity'
-import { ValidParamId } from '../../common/valid-param-id.dto';
-import { CostAndRevenuesEntity as CostAndRevenues } from './cost-and-revenues.entity'
-import { CreateCompanyCostAndRevenuesDto } from './dto/create-company-cost-and-revenue.dto'
-import { UpdateCompanyCostAndRevenuesDto } from './dto/update-company-cost-and-revenue.dto'
+import { MarketPotentialEntity as MarketPotential } from './market-potential.entity'
+import { CreateMarketPotentialDto } from './dto/create-market-potential.dto'
+import { UpdateMarketPotentialDto } from './dto/update-market-potential.dto'
 
 @Injectable()
-export class CompaniesCostAndRevenuesService {
+export class CompaniesMarketPotentialsService {
     constructor (
         @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
-        @InjectRepository(CostAndRevenues) private readonly companyCostAndRevenuesRepo: Repository<CostAndRevenues> 
+        @InjectRepository(MarketPotential) private readonly companyMarketPotentialRepo: Repository<MarketPotential> 
     ){}
-    private logger = new Logger('CompaniesCostAndRevenuesService')
-    private entity_prefix_name: string = 'Company Costs and Revenues'
+    private logger = new Logger('CompaniesMarketPotentialsService')
+    private entity_prefix_name: string = 'Company Market Potential'
     
-    async getAll( params: ValidParamId, user: User ): Promise<CostAndRevenues[]>{
-        return await this.companyCostAndRevenuesRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<MarketPotential[]>{
+        return await this.companyMarketPotentialRepo.find({
             select:[
-                "title" , "description", "estimated_cost", "type",
-                "id","createdAt", "updatedAt"
+                "id","createdAt", "updatedAt",
+                "title", "market_size", "current_coverage_size", "description"
             ],
             where: {
                 company:{
@@ -45,8 +45,8 @@ export class CompaniesCostAndRevenuesService {
         } 
     }
 
-    async create(params: ValidParamId, user: User, newData: CreateCompanyCostAndRevenuesDto): Promise<any>{
-        const requestFound = await this.companyCostAndRevenuesRepo.findOne({ 
+    async create(params: ValidParamId, user: User, newData: CreateMarketPotentialDto): Promise<any>{
+        const requestFound = await this.companyMarketPotentialRepo.findOne({ 
             where: { 
                 title: newData.title,
                 company:{
@@ -59,14 +59,14 @@ export class CompaniesCostAndRevenuesService {
             throw new NotFoundException(`${this.entity_prefix_name} with name '${newData.title}' already exists`)
         }else{   
             try {    
-                const newEntry = new CostAndRevenues()
+                const newEntry = new MarketPotential()
                 const saveThis = {
                     ...newData,
                     company: await this.companyRepo.findOne(params.companyId)
                 }
-                this.companyCostAndRevenuesRepo.merge(newEntry, saveThis)                   
+                this.companyMarketPotentialRepo.merge(newEntry, saveThis)                   
 
-                const result = await this.companyCostAndRevenuesRepo.save(newEntry)                
+                const result = await this.companyMarketPotentialRepo.save(newEntry)                
                 
                 return Promise.resolve({
                     status: 'success',
@@ -80,16 +80,16 @@ export class CompaniesCostAndRevenuesService {
         
     }
 
-    async update(params: ValidParamId, user: User, updateData: UpdateCompanyCostAndRevenuesDto): Promise<any>{
+    async update(params: ValidParamId, user: User, updateData: UpdateMarketPotentialDto): Promise<any>{
         
         const requestFound = await this.findCompanyCostAndRevenueById(params,user)
         if(!requestFound){
-            throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
+            throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' cannot be found `)
         }
 
         try {
-            this.companyCostAndRevenuesRepo.merge(requestFound, updateData)
-            const result = await this.companyCostAndRevenuesRepo.save(requestFound)
+            this.companyMarketPotentialRepo.merge(requestFound, updateData)
+            const result = await this.companyMarketPotentialRepo.save(requestFound)
             return Promise.resolve({
                 status: 'success',
                 result
@@ -109,7 +109,7 @@ export class CompaniesCostAndRevenuesService {
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' cannot be found `)
         }
 
-        const result = await this.companyCostAndRevenuesRepo.delete(params.id)
+        const result = await this.companyMarketPotentialRepo.delete(params.id)
         if(result.affected === 0){
             throw new NotFoundException(`${this.entity_prefix_name} with ID "${params.id}" could not be deleted`)
         }
@@ -121,7 +121,7 @@ export class CompaniesCostAndRevenuesService {
     }
 
     private async findCompanyCostAndRevenueById(params: ValidParamId, user: User){
-        const requestFound = await this.companyCostAndRevenuesRepo.findOne({ 
+        const requestFound = await this.companyMarketPotentialRepo.findOne({ 
             where: { 
                 id: params.id,
                 company: {

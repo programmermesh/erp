@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ValidParamId } from '../../common/valid-param-id.dto'
 import { AuthGuard } from '../../common/guards'
+import { FILETYPE } from '../../common/enum_values';
+import { imageFileFilter } from '../../common/uploaded_file_filter'
 import { CompaniesPitchDecksService } from './companies-pitch-decks.service'
 import { CreateCompanyPitchDeckDto } from './dto/create-company-pitch-deck.dto'
 import { UpdateCompanyPitchDeckDto } from './dto/update-company-pitch-deck.dto'
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Companies Pitch Decks')
 @Controller('/companies/:companyId/pitch_decks')
@@ -68,6 +71,28 @@ export class CompaniesPitchDecksController {
             params,
             req.user,
             updateCompanyPitchDeckDto
+        )
+    }
+
+    @Patch('/:id/upload_cover_photo')
+    @ApiOperation({summary: 'Upload a pitch deck cover photo', description: 'This will be used Upload a pitch deckcover photo using its ID' })
+    @ApiResponse({ status: 200, description: 'Upload and update of the photo successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    @UseInterceptors(
+        FileInterceptor('file',{
+            fileFilter: imageFileFilter
+        })
+    )
+    uploadfile(
+        @Param() params: ValidParamId,
+        @Request() req,
+        @UploadedFile() file: any
+    ){
+        return this.companiesPitchDecksService.uploadCoverPhoto(
+            params,
+            req.user,
+            file,
+            FILETYPE.pitch_decks_image
         )
     }
 

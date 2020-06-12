@@ -14,9 +14,9 @@ export class CreateMarketPotentialDto {
     readonly market_size: number
 
     @ApiProperty({ description: 'This is the current coverage size'})
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    readonly current_coverage_size: string
+    readonly current_coverage_size: number
 
     @ApiProperty({ description: 'This is the description of the market potentials'})
     @IsString()

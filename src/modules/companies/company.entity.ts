@@ -164,7 +164,7 @@ export class CompanyEntity extends AbstractEntity{
     pick_decks: PitchDecksEntity[]
 
     /* One company can have many market potentials */
-    @OneToMany( type => MarketPotentialEntity, market_potential => market_potential.created_at)
+    @OneToMany( type => MarketPotentialEntity, market_potential => market_potential.company)
     market_potentials: MarketPotentialEntity[]
 
     /* One company can have many risk analysis */

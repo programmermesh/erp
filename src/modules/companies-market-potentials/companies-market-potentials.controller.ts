@@ -1,63 +1,84 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common'
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
+
+import { ValidParamId } from '../../common/valid-param-id.dto'
+import { AuthGuard } from '../../common/guards'
+import { CompaniesMarketPotentialsService } from './companies-market-potentials.service'
 import { CreateMarketPotentialDto } from './dto/create-market-potential.dto'
 import { UpdateMarketPotentialDto } from './dto/update-market-potential.dto'
 
 @ApiTags('Companies Market Potentials')
 @Controller('/companies/:companyId/market_potentials')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompaniesMarketPotentialsController {
+     
+    constructor(
+        private readonly companiesMarketPotentialsService: CompaniesMarketPotentialsService
+    ){}
+
     @Get()
     @ApiOperation({ summary: 'Get all company market potentials', description: 'This will be used to get a list of company market potentials'  })
     @ApiResponse({ status: 200, description: 'List of company market potentials fetching successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param('companyId') companyId: string
-    ) {
-        return { companyId, data: [] }
+        @Param() params: ValidParamId,
+        @Request() req
+    ){
+        return this.companiesMarketPotentialsService.getAll(params,req.user)
     }
 
-    @Get('/companies/:companyId/market_potentials/:id')
+    @Get('/:id')
     @ApiOperation({ summary: 'Get a company market potential' , description: 'This will be used to get the a company market potential using the ID' })
     @ApiResponse({ status: 200, description: 'company market potentials fetching successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param('companyId') companyId: string,
-        @Param('id') id: string
-    ){
-        return { id, companyId }
+        @Param() params: ValidParamId,
+        @Request() req
+    ) {
+        return this.companiesMarketPotentialsService.getById(params,req.user)
     }
 
     @Post()
     @ApiOperation({summary: 'Register a company market potential', description: 'This will be used to create a new company market potential' })
     @ApiResponse({ status: 200, description: 'Creating new company market potential successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
-        @Param('companyId') companyId: string,
+        @Param() params: ValidParamId,
+        @Request() req,
         @Body() createMarketPotentialDto: CreateMarketPotentialDto
     ) {
-        return { companyId, createMarketPotentialDto }
+        return this.companiesMarketPotentialsService.create(
+            params,
+            req.user,
+            createMarketPotentialDto
+        )
     }
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company market potentials', description: 'This will be used to update a profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company market potentials details successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
-        @Param('companyId') companyId: string,
-        @Param('id') id: string,
+        @Param() params: ValidParamId,
+        @Request() req,
         @Body() updateMarketPotentialDto: UpdateMarketPotentialDto
-    ){
-        return { id, companyId, updateMarketPotentialDto }
+    ) {
+        return this.companiesMarketPotentialsService.update(
+            params,
+            req.user,
+            updateMarketPotentialDto
+        )
     }
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company market potential', description: 'This will be used to delete a company market potential' })
     @ApiResponse({ status: 200, description: 'Deleting of the company market potential successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param('companyId') companyId: string,
-        @Param('id') id: string
+        @Param() params: ValidParamId,
+        @Request() req
     ) {
-        return { id, companyId }
+        return this.companiesMarketPotentialsService.delete(params, req.user)
     }
 }

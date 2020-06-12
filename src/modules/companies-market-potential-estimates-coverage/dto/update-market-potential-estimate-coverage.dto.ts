@@ -25,4 +25,11 @@ export class UpdateMarketPotentialsEstimateCoverageDto {
     @IsOptional()
     @ApiPropertyOptional()
     year: number
+
+    @ApiProperty({ description: 'This is the percentage complete'})
+    @IsNumber()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly percentage_complete: number
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request, BadRequestException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ValidParamId } from '../../common/valid-param-id.dto'
@@ -8,7 +8,7 @@ import { CreateLeadListDto } from './dto/create-company-lead-list.dto'
 import { UpdateLeadListDto } from './dto/update-company-lead-list.dto'
 
 @ApiTags('Companies Lead List')
-@Controller('/companies/:companyId/lead_list')
+@Controller('/companies/:companyId/lead_lists')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class CompaniesLeadListController {
@@ -47,6 +47,9 @@ export class CompaniesLeadListController {
         @Request() req,
         @Body() createLeadListDto: CreateLeadListDto
     ) {
+        if(createLeadListDto.added_lead_company === params.companyId ){
+            throw new BadRequestException('Error: ID given is the same as the company ID')
+        }
         return this.companiesLeadListService.create(
             params,
             req.user,

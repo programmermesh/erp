@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsNumber, IsNotEmpty, IsUUID, IsEnum } from "class-validator"
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { IsNumber, IsNotEmpty, IsUUID, IsEnum, IsOptional } from "class-validator"
 import { MONTHS_OF_THE_YEAR } from '../../../common/enum_values'
 
 export class CreateMarketPotentialsEstimateCoverageDto {
@@ -20,10 +20,10 @@ export class CreateMarketPotentialsEstimateCoverageDto {
     @IsNotEmpty()
     year: number
 
-    /* Many potentials_estimate_coverage can belong to one market potential entry */
-    @ApiProperty({ description: 'This is the ID of the market potential entity'})
-    @IsUUID()
+    @ApiProperty({ description: 'This is the percentage complete'})
+    @IsNumber()
     @IsNotEmpty()
-    market_potentialsId: string
-
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly percentage_complete: number
 }

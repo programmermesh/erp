@@ -22,5 +22,5 @@ export class UpdateIncomeBracketDto {
     @Min(1)
     @IsOptional()
     @ApiPropertyOptional()
-    readonly maximum: number
+    readonly maximum_income: number
 }

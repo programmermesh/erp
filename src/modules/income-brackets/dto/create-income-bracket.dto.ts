@@ -16,5 +16,5 @@ export class CreateIncomeBracketDto {
     @ApiProperty({ description: 'The is the maximum income'})
     @IsNumber()
     @Min(1)
-    readonly maximum: number
+    readonly maximum_income: number
 }

@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { CompanyEntity as Company } from '../companies/company.entity'
 import { UserEntity as User } from '../users/user.entity'
 import { ValidParamId } from '../../common/valid-param-id.dto';
+import { FILETYPE } from '../../common/enum_values'
+import { uploadImageToS3 } from '../../utils/s3UploadImages'
 import { PitchDecksEntity as CompanyPitchDeck } from './pitch-decks.entity'
 import { CreateCompanyPitchDeckDto } from './dto/create-company-pitch-deck.dto'
 import { UpdateCompanyPitchDeckDto } from './dto/update-company-pitch-deck.dto'
@@ -37,7 +39,7 @@ export class CompaniesPitchDecksService {
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyMilestoneById(params, user)
+        const requestFound = await this.findCompaniesPitchDeckById(params, user)
         if(requestFound){
             return requestFound
         }else{
@@ -82,7 +84,7 @@ export class CompaniesPitchDecksService {
 
     async update(params: ValidParamId, user: User, updateData: UpdateCompanyPitchDeckDto): Promise<any>{
         
-        const requestFound = await this.findCompanyMilestoneById(params,user)
+        const requestFound = await this.findCompaniesPitchDeckById(params,user)
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
         }
@@ -99,6 +101,29 @@ export class CompaniesPitchDecksService {
             throw new InternalServerErrorException()
         }        
                 
+    }
+    async uploadCoverPhoto(params: ValidParamId, user: User, file:any, filetype: FILETYPE){
+        const requestFound = await this.findCompaniesPitchDeckById(params,user)
+        if(!requestFound){
+            throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
+        }
+
+        const urlKey = `${filetype}/${params.companyId}/${Date.now().toString()}-${file.originalname}`
+        
+        const data = await uploadImageToS3(
+            params,
+            file,
+            urlKey
+        )
+        if(data.success){
+            //update the pitch deck
+            requestFound.pitch_decks_image = data.url
+            const updateImage = await this.companyPitchDeckRepo.save(requestFound)
+            return Promise.resolve({
+                status: 'success',
+                updateImage
+            }) 
+        }
     }
     
 
@@ -128,7 +153,7 @@ export class CompaniesPitchDecksService {
         })
     }
 
-    private async findCompanyMilestoneById(params: ValidParamId, user: User){
+    private async findCompaniesPitchDeckById(params: ValidParamId, user: User){
         const requestFound = await this.companyPitchDeckRepo.findOne({ 
             where: { 
                 id: params.id,
