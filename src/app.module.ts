@@ -48,6 +48,8 @@ import { CompaniesCustomersProblemsModule } from './modules/companies-customers-
 import { CompaniesCustomersProblemsSolutionsModule } from './modules/companies-customers-problems-solutions/companies-customers-problems-solutions.module';
 import { CompaniesConnectionGroupsModule } from './modules/companies-connection-groups/companies-connection-groups.module';
 import { CompaniesConnectionGroupsLeadlistModule } from './modules/companies-connection-groups-leadlist/companies-connection-groups-leadlist.module';
+import { CompaniesCustomersModule } from './modules/companies-customers/companies-customers.module'
+import { DetailsModule } from './modules/channels/details/details.module'
 
 @Module({
   imports: [ 
@@ -68,7 +70,8 @@ import { CompaniesConnectionGroupsLeadlistModule } from './modules/companies-con
     CompaniesMarketPotentialEstimatesCoverageModule, CompaniesMarketPotentialCustomersModule, EducationStagesModule, 
     IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule,
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
-     CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule
+     CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
+     CompaniesCustomersModule, DetailsModule
   ],
   controllers: [AppController],
   providers: [AppService],

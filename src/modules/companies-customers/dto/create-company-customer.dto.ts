@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsNotEmpty, IsString, IsNumber, IsEnum, IsUUID } from "class-validator"
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { IsNotEmpty, IsString, IsNumber, IsEnum, IsUUID, IsOptional } from "class-validator"
 import { RELATIONSHIP_STATUS, GENDER } from '../../../common/enum_values'
 
 export class CreateCompanyCustomerDto {
@@ -31,29 +31,29 @@ export class CreateCompanyCustomerDto {
 
     @ApiProperty({ description: 'This is the occupation of the customer'})
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     readonly occupation: string
 
     @ApiProperty({ description: 'This is the color code of the customer'})
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     readonly color_code: string
 
     @ApiProperty({ description: 'This is the general description of the customer'})
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     readonly general_description: string
 
     @ApiProperty({ description: 'The id of the education stage' })
     @IsUUID()
+    @IsOptional()
+    @ApiPropertyOptional()
     readonly education_stageId: string
 
     @ApiProperty({ description: 'The id of the income bracket' })
     @IsUUID()
+    @IsOptional()
+    @ApiPropertyOptional()
     readonly income_bracketId: string
-
-    @ApiProperty({ description: 'The id of the company customer segment' })
-    @IsUUID()
-    readonly company_customer_segment: string
 
 }

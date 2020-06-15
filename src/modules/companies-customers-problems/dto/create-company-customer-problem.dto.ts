@@ -1,15 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsUUID, IsNotEmpty, IsString } from "class-validator"
+import { IsNotEmpty, IsString } from "class-validator"
 
 export class CreateCustomerProblemsDto {
-    /* Many problems can be related to ONE customer */
-    @ApiProperty({ description: 'This is the id of the customer the entry is associated to' })
-    @IsUUID()
+
+    @ApiProperty({ description: 'This is the title of the customer problem'})
     @IsNotEmpty()
-    readonly customer: string
+    @IsString() readonly title: string
 
     @ApiProperty({ description: 'This is the description of the customer problem'})
     @IsNotEmpty()
-    @IsString()
-    description: string
+    @IsString() readonly description: string
 }

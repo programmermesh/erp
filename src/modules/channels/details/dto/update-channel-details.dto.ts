@@ -8,11 +8,5 @@ export class UpdateChannelDetailDto {
     @IsOptional()
     @ApiPropertyOptional()
     readonly details: string
-
-    @ApiProperty({ description: 'This is the ID of the channel that is related to this details' })
-    @IsNotEmpty()
-    @IsUUID()
-    @IsOptional()
-    @ApiPropertyOptional()
-    readonly channelsId: string
+    
 }

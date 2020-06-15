@@ -1,22 +1,12 @@
-import { 
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToMany
-  } from 'typeorm'
-import { ApiProperty } from '@nestjs/swagger'
+import { Entity, Column, OneToMany } from 'typeorm'
+import { AbstractEntity } from '../../common/abstract.entity'
 import { ChannelEntity } from '../channels/channel.entity'
 import { CompanyRelationEntity } from '../companies-relations/company-relation.entity'
 
 @Entity('relations')
-export class RelationEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string  
+export class RelationEntity extends AbstractEntity {
 
-    @ApiProperty({ description: 'This is the title of the relation' })
-    @Column('varchar', { length: 255 })
+    @Column('varchar', { length: 255, unique: true })
     title: string
 
     /*One relation can have many channels*/
@@ -26,10 +16,4 @@ export class RelationEntity {
     /*One relation can have many company*/
     @OneToMany( type => CompanyRelationEntity, company_relation => company_relation.relations )
     company_relations: CompanyRelationEntity[]
-
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date
-
-    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at?: Date
 }

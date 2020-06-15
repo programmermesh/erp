@@ -1,13 +1,5 @@
-import { 
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne,
-    OneToMany
-  } from 'typeorm'
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm'
+import { AbstractEntity } from '../../common/abstract.entity'
 import { EducationStagesEntity } from '../education-stages/education-stages.entity'
 import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
 import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
@@ -16,23 +8,16 @@ import { MarketPotentialsCustomerEntity } from '../companies-market-potential-cu
 import { GENDER, RELATIONSHIP_STATUS } from '../../common/enum_values'
 
 @Entity('customers')
-export class CustomerEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string    
-
-    @ApiProperty({ description: 'This is the title of the customer '})
+export class CustomerEntity extends AbstractEntity {
     @Column('varchar',{ length: 255})
     title: string
 
-    @ApiProperty({ description: 'This is the minimum age'})
     @Column('int')
     minimum_age: number
 
-    @ApiProperty({ description: 'This is the maximum age'})
     @Column('int')
     maximum_age: number
     
-    @ApiProperty({ description: 'This is the gender of the customer', enum: GENDER})
     @Column({
       type: 'enum',
       enum: GENDER,
@@ -40,7 +25,6 @@ export class CustomerEntity {
     })
     sex: GENDER
 
-    @ApiProperty({ description: 'This is the relationship status of the customer', enum: RELATIONSHIP_STATUS})
     @Column({
       type: 'enum',
       enum: RELATIONSHIP_STATUS,
@@ -48,23 +32,14 @@ export class CustomerEntity {
     })
     relationship_status: RELATIONSHIP_STATUS
 
-    @ApiProperty({ description: 'This is the occupation of the customer'})
     @Column('varchar',{ length: 100, nullable: true})
     occupation: string
 
-    @ApiProperty({ description: 'This is the color code of the customer'})
     @Column('varchar',{ length: 30, nullable: true})
     color_code: string
 
-    @ApiProperty({ description: 'This is the general description of the customer'})
     @Column('text', { nullable: true })
     general_description: string
-
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date
-
-    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at?: Date
 
     /* Many customers can belong to one COMPANY through the customer segement  */
     @ManyToOne(type => EducationStagesEntity, education_stage => education_stage.customers)

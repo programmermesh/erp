@@ -6,9 +6,4 @@ export class CreateChannelDetailDto {
     @IsNotEmpty()
     @IsString()
     readonly details: string
-
-    @ApiProperty({ description: 'This is the ID of the channel that is related to this details' })
-    @IsNotEmpty()
-    @IsUUID()
-    readonly channelsId: string
 }

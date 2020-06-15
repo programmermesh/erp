@@ -4,12 +4,12 @@ import { RELATIONSHIP_STATUS, GENDER } from '../../../common/enum_values'
 
 export class UpdateCompanyCustomerDto {
 
-    @ApiProperty({ description: 'This is the title of the customer '})
-    @IsNotEmpty()
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    readonly title: string
+    // @ApiProperty({ description: 'This is the title of the customer '})
+    // @IsNotEmpty()
+    // @IsString()
+    // @IsOptional()
+    // @ApiPropertyOptional()
+    // readonly title: string
 
     @ApiProperty({ description: 'This is the minimum age'})
     @IsNotEmpty()
@@ -41,21 +41,21 @@ export class UpdateCompanyCustomerDto {
 
     @ApiProperty({ description: 'This is the occupation of the customer'})
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     @IsOptional()
     @ApiPropertyOptional()
     readonly occupation: string
 
     @ApiProperty({ description: 'This is the color code of the customer'})
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     @IsOptional()
     @ApiPropertyOptional()
     readonly color_code: string
 
     @ApiProperty({ description: 'This is the general description of the customer'})
     @IsNotEmpty()
-    @IsNumber()
+    @IsString()
     @IsOptional()
     @ApiPropertyOptional()
     readonly general_description: string
@@ -73,12 +73,5 @@ export class UpdateCompanyCustomerDto {
     @IsNotEmpty()
     @ApiPropertyOptional()
     readonly income_bracketId: string
-
-    @ApiProperty({ description: 'The id of the company customer segment' })
-    @IsUUID()
-    @IsOptional()
-    @IsNotEmpty()
-    @ApiPropertyOptional()
-    readonly company_customer_segment: string
 
 }

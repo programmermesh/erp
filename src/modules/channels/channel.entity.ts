@@ -1,22 +1,10 @@
-import { 
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToMany,
-    ManyToOne
-  } from 'typeorm'
-import { ApiProperty } from '@nestjs/swagger'
+import { Entity, Column, OneToMany, ManyToOne } from 'typeorm'
+import { AbstractEntity } from '../../common/abstract.entity'
 import { ChannelDetailEntity } from './details/channel-detail.entity'
 import { RelationEntity } from '../relations/relation.entity'
 
 @Entity('channels')
-export class ChannelEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string  
-
-    @ApiProperty({ description: 'This is the name of the channel' })
+export class ChannelEntity extends AbstractEntity {
     @Column('varchar', { length: 255 })
     name: string
 
@@ -25,13 +13,6 @@ export class ChannelEntity {
     channel_details: ChannelDetailEntity[]
 
     /* Many channels can belong to one relation */
-    @ApiProperty({ description: 'This is the ID of the relation the channel belong to' })
     @ManyToOne( type => RelationEntity, relation => relation.channels )
     relations: RelationEntity
-
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date
-
-    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at?: Date
 }
