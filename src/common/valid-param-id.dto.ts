@@ -35,4 +35,8 @@ export class ValidParamId {
     @IsNotEmpty()
     @IsOptional()
     @IsUUID() readonly customerProblemId: string
+
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUUID() readonly conversationId: string
 }

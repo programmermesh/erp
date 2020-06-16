@@ -1,11 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsUUID, IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsNotEmpty, IsOptional, IsString } from "class-validator"
 
-export class CreateCompanyConversationDto {
+export class UpdateCompanyConversationDto {
     @ApiProperty({ description: 'This is the title of the conversation been created' })
     @IsNotEmpty()
     @IsOptional()
-    @IsString()
     @ApiPropertyOptional()
+    @IsString()
     readonly title: string
 }

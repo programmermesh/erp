@@ -1,24 +1,16 @@
-import { 
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne,
-    OneToMany
-  } from 'typeorm'
-import { ApiProperty } from '@nestjs/swagger'
+import { Entity,ManyToOne, OneToMany, Column } from 'typeorm'
+import { AbstractEntity } from '../../common/abstract.entity'
 import { CompanyEntity } from '../companies/company.entity'
 import { ConversationMessageEntity } from '../companies-conversations-messages/conversation-message.entity'
 import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 
 @Entity('network_conversations')
-export class NetworkConversationEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string  
+export class NetworkConversationEntity extends AbstractEntity {
+
+    @Column({ type:'text', nullable: true })
+    title: string
 
     /* Many network_conversation can belong to one company */
-    @ApiProperty({ description: 'This is the ID  of the company that created the network' })
     @ManyToOne( type => CompanyEntity, company => company.network_converstaions)
     company: CompanyEntity
 
@@ -29,10 +21,4 @@ export class NetworkConversationEntity {
     /* One conversation can be viewed by many members in a group */
     @OneToMany( type => ConversationsMembersEntity, conversation_member => conversation_member.network_conversations)
     conversation_members: ConversationsMembersEntity[]
-
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date
-
-    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at?: Date
 }
