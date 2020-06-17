@@ -16,7 +16,4 @@ export class UserPostSubscriber implements EntitySubscriberInterface<UserEntity>
         event.entity.password = await bcrypt.hash( event.entity.password, 10 )
     }
 
-    async afterInsert(event: InsertEvent<UserEntity>){
-        
-    }
 }

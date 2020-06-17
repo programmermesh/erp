@@ -1,22 +1,11 @@
-import { 
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne,
-    OneToMany
-  } from 'typeorm'
-import { ApiProperty } from '@nestjs/swagger'
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm'
+import { AbstractEntity } from '../../common/abstract.entity'
 import { CustomerSegmentationTypeEntity } from '../customer-segmentation-type/customer-segmentation-type.entity'
 import { CustSegTypesSubcategoriesValueEntity } from '../customer-segm-type-subcategory-values/cust-seg-types-subcategories-value.entity'
 
 @Entity('customer_seg_types_subcategories')
-export class CustomerSegTypeSubcategoryEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string    
+export class CustomerSegTypeSubcategoryEntity extends AbstractEntity {
 
-    @ApiProperty({ description: 'This is the title of the customer segementation subcategory'})
     @Column('varchar', { length: 255})
     title: string
 
@@ -27,12 +16,6 @@ export class CustomerSegTypeSubcategoryEntity {
     /* One subcategory can have many values associated to it */
     @OneToMany( type => CustSegTypesSubcategoriesValueEntity, subcategory_value => subcategory_value.cust_seg_types_subcategories  )
     subcategory_values: CustSegTypesSubcategoriesValueEntity[]
-
-    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    created_at: Date
-
-    @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    updated_at?: Date
 }
 
 /**

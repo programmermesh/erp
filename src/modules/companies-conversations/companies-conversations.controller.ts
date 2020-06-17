@@ -79,6 +79,6 @@ export class CompaniesConversationsController {
         @Param() params: ValidParamId,
         @Request() req
     ){
-        this.companiesConversationsService.delete(params,req.user)
+        return this.companiesConversationsService.delete(params,req.user)
     }
 }

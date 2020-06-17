@@ -1,57 +1,67 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
+
+import { ValidParamId } from '../../common/valid-param-id.dto'
+import { AuthGuard } from '../../common/guards'
 import { CreateRiskAnalysisUserDto } from './dto/create-company-risk-analysis-users.dto'
+import { CompanyRiskAnalysisUsersService } from './company-risk-analysis-users.service'
 
 @ApiTags('Company Risk Analysis Users')
-@Controller('/companies/:companyId/risk_analysis/:rId/users')
-
+@Controller('/companies/:companyId/risk_analysis/:risk_analysisId/users')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompanyRiskAnalysisUsersController {
+    
+    constructor(
+        private readonly companyRiskAnalysisUsersService: CompanyRiskAnalysisUsersService
+    ){}
+
     @Get()
     @ApiOperation({ summary: 'Get all company risk analysis users', description: 'This will be used to get a list of company risk analysis users'  })
     @ApiResponse({ status: 200, description: 'List of company risk analysis users fetching successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param('companyId') companyId: string,
-        @Param('rId') risk_analysisId: string,
-    ){
-        return { companyId, risk_analysisId }
+        @Param() params: ValidParamId,
+        @Request() req
+    ) {
+        return this.companyRiskAnalysisUsersService.getAll(params, req.user)
     }
 
+    @Get('/:id')
+    @ApiOperation({ summary: 'Get a company risk analysis user', description: 'This will be used to get a company risk analysis user'  })
+    @ApiResponse({ status: 200, description: 'Getting a company risk analysis user fetching successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    getById(
+        @Param() params: ValidParamId,
+        @Request() req
+    ) {
+        return this.companyRiskAnalysisUsersService.getById(params, req.user)
+    }
 
     @Post()
     @ApiOperation({summary: 'Create a company risk analysis user', description: 'This will be used to create a new company risk analysis user the will be used in the company' })
     @ApiResponse({ status: 200, description: 'Creating new company risk analysis user successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
-        @Param('companyId') companyId: string,
-        @Param('rId') risk_analysisId: string,
+        @Param() params: ValidParamId,
+        @Request() req,
         @Body() createRiskAnalysisUserDto: CreateRiskAnalysisUserDto
-    ){
-        return { companyId, risk_analysisId, createRiskAnalysisUserDto }
-    }
-
-    @Patch('/:id')
-    @ApiOperation({ summary: 'Update a company risk analysis user', description: 'This will be used to update a company risk analysis user details using the ID ' })
-    @ApiResponse({ status: 200, description: 'Updating the company risk analysis user successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
-    update(
-        @Param('id') id: string,
-        @Param('companyId') companyId: string,
-        @Param('rId') risk_analysisId: string,
-        @Body() createRiskAnalysisUserDto: CreateRiskAnalysisUserDto
-    ){
-        return { id, companyId, risk_analysisId, createRiskAnalysisUserDto }
+    ) {
+        return this.companyRiskAnalysisUsersService.create(
+            params,
+            req.user,
+            createRiskAnalysisUserDto
+        )
     }
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company risk analysis user', description: 'This will be used to delete a company risk analysis user' })
     @ApiResponse({ status: 200, description: 'Deleting of the company risk analysis user successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param('id') id: string,
-        @Param('companyId') companyId: string,
-        @Param('rId') risk_analysisId: string,
+        @Param() params: ValidParamId,
+        @Request() req
     ){
-        return { action: "delete", id, companyId, risk_analysisId }
+        return this.companyRiskAnalysisUsersService.delete(params,req.user)
     }
 }

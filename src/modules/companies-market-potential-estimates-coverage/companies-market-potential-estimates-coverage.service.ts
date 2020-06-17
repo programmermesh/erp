@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm';
+import { Repository } from 'typeorm'
 
 import { UserEntity as User } from '../users/user.entity'
-import { ValidParamId } from '../../common/valid-param-id.dto';
+import { ValidParamId } from '../../common/valid-param-id.dto'
 import { PotentialsEstimateCoverageEntity as PotentialsEstimateCoverage } from './potentials-estimate-coverage.entity'
 import { MarketPotentialEntity as MarketPotential } from '../companies-market-potentials/market-potential.entity'
 import { CreateMarketPotentialsEstimateCoverageDto } from './dto/create-market-potential-estimate-coverage.dto'
@@ -122,6 +122,7 @@ export class CompaniesMarketPotentialEstimatesCoverageService {
     private async findCompanyPotentialsEstimateCoverageId(params: ValidParamId, user: User){
         const requestFound = await this.potentialsEstimateCoverageRepo.findOne({ 
             where: {
+                id: params.id,
                 market_potentials: {
                     id: params.market_potentialId,
                     company:{

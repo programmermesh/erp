@@ -26,6 +26,10 @@ export class ValidParamId {
 
     @IsNotEmpty()
     @IsOptional()
+    @IsUUID() readonly company_customer_segmentId: string
+
+    @IsNotEmpty()
+    @IsOptional()
     @IsUUID() readonly relationId: string
 
     @IsNotEmpty()
@@ -39,4 +43,16 @@ export class ValidParamId {
     @IsNotEmpty()
     @IsOptional()
     @IsUUID() readonly conversationId: string
+
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUUID() readonly risk_analysisId: string
+
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUUID() readonly customer_segmentation_typeId: string
+    
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUUID() readonly segmentationId: string
 }

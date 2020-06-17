@@ -1,69 +1,83 @@
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
-import { Controller, Get, Post, Patch, Delete, Param, Body } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
-import { CreateCompanyCustomerSegmentDetailsDetails } from './dto/create-company-customer-segment-details.dto'
-import { UpdateCompanyCustomerSegmentDetailsDetails } from './dto/update-company-customer-segment-details.dto'
+import { ValidParamId } from '../../common/valid-param-id.dto'
+import { AuthGuard } from '../../common/guards'
+import { CreateCompanyCustomerSegmentDetailsDetailsDto } from './dto/create-company-customer-segment-details.dto'
+import { UpdateCompanyCustomerSegmentDetailsDetailsDto } from './dto/update-company-customer-segment-details.dto'
+import { CompaniesCustomerSegmentDetailsService } from './companies-customer-segment-details.service'
 
-@ApiTags('Companies Customer segments details ')
-@Controller('companies/:companyId/customer_segment/:cs_id:/details')
+@ApiTags('Companies Customer segments details (SEGMENTATION) ')
+@Controller('companies/:companyId/customer_segments/:company_customer_segmentId/segmentations')
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CompaniesCustomerSegmentDetailsController {
+    constructor(
+        private readonly companiesCustomerSegmentDetailsService: CompaniesCustomerSegmentDetailsService
+    ){}
+
     @Get()
     @ApiOperation({ summary: 'Get all company customer segment details ', description: 'This will be used to get a list of company customer segment details and restricted to super admin only'  })
     @ApiResponse({ status: 200, description: 'List of company customer segment details fetching successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param('companyId') companyId: string,
-        @Param('cs_id') customer_segmentsId: string
+        @Param() params: ValidParamId,
+        @Request() req
     ) {
-        return { companyId, customer_segmentsId }
+        return this.companiesCustomerSegmentDetailsService.getAll(params, req.user)
     }
 
     @Get('/:id')
     @ApiOperation({ summary: 'Get a company customer segment details' , description: 'This will be used to get the a company customer segment details using the ID' })
     @ApiResponse({ status: 200, description: 'company customer segment details fetching successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param('companyId') companyId: string,
-        @Param('cs_id') customer_segmentsId: string,
-        @Param('id') id: string,
+        @Param() params: ValidParamId,
+        @Request() req
     ){
-        return { customer_segmentsId, companyId }
+        return this.companiesCustomerSegmentDetailsService.getById(params, req.user)
     }
 
     @Post()
     @ApiOperation({summary: 'Create a company customer segment detail', description: 'This will be used to create a new company customer segment detail the will be used in the system but restricted to super admin' })
     @ApiResponse({ status: 200, description: 'Creating new company customer segment detail successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
-        @Param('companyId') companyId: string,
-        @Param('cs_id') customer_segmentsId: string,
-        @Body() createCompanyCustomerSegmentDetailsDetails: CreateCompanyCustomerSegmentDetailsDetails
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() createCompanyCustomerSegmentDetailsDetailsDto: CreateCompanyCustomerSegmentDetailsDetailsDto
     ) {
-        return { companyId, customer_segmentsId, createCompanyCustomerSegmentDetailsDetails}
+        return this.companiesCustomerSegmentDetailsService.create(
+            params,
+            req.user,
+            createCompanyCustomerSegmentDetailsDetailsDto
+        )
     }
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company customer segment detail', description: 'This will be used to update a company customer segment detail using the ID but only restricted to the super admin' })
     @ApiResponse({ status: 200, description: 'Updating the company customer segment detail successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
-        @Param('companyId') companyId: string,
-        @Param('cs_id') customer_segmentsId: string,
-        @Param('id') id: string,
-        @Body() updateCompanyCustomerSegmentDetailsDetails: UpdateCompanyCustomerSegmentDetailsDetails
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() updateCompanyCustomerSegmentDetailsDetailsDto: UpdateCompanyCustomerSegmentDetailsDetailsDto
     ){
-        return {id, companyId, customer_segmentsId , updateCompanyCustomerSegmentDetailsDetails }
+        return this.companiesCustomerSegmentDetailsService.update(
+            params,
+            req.user,
+            updateCompanyCustomerSegmentDetailsDetailsDto
+        )
     }
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company customer segment detail', description: 'This will be used to delete a company customer segment detail but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the company customer segment detail successful.'})
-    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param('companyId') companyId: string,
-        @Param('cs_id') customer_segmentsId: string,
-        @Param('id') id: string,
+        @Param() params: ValidParamId,
+        @Request() req
     ){
-        return { id, companyId, customer_segmentsId }
+        return this.companiesCustomerSegmentDetailsService.delete(params,req.user)
     }
 }
