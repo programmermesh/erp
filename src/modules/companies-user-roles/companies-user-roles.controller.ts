@@ -20,6 +20,7 @@ export class CompaniesUserRolesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesUserRolesService.getAll(params.companyId)
@@ -31,6 +32,8 @@ export class CompaniesUserRolesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesUserRolesService.getById(params, req.user)
@@ -42,6 +45,7 @@ export class CompaniesUserRolesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyUserRoleDto: CreateCompanyUserRoleDto
     ) {
@@ -54,6 +58,8 @@ export class CompaniesUserRolesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyUserRoleDto: UpdateCompanyUserRoleDto
     ){
@@ -66,6 +72,8 @@ export class CompaniesUserRolesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesUserRolesService.delete(params, req.user)

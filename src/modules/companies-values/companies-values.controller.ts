@@ -23,6 +23,7 @@ export class CompaniesValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesValuesService.getAll(params, req.user)
@@ -34,6 +35,8 @@ export class CompaniesValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesValuesService.getById(params, req.user)
@@ -45,6 +48,7 @@ export class CompaniesValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyValueDto: CreateCompanyValueDto
     ) {
@@ -61,6 +65,8 @@ export class CompaniesValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyValueDto: UpdateCompanyValueDto
     ) {
@@ -77,6 +83,8 @@ export class CompaniesValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesValuesService.delete(params, req.user)

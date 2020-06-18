@@ -24,6 +24,7 @@ export class CompaniesTeamMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesTeamMembersService.getAll(params, req.user)
@@ -39,7 +40,9 @@ export class CompaniesTeamMembersController {
 
     @Get('/:id/invitation')
     getInvitation(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
     ){
         return this.companiesTeamMembersService.getInvitationById(params)
     }
@@ -52,6 +55,7 @@ export class CompaniesTeamMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyTeamMemberDto: CreateCompanyTeamMemberDto
     ){
@@ -66,6 +70,8 @@ export class CompaniesTeamMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyTeamMemberDto: UpdateCompanyTeamMemberDto
     ){
@@ -84,6 +90,8 @@ export class CompaniesTeamMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
     ){
         return this.companiesTeamMembersService.delete(params, req.user)

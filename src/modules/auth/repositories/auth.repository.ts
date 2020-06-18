@@ -11,7 +11,11 @@ export class AuthRepository extends Repository<UserEntity> {
     async validateUserPassword(loginDto: LoginDto): Promise<any>{
         this.logger.debug(`Validating a user email and password`)  
 
-        const user = await this.findOne({ email: loginDto.email})        
+        const user = await this.findOne({ 
+            where: {
+                email: loginDto.email
+            }
+            })        
         if(user && ( await this.passwordsAreEqual(user.password, loginDto.password) )){
             const { password, ...result } = user
             return result

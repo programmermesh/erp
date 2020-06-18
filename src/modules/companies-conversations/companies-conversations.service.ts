@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, getManager } from 'typeorm';
 
@@ -20,8 +20,11 @@ export class CompaniesConversationsService {
     private logger = new Logger('CompaniesConversationsService')
     private entity_prefix_name: string = 'Companies Conversation'
     
-    async getAll(params: ValidParamId, user: User): Promise<CompanyConversation[]>{
-        //get all conversations the user company has been added as a member   
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot list conversation under that company. Wrong company ID given')
+        }
         
         const companyConversations = await this.companyConversationRepo
             .createQueryBuilder('company_conv')
@@ -42,6 +45,10 @@ export class CompaniesConversationsService {
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot view conversation under that company. Wrong company ID given')
+        }
         const requestFound = await this.findCompanyConversationById(params, user)
         if(requestFound){
             return requestFound
@@ -51,14 +58,9 @@ export class CompaniesConversationsService {
     }
 
     async create( params: ValidParamId, user: User, newData: CreateCompanyConversationDto): Promise<any>{
-        const requestFound = await this.companyRepo.findOne({
-            where: {
-                id: params.companyId,
-                created_by: user
-            }
-        })
+        const requestFound = await this.isCompanyOwner(user,params.companyId)
         if(!requestFound){
-            throw new NotFoundException(`Company under user account does not exists`)
+            throw new NotFoundException(`Company under user account does not exists. Wrong company ID given`)
         }else{   
             try {
                 const newCompanyConversation = new CompanyConversation()
@@ -87,7 +89,10 @@ export class CompaniesConversationsService {
     }
 
     async update(params: ValidParamId, user: User, updateData: UpdateCompanyConversationDto): Promise<any>{
-        
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot update conversation under that company. Wrong company ID given')
+        }
         const requestFound = await this.findCompanyConversationById(params, user)
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
@@ -109,6 +114,10 @@ export class CompaniesConversationsService {
     
 
     async delete(params: ValidParamId, user: User): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot update conversation under that company. Wrong company ID given')
+        }
         const requestFound = await this.findCompanyConversationById(params, user)
 
         if(!requestFound){
@@ -131,30 +140,20 @@ export class CompaniesConversationsService {
             where: { 
                 id: params.id,
                 company: {
-                    id: params.companyId,
-                    //created_by: user
+                    id: params.companyId
                 }
             } 
         })
+        return requestFound
+    }
 
-        // const requestFound = await this.companyConversationRepo
-        //     .createQueryBuilder('company_conv')
-        //     .leftJoinAndSelect("company_conv.conversation_members", "conversation_members")
-        //     .select([
-        //         'company_conv.id',
-        //         'company_conv.createdAt',
-        //         'company_conv.title'
-        //     ])
-        //     .where(
-        //         "company_conv.id = :id",
-        //         {id: params.id}
-        //     )
-        //     .andWhere(
-        //         "conversation_members.company = :id",
-        //         {id: params.companyId}
-        //     )
-        //     .orderBy('company_conv.createdAt', 'ASC')
-        //     .getOne()
+    private async isCompanyOwner(user: User,companyId:string){
+        const requestFound = await this.companyRepo.findOne({
+            where: {
+                id: companyId,
+                created_by: user
+            }
+        })
         return requestFound
     }
 }

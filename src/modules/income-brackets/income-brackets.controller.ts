@@ -26,7 +26,8 @@ export class IncomeBracketsController {
     @ApiResponse({ status: 200, description: 'income brackets fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ) {
         return this.incomeBracketsService.getById(params)
     }
@@ -51,6 +52,7 @@ export class IncomeBracketsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @Body() updateIncomeBracketDto: UpdateIncomeBracketDto
     ){
         return this.incomeBracketsService.update(params,updateIncomeBracketDto)
@@ -62,7 +64,10 @@ export class IncomeBracketsController {
     @ApiOperation({ summary: 'Delete a income bracket', description: 'This will be used to delete a income bracket but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the income bracket successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    delete(@Param() params: ValidParamId) {
+    delete(
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
+    ) {
         return this.incomeBracketsService.delete(params)
     }
 }

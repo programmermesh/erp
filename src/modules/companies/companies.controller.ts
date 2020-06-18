@@ -28,7 +28,8 @@ export class CompaniesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Request() req,
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ) {
         return this.companiesService.getCompanyById(params.id, req.user)
     }
@@ -50,6 +51,7 @@ export class CompaniesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Request() req,
+        @Param('id') id: string,
         @Param() params: ValidParamId,
         @Body() updateCompanyDto: UpdateCompanyDto
     ){
@@ -62,6 +64,7 @@ export class CompaniesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Request() req,
+        @Param('id') id: string,
         @Param() params: ValidParamId
     ) {
         return this.companiesService.deleteCompany(params.id, req.user)

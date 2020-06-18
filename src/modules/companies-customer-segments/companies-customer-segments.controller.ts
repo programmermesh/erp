@@ -22,6 +22,7 @@ export class CompaniesCustomerSegmentsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesCustomerSegmentsService.getAll(params, req.user)
@@ -33,6 +34,7 @@ export class CompaniesCustomerSegmentsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create( 
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyCustomerSegmentDto: CreateCompanyCustomerSegmentDto
     ){
@@ -45,6 +47,8 @@ export class CompaniesCustomerSegmentsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomerSegmentsService.delete(params,req.user)

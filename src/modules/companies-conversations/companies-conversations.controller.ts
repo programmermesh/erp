@@ -23,6 +23,7 @@ export class CompaniesConversationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesConversationsService.getAll(params, req.user)
@@ -34,6 +35,8 @@ export class CompaniesConversationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesConversationsService.getById(params, req.user)
@@ -45,6 +48,7 @@ export class CompaniesConversationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyConversationDto: CreateCompanyConversationDto
     ) {
@@ -62,6 +66,8 @@ export class CompaniesConversationsController {
     update(
         @Param() params: ValidParamId,
         @Request() req,
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Body() updateCompanyConversationDto: UpdateCompanyConversationDto
     ){
         return this.companiesConversationsService.update(
@@ -77,6 +83,8 @@ export class CompaniesConversationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesConversationsService.delete(params,req.user)

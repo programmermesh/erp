@@ -24,7 +24,8 @@ export class RelationsController {
     @ApiResponse({ status: 200, description: 'relations fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ) {
         return this.relationsService.getById(params)
     }
@@ -45,6 +46,7 @@ export class RelationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @Body() updateRelationDto: CreateRelationDto
     ){
         return this.relationsService.update(params, updateRelationDto)
@@ -54,7 +56,10 @@ export class RelationsController {
     @ApiOperation({ summary: 'Delete a relation', description: 'This will be used to delete a relation but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the relation successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    delete(@Param() params: ValidParamId) {
+    delete(
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
+    ) {
         return this.relationsService.delete(params)
     }
 }

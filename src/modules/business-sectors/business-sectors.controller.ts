@@ -23,7 +23,10 @@ export class BusinessSectorsController {
     @ApiOperation({ summary: 'Get a business sectors' , description: 'This will be used to get the a business sectors using the ID' })
     @ApiResponse({ status: 200, description: 'business sectors fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    getById(@Param() params: ValidParamId) {
+    getById(
+        @Param('id') id: string,
+        @Param() params: ValidParamId
+    ) {
         return this.businessSectorsService.getById(params.id)
     }
 
@@ -42,6 +45,7 @@ export class BusinessSectorsController {
     @ApiResponse({ status: 200, description: 'Updating the business sector successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
+        @Param('id') id: string,
         @Param() params: ValidParamId,
         @Body() updateBusinessSectorDto: UpdateBusinessSectorDto
     ){
@@ -52,7 +56,10 @@ export class BusinessSectorsController {
     @ApiOperation({ summary: 'Delete a business sector', description: 'This will be used to delete a business sector but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the business sector successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    delete(@Param() params: ValidParamId){
+    delete(
+        @Param('id') id: string,
+        @Param() params: ValidParamId
+    ){
         return this.businessSectorsService.delete(params.id)
     }
 }

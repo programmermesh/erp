@@ -19,6 +19,7 @@ export class CompaniesBusinessSectorsController {
     @ApiResponse({ status: 200, description: 'List of company business sectors fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
+        @Param('companyId') companyId: string,
         @Param() params: ValidParamId,
         @Request() req
     ){
@@ -30,6 +31,7 @@ export class CompaniesBusinessSectorsController {
     @ApiResponse({ status: 200, description: 'Creating new company business sector successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     create(
+        @Param('companyId') companyId: string,
         @Param() params: ValidParamId,
         @Request() req,
         @Body() createCompanyBusinessSectorDto: CreateCompanyBusinessSectorDto
@@ -42,6 +44,8 @@ export class CompaniesBusinessSectorsController {
     @ApiResponse({ status: 200, description: 'Deleting of the company business sector successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     delete(
+        @Param('companyId') id: string,
+        @Param('id') companyId: string,
         @Param() params: ValidParamId,
         @Request() req,        
     ){

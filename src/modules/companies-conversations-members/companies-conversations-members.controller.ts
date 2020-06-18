@@ -22,6 +22,8 @@ export class CompaniesConversationsMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesConversationsMembersService.getAll(params, req.user)
@@ -32,7 +34,10 @@ export class CompaniesConversationsMembersController {
     @ApiResponse({ status: 200, description: 'Company conversations member fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('id') id: string,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesConversationsMembersService.getById(params, req.user)
@@ -44,6 +49,8 @@ export class CompaniesConversationsMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createConversationsMembersDto: CreateConversationsMembersDto
     ) {
@@ -62,7 +69,10 @@ export class CompaniesConversationsMembersController {
     @ApiResponse({ status: 200, description: 'Deleting of the company conversation member successful.'})
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     delete(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('id') id: string,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesConversationsMembersService.delete(params, req.user)

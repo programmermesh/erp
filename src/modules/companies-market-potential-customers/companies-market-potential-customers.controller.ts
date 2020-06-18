@@ -21,7 +21,9 @@ export class CompaniesMarketPotentialCustomersController {
     @ApiResponse({ status: 200, description: 'List of company market potential customers fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,
         @Request() req
     ) {
         return this.companiesMarketPotentialCustomersService.getAll(params, req.user)
@@ -32,7 +34,10 @@ export class CompaniesMarketPotentialCustomersController {
     @ApiResponse({ status: 200, description: 'Get a company market potential customer fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesMarketPotentialCustomersService.getById(params, req.user)
@@ -43,7 +48,9 @@ export class CompaniesMarketPotentialCustomersController {
     @ApiResponse({ status: 200, description: 'Creating new company market potential customers successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,  
         @Request() req,
         @Body() createMarketPotentialsCustomerDto: CreateMarketPotentialsCustomerDto
     ) {
@@ -59,7 +66,10 @@ export class CompaniesMarketPotentialCustomersController {
     @ApiResponse({ status: 200, description: 'Deleting of the company market potential customers successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesMarketPotentialCustomersService.delete(params,req.user)

@@ -22,6 +22,9 @@ export class CustomerSegmTypeSubcategoryValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') customer_segmentation_typeId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('segmentationId') segmentationId: string,
         @Request() req
     ) {
         return this.customerSegmTypeSubcategoryValuesService.getAll(params, req.user)
@@ -33,6 +36,10 @@ export class CustomerSegmTypeSubcategoryValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') customer_segmentation_typeId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('segmentationId') segmentationId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.customerSegmTypeSubcategoryValuesService.getById(params, req.user)
@@ -44,6 +51,9 @@ export class CustomerSegmTypeSubcategoryValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') customer_segmentation_typeId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('segmentationId') segmentationId: string,
         @Request() req,
         @Body() createCustSegTypesSubcategoriesValueDto: CreateCustSegTypesSubcategoriesValueDto
     ) {
@@ -60,6 +70,10 @@ export class CustomerSegmTypeSubcategoryValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') customer_segmentation_typeId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('segmentationId') segmentationId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCustSegTypesSubcategoriesValueDto: UpdateCustSegTypesSubcategoriesValueDto
     ){
@@ -76,6 +90,10 @@ export class CustomerSegmTypeSubcategoryValuesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') customer_segmentation_typeId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('segmentationId') segmentationId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.customerSegmTypeSubcategoryValuesService.delete(params,req.user)

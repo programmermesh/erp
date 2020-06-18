@@ -23,7 +23,10 @@ export class CustomerSegmentsController {
     @ApiOperation({ summary: 'Get a customer segments' , description: 'This will be used to get the a customer segments using the ID' })
     @ApiResponse({ status: 200, description: 'Customer segments fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    getById(@Param() params: ValidParamId) {
+    getById(
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
+    ) {
         return this.customerSegmentsService.getById(params.id)
     }
 
@@ -41,6 +44,7 @@ export class CustomerSegmentsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @Body() updateCustomerSegment: UpdateCustomerSegmentDto
     ) {
         return this.customerSegmentsService.update(params.id,updateCustomerSegment)
@@ -50,7 +54,10 @@ export class CustomerSegmentsController {
     @ApiOperation({ summary: 'Delete a customer segment', description: 'This will be used to delete a customer segment but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the customer segment successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    delete( @Param() params: ValidParamId,) {
+    delete( 
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
+    ) {
         return this.customerSegmentsService.delete(params.id)
     }
 }

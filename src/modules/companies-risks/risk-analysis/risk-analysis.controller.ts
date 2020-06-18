@@ -23,6 +23,7 @@ export class RiskAnalysisController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.riskAnalysisService.getAll(params,req.user)
@@ -34,6 +35,8 @@ export class RiskAnalysisController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.riskAnalysisService.getById(params,req.user)
@@ -45,6 +48,8 @@ export class RiskAnalysisController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() createCompanyRiskAnalysisDto: CreateCompanyRiskAnalysisDto
     ){
@@ -61,6 +66,8 @@ export class RiskAnalysisController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyRiskAnalysisDto: UpdateCompanyRiskAnalysisDto
     ){
@@ -77,6 +84,8 @@ export class RiskAnalysisController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.riskAnalysisService.delete(params,req.user)

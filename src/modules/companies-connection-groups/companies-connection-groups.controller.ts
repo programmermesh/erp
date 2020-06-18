@@ -23,6 +23,7 @@ export class CompaniesConnectionGroupsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesConnectionGroupsService.getAll(params,req.user)
@@ -34,6 +35,8 @@ export class CompaniesConnectionGroupsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesConnectionGroupsService.getById(params,req.user)
@@ -45,6 +48,7 @@ export class CompaniesConnectionGroupsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createConnectionGroupsDto: CreateConnectionGroupsDto
     ) {
@@ -61,6 +65,8 @@ export class CompaniesConnectionGroupsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateConnectionGroupsDto: UpdateConnectionGroupsDto
     ) {
@@ -78,6 +84,8 @@ export class CompaniesConnectionGroupsController {
     @UseInterceptors(FileInterceptor('file'))
     uploadLogo(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @UploadedFile() file: any
     ){
@@ -94,6 +102,8 @@ export class CompaniesConnectionGroupsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesConnectionGroupsService.delete(params, req.user)

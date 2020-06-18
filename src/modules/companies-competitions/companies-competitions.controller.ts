@@ -23,6 +23,7 @@ export class CompaniesCompetitionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesCompetitionsService.getAll(params,req.user)
@@ -34,6 +35,8 @@ export class CompaniesCompetitionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCompetitionsService.getById(params, req.user)
@@ -45,6 +48,7 @@ export class CompaniesCompetitionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyCompetitorDto: CreateCompanyCompetitorDto
     ) {
@@ -61,6 +65,8 @@ export class CompaniesCompetitionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyCompetitorDto: UpdateCompanyCompetitorDto
     ) {
@@ -77,6 +83,8 @@ export class CompaniesCompetitionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesCompetitionsService.delete(params,req.user)

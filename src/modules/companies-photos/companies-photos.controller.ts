@@ -27,6 +27,7 @@ export class CompaniesPhotosController {
     @UseInterceptors(FileInterceptor('file'))
     uploadLogo(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @UploadedFile() file: any
     ){
@@ -48,6 +49,7 @@ export class CompaniesPhotosController {
     @UseInterceptors(FileInterceptor('file'))
     uploadProfilePhoto(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @UploadedFile() file: any
     ){

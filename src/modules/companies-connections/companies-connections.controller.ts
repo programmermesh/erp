@@ -23,6 +23,8 @@ export class CompaniesConnectionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesConnectionsService.getAll(params, req.user)
@@ -33,7 +35,9 @@ export class CompaniesConnectionsController {
     @ApiResponse({ status: 200, description: 'company connection profile fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesConnectionsService.getById(params,req.user)
@@ -45,6 +49,7 @@ export class CompaniesConnectionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyConnectionkDto: CreateCompanyConnectionkDto
     ) {
@@ -61,6 +66,8 @@ export class CompaniesConnectionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() updateCompanyConnectionkDto: UpdateCompanyConnectionkDto
     ) {
@@ -77,6 +84,8 @@ export class CompaniesConnectionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesConnectionsService.delete(params, req.user)

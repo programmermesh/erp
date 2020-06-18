@@ -17,6 +17,7 @@ export class ChannelsController {
     @ApiResponse({ status: 200, description: 'List of channels fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
+        @Param('relationId') relationId: string,
         @Param() params: ValidParamId
     ) {
         return this.channelsService.getAll(params)
@@ -27,6 +28,8 @@ export class ChannelsController {
     @ApiResponse({ status: 200, description: 'channels fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
+        @Param('relationId') relationId: string,
+        @Param('id') id: string,
         @Param() params: ValidParamId
     ) {
         return this.channelsService.getById(params)
@@ -48,6 +51,8 @@ export class ChannelsController {
     @ApiResponse({ status: 200, description: 'Updating the channel successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
+        @Param('relationId') relationId: string,
+        @Param('id') id: string,
         @Param() params: ValidParamId,
         @Body() updateChannelDto: UpdateChannelDto
     ){
@@ -59,6 +64,8 @@ export class ChannelsController {
     @ApiResponse({ status: 200, description: 'Deleting of the channel successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
+        @Param('relationId') relationId: string,
+        @Param('id') id: string,
         @Param() params: ValidParamId
     ) {
         return this.channelsService.delete(params)

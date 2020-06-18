@@ -21,6 +21,7 @@ export class CompaniesSustainableGoalsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string, 
         @Request() req
     ){
         return this.companiesSustainableGoalsService.getAll(params, req.user)
@@ -32,6 +33,8 @@ export class CompaniesSustainableGoalsController {
       @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesSustainableGoalsService.getById(params, req.user)
@@ -43,6 +46,7 @@ export class CompaniesSustainableGoalsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanySustainableGoalDto: CreateCompanySustainableGoalDto
     ){
@@ -59,6 +63,8 @@ export class CompaniesSustainableGoalsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanySustainableGoalDto: UpdateCompanySustainableGoalDto
     ){
@@ -75,6 +81,8 @@ export class CompaniesSustainableGoalsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
     ) {
         return this.companiesSustainableGoalsService.delete(params, req.user)

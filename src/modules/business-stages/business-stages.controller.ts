@@ -24,6 +24,7 @@ export class BusinessStagesController {
     @ApiResponse({ status: 200, description: 'business stages fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
+        @Param('id') id: string,
         @Param() params: ValidParamId
     ){
         return this.businessStagesService.getById(params.id)
@@ -44,6 +45,7 @@ export class BusinessStagesController {
     @ApiResponse({ status: 200, description: 'Updating the business stage successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
+        @Param('id') id: string,
         @Param() params: ValidParamId,
         @Body() updateBusinessStageDto: UpdateBusinessStageDto
     ) {
@@ -55,6 +57,7 @@ export class BusinessStagesController {
     @ApiResponse({ status: 200, description: 'Deleting of the business stage successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
+        @Param('id') id: string,
         @Param() params: ValidParamId
     ){
         return this.businessStagesService.delete(params.id)

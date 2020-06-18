@@ -28,7 +28,8 @@ export class EducationStagesController {
     @ApiResponse({ status: 200, description: 'education stages fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ) {
         return this.educationStagesService.getById(params)
     }
@@ -53,6 +54,7 @@ export class EducationStagesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @Body() updateEducationStagesDto: UpdateEducationStagesDto
     ){
         return this.educationStagesService.update(params,updateEducationStagesDto)
@@ -64,7 +66,10 @@ export class EducationStagesController {
     @ApiOperation({ summary: 'Delete a education stage', description: 'This will be used to delete a education stage but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the education stage successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    delete(@Param() params: ValidParamId) {
+    delete(
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
+    ) {
         return this.educationStagesService.delete(params)
     }
 }

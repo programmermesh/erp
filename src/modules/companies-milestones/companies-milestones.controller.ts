@@ -23,6 +23,7 @@ export class CompaniesMilestonesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesMilestonesService.getAll(params, req.user)
@@ -34,6 +35,8 @@ export class CompaniesMilestonesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesMilestonesService.getById(params,req.user)
@@ -45,6 +48,7 @@ export class CompaniesMilestonesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyMilestoneDto: CreateCompanyMilestoneDto
     ){
@@ -61,6 +65,8 @@ export class CompaniesMilestonesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyMilestoneDto: UpdateCompanyMilestoneDto
     ){
@@ -77,6 +83,8 @@ export class CompaniesMilestonesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesMilestonesService.delete(params,req.user)

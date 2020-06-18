@@ -1,7 +1,7 @@
 import { Controller, Post, Patch, Get, Body, Param} from '@nestjs/common';
 import { ApiTags, ApiResponse, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger'
 import  { AuthService } from './auth.service'
-
+import { ValidParamId } from '../../common/valid-param-id.dto'
 import { LoginDto } from './dto/login-dto'
 import { RefreshTokenDto } from './dto/token-refresh.dto'
 import { ResetPasswordRequestDto  } from './dto/reset-password-dto'
@@ -42,6 +42,7 @@ export class AuthController {
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     resetPassword(
         @Param('id') id: string,
+        @Param() params: ValidParamId,
         @Body() updatePasswordRequestDto: UpdatePasswordRequestDto 
     ){
         return this.authService.fulfilPasswordRequest(id, updatePasswordRequestDto)

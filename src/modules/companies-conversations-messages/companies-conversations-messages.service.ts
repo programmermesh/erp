@@ -7,6 +7,7 @@ import { CreateConversationMessageDto } from './dto/create-conversation-message.
 import { ConversationMessageEntity as ConversationMessage } from './conversation-message.entity'
 import { NetworkConversationEntity as CompanyConversation } from '../companies-conversations/company-conversation.entity'
 import { UserEntity as User } from '../users/user.entity'
+import { CompanyEntity as Company } from '../companies/company.entity'
 import { ConversationsMembersEntity as ConversationMember } from '../companies-conversations-members/conversations-members.entity'
 
 @Injectable()
@@ -14,26 +15,56 @@ export class CompaniesConversationsMessagesService {
     constructor (
         @InjectRepository(CompanyConversation) private readonly companyConversationRepo: Repository<CompanyConversation>,
         @InjectRepository(ConversationMessage) private readonly conversationMessageRepo: Repository<ConversationMessage>,
+        @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
         @InjectRepository(ConversationMember) private readonly conversationMemberRepo: Repository<ConversationMember>
     ){}
     private logger = new Logger('CompaniesConversationsMessagesService')
     private entity_prefix_name: string = 'Companies Conversation Message'
     
-    async getAll(params: ValidParamId, user: User): Promise<ConversationMessage[]>{
-        return await this.conversationMessageRepo.find({
-            where:{               
-                network_conversations: {
-                    id: params.conversationId
-                }
-            },                        
-            order: {
-                createdAt: 'DESC'
-            },
-            relations: ['sent_by', 'sent_by.company']
-        });
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot perform task using that company ID.')
+        }
+
+        //is the company a member of a conversation
+        const isMemberOfConversation = await this.isMemberOfConversation(params)
+        if(!isMemberOfConversation){
+            throw new BadRequestException('Company is not a member of that conversation')
+        }
+
+        const refinedResponse = await this.conversationMessageRepo
+            .createQueryBuilder('message')
+            .select([
+                'message.message', 'message.id', 'message.createdAt',
+                'sent_by.id', 'company.name', 'company.id'  
+            ])
+            .innerJoin('message.network_conversations', 'network_conversations')
+            .innerJoin('message.sent_by', 'sent_by')
+            .innerJoin('sent_by.company','company')
+            .addSelect('company.logo')
+            .where(
+                "network_conversations.id = :id", { id: params.conversationId }
+            )
+            .orderBy('message.createdAt','DESC')
+            .take(50)
+            .getMany()
+
+        return refinedResponse
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot perform task using that company ID.')
+        }
+
+        //is the company a member of a conversation
+        const isMemberOfConversation = await this.isMemberOfConversation(params)
+        if(!isMemberOfConversation){
+            throw new BadRequestException('Company is not a member of that conversation')
+        }
+
         const requestFound = await this.findConversationMessageById(params, user)
         if(requestFound){
             return requestFound
@@ -43,20 +74,17 @@ export class CompaniesConversationsMessagesService {
     }
 
     async create( params: ValidParamId, user: User, newData: CreateConversationMessageDto): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot perform task using that company ID.')
+        }
+        
+
         //check if the the current logged user is a member is a conversation
-        const requestFound = await this.conversationMemberRepo.findOne({
-            where: {
-                network_conversations: params.conversationId,
-                company: {
-                    id:params.companyId,
-                    created_by: user
-                }
-            },
-            relations: ['network_conversations']
-        })
+        const requestFound = await this.isMemberOfConversation(params)
         
         if(!requestFound){
-            throw new BadRequestException(`Cannot post the message. Not a member of that conversation`)
+            throw new BadRequestException(`Cannot post the message. Company is not a member of that conversation`)
         }else{   
             try {
                 const newConversationMessage = new ConversationMessage()
@@ -79,7 +107,17 @@ export class CompaniesConversationsMessagesService {
     }
 
     async update(params: ValidParamId, user: User, updateData: CreateConversationMessageDto): Promise<any>{
-        
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot perform task using that company ID.')
+        }
+
+        //is the company a member of a conversation
+        const isMemberOfConversation = await this.isMemberOfConversation(params)
+        if(!isMemberOfConversation){
+            throw new BadRequestException('Company is not a member of that conversation')
+        }
+
         const requestFound = await this.findConversationMessageById(params, user)
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
@@ -101,6 +139,17 @@ export class CompaniesConversationsMessagesService {
     
 
     async delete(params: ValidParamId, user: User): Promise<any>{
+        const isOwner = await this.isCompanyOwner(user,params.companyId)
+        if(!isOwner){
+            throw new BadRequestException('Cannot perform task using that company ID.')
+        }
+
+        //is the company a member of a conversation
+        const isMemberOfConversation = await this.isMemberOfConversation(params)
+        if(!isMemberOfConversation){
+            throw new BadRequestException('Company is not a member of that conversation')
+        }
+
         const requestFound = await this.findConversationMessageById(params, user)
 
         if(!requestFound){
@@ -129,6 +178,27 @@ export class CompaniesConversationsMessagesService {
                     }
                 }
             } 
+        })
+        return requestFound
+    }
+
+    private async isCompanyOwner(user: User,companyId:string){
+        const requestFound = await this.companyRepo.findOne({
+            where: {
+                id: companyId,
+                created_by: user
+            }
+        })
+        return requestFound
+    }
+
+    private async isMemberOfConversation(params: ValidParamId){
+        const requestFound = await this.conversationMemberRepo.findOne({
+            where: {
+                network_conversations: params.conversationId,
+                company: params.companyId
+            },
+            relations: ['network_conversations']
         })
         return requestFound
     }

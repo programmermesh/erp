@@ -21,7 +21,9 @@ export class CompaniesConversationsMessagesController {
     @ApiResponse({ status: 200, description: 'List of company conversations messages fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,  
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesConversationsMessagesService.getAll(params, req.user)
@@ -34,6 +36,8 @@ export class CompaniesConversationsMessagesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createConversationMessageDto: CreateConversationMessageDto
     ) {
@@ -49,7 +53,10 @@ export class CompaniesConversationsMessagesController {
     @ApiResponse({ status: 200, description: 'Update a company conversation message successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('id') id: string,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() updateConversationMessageDto: CreateConversationMessageDto
     ) {
@@ -65,7 +72,10 @@ export class CompaniesConversationsMessagesController {
     @ApiResponse({ status: 200, description: 'Deleting of the company conversation message successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('id') id: string,
+        @Param('conversationId') conversationId: string,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesConversationsMessagesService.delete(params, req.user)

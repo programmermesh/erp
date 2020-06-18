@@ -22,7 +22,8 @@ export class CompaniesMarketPotentialEstimatesCoverageController {
     @ApiResponse({ status: 200, description: 'List of company market potential estimate coverage fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string, 
         @Request() req
     ){
         return this.companiesMarketPotentialEstimatesCoverageService.getAll(params,req.user)
@@ -33,7 +34,9 @@ export class CompaniesMarketPotentialEstimatesCoverageController {
     @ApiResponse({ status: 200, description: 'A company market potential estimate coverage fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesMarketPotentialEstimatesCoverageService.getById(params,req.user)
@@ -44,7 +47,8 @@ export class CompaniesMarketPotentialEstimatesCoverageController {
     @ApiResponse({ status: 200, description: 'Creating new company market potential estimate coverage successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,  
         @Request() req,
         @Body() createMarketPotentialsEstimateCoverageDto: CreateMarketPotentialsEstimateCoverageDto
     ) {
@@ -60,7 +64,9 @@ export class CompaniesMarketPotentialEstimatesCoverageController {
     @ApiResponse({ status: 200, description: 'Updating the company market potential estimate coverage details successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req,
         @Body() updateMarketPotentialsEstimateCoverageDto: UpdateMarketPotentialsEstimateCoverageDto
     ) {
@@ -76,7 +82,9 @@ export class CompaniesMarketPotentialEstimatesCoverageController {
     @ApiResponse({ status: 200, description: 'Deleting of the company market potential estimate coverage successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesMarketPotentialEstimatesCoverageService.delete(params, req.user)

@@ -23,6 +23,7 @@ export class CompaniesLeadListController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ){
         return this.companiesLeadListService.getAll(params,req.user)
@@ -34,6 +35,8 @@ export class CompaniesLeadListController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesLeadListService.getById(params,req.user)
@@ -44,6 +47,7 @@ export class CompaniesLeadListController {
     @ApiResponse({ status: 200, description: 'Creating new company lead list successful.'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createLeadListDto: CreateLeadListDto
     ) {
@@ -63,6 +67,8 @@ export class CompaniesLeadListController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateLeadListDto: UpdateLeadListDto
     ) {
@@ -79,6 +85,8 @@ export class CompaniesLeadListController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesLeadListService.delete(params, req.user)

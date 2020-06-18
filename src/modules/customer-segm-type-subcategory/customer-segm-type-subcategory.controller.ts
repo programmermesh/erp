@@ -19,7 +19,8 @@ export class CustomerSegmTypeSubcategoryController {
     @ApiResponse({ status: 200, description: 'List of customer segmentation types subcategories fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('customer_segmentation_typeId') customer_segmentation_typeId: string
     ) {
         return this.customerSegmTypeSubcategoryService.getAll(params)
     }
@@ -29,7 +30,9 @@ export class CustomerSegmTypeSubcategoryController {
     @ApiResponse({ status: 200, description: 'customer segmentation types subcategories fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('customer_segmentation_typeId') customer_segmentation_typeId: string,
+        @Param('id') id: string,
     ){
         return this.customerSegmTypeSubcategoryService.getById(params)
     }
@@ -40,7 +43,8 @@ export class CustomerSegmTypeSubcategoryController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
-        @Body() createCustomerSegTypeSubcategoryDto: CreateCustomerSegTypeSubcategoryDto
+        @Body() createCustomerSegTypeSubcategoryDto: CreateCustomerSegTypeSubcategoryDto,
+        @Param('customer_segmentation_typeId') customer_segmentation_typeId: string
     ) {
         return this.customerSegmTypeSubcategoryService.create(
             params,
@@ -54,7 +58,9 @@ export class CustomerSegmTypeSubcategoryController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
-        @Body() updateCustomerSegTypeSubcategoryDto: UpdateCustomerSegTypeSubcategoryDto
+        @Body() updateCustomerSegTypeSubcategoryDto: UpdateCustomerSegTypeSubcategoryDto,
+        @Param('customer_segmentation_typeId') customer_segmentation_typeId: string,
+        @Param('id') id: string,
     ){
         return this.customerSegmTypeSubcategoryService.update(
             params,
@@ -67,7 +73,9 @@ export class CustomerSegmTypeSubcategoryController {
     @ApiResponse({ status: 200, description: 'Deleting of the customer segmentation types subcategory successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('customer_segmentation_typeId') customer_segmentation_typeId: string,
+        @Param('id') id: string,
     ){
         return this.customerSegmTypeSubcategoryService.delete(params)
     }

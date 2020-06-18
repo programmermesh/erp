@@ -24,7 +24,8 @@ export class CompaniesMarketPotentialFilesController {
     @ApiResponse({ status: 200, description: 'List of company market potential files fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,
         @Request() req
     ){
         return this.companiesMarketPotentialFilesService.getAll(params,req.user)
@@ -35,7 +36,9 @@ export class CompaniesMarketPotentialFilesController {
     @ApiResponse({ status: 200, description: 'company market potential files fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,@Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesMarketPotentialFilesService.getById(params, req.user)
@@ -52,6 +55,8 @@ export class CompaniesMarketPotentialFilesController {
     )
     uploadfile(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,
         @Request() req,
         @UploadedFile() file: any
     ){
@@ -69,6 +74,9 @@ export class CompaniesMarketPotentialFilesController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('market_potentialId') market_potentialId: string,                
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesMarketPotentialFilesService.delete(params,req.user)

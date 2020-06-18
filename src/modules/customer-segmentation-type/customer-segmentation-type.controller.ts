@@ -27,7 +27,8 @@ export class CustomerSegmentationTypeController {
     @ApiResponse({ status: 200, description: 'customer segmentation types fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ){
         return this.customerSegmentationTypeService.getById(params)
     }
@@ -48,6 +49,7 @@ export class CustomerSegmentationTypeController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @Body() updateCustomerSegmentationTypeDto: CreateCustomerSegmentationTypeDto
     ){
         return this.customerSegmentationTypeService.update(
@@ -62,6 +64,7 @@ export class CustomerSegmentationTypeController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
     ){
         return this.customerSegmentationTypeService.delete(params)
     }

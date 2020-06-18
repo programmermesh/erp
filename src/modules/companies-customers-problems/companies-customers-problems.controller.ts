@@ -25,6 +25,9 @@ export class CompaniesCustomersProblemsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
         @Request() req
     ) {
         return this.companiesCustomersProblemsService.getAll(params, req.user)
@@ -35,7 +38,11 @@ export class CompaniesCustomersProblemsController {
     @ApiResponse({ status: 200, description: 'company customer problems fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId,
+        @Param() params: ValidParamId,        
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomersProblemsService.getById(params, req.user)
@@ -48,6 +55,9 @@ export class CompaniesCustomersProblemsController {
     create(
         @Param() params: ValidParamId,
         @Request() req,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
         @Body() createCustomerProblemsDto: CreateCustomerProblemsDto
     ) {
         return this.companiesCustomersProblemsService.create(
@@ -63,6 +73,10 @@ export class CompaniesCustomersProblemsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCustomerProblemsDto: UpdateCustomerProblemsDto
     ){
@@ -79,6 +93,10 @@ export class CompaniesCustomersProblemsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         this.companiesCustomersProblemsService.delete(params,req.user)

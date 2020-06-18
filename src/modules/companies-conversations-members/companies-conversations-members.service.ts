@@ -33,8 +33,10 @@ export class CompaniesConversationsMembersService {
             order: {
                 createdAt: 'DESC'
             },
-            relations: ['company']
+            relations: ['company', 'network_conversations']
         });
+
+        //const result = await this.companyConversationRepo.find
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{

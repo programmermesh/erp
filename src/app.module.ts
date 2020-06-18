@@ -28,7 +28,6 @@ import { CompaniesCostAndRevenuesModule } from './modules/companies-cost-and-rev
 import { CompaniesValuesModule } from './modules/companies-values/companies-values.module';
 import { CompaniesCompetitionsModule } from './modules/companies-competitions/companies-competitions.module';
 import { CompaniesMarketPotentialsModule } from './modules/companies-market-potentials/companies-market-potentials.module';
-import { CompaniesCustomersSegmentationsModule } from './modules/companies-customers-segmentations/companies-customers-segmentations.module';
 import { CompaniesRelationsModule } from './modules/companies-relations/companies-relations.module';
 import { RelationsModule } from './modules/relations/relations.module';
 import { ChannelsModule } from './modules/channels/channels.module';
@@ -64,7 +63,7 @@ import { DetailsModule } from './modules/channels/details/details.module'
     CompaniesConnectionsModule, CompaniesMilestonesModule, 
     RiskAnalysisModule, RiskAssessmentsModule, CompaniesLeadListModule, CompaniesPitchDecksModule, 
     CompaniesCostAndRevenuesModule, CompaniesValuesModule, CompaniesCompetitionsModule,
-    CompaniesMarketPotentialsModule, CompaniesCustomersSegmentationsModule, CompaniesRelationsModule,
+    CompaniesMarketPotentialsModule, CompaniesRelationsModule,
     RelationsModule, ChannelsModule, CompaniesConversationsModule, CompaniesConversationsMembersModule, 
     CompaniesConversationsMessagesModule, CompanyRiskAnalysisUsersModule, CompaniesMarketPotentialFilesModule, 
     CompaniesMarketPotentialEstimatesCoverageModule, CompaniesMarketPotentialCustomersModule, EducationStagesModule, 

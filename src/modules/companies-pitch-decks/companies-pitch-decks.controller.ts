@@ -26,6 +26,7 @@ export class CompaniesPitchDecksController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string, 
         @Request() req
     ) {
         return this.companiesPitchDecksService.getAll(params,req.user)
@@ -37,6 +38,8 @@ export class CompaniesPitchDecksController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesPitchDecksService.getById(params, req.user)
@@ -48,6 +51,7 @@ export class CompaniesPitchDecksController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyPitchDeckDto: CreateCompanyPitchDeckDto
     ) {
@@ -64,6 +68,8 @@ export class CompaniesPitchDecksController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyPitchDeckDto: UpdateCompanyPitchDeckDto
     ){
@@ -85,6 +91,8 @@ export class CompaniesPitchDecksController {
     )
     uploadfile(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req,
         @UploadedFile() file: any
     ){
@@ -102,6 +110,8 @@ export class CompaniesPitchDecksController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesPitchDecksService.delete(params,req.user)

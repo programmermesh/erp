@@ -25,7 +25,8 @@ export class SustainableGoalsController {
     @ApiResponse({ status: 200, description: 'sustainable goals fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ){
         return this.sustainableGoalsService.getById(params.id)
     }
@@ -46,6 +47,7 @@ export class SustainableGoalsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @Body() updateSustainableGoalDto: UpdateSustainableGoalDto
     ) {
         return this.sustainableGoalsService.update(params.id, updateSustainableGoalDto)
@@ -58,6 +60,7 @@ export class SustainableGoalsController {
     @UseInterceptors(FileInterceptor('file'))
     uploadLogo(
         @Param() params: ValidParamId,
+        @Param('id') id: string,
         @UploadedFile() file: any
     ){
         return this.sustainableGoalsService.updateSustainableGoalImage(
@@ -71,7 +74,8 @@ export class SustainableGoalsController {
     @ApiResponse({ status: 200, description: 'Deleting of the sustainable goal successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
-        @Param() params: ValidParamId
+        @Param() params: ValidParamId,
+        @Param('id') id: string,
     ) {
         return this.sustainableGoalsService.delete(params.id)
     }

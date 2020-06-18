@@ -25,6 +25,10 @@ export class CompaniesCustomersProblemsSolutionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('customerProblemId') customerProblemId: string,        
         @Request() req
     ) {
         return this.companiesCustomersProblemsSolutionsService.getAll(params, req.user)
@@ -36,6 +40,11 @@ export class CompaniesCustomersProblemsSolutionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('customerProblemId') customerProblemId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomersProblemsSolutionsService.getById(params, req.user)
@@ -47,6 +56,10 @@ export class CompaniesCustomersProblemsSolutionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('customerProblemId') customerProblemId: string,
         @Request() req,
         @Body() createCustomerProblemsSolutionsDto: CreateCustomerProblemsSolutionsDto
     ) {
@@ -63,6 +76,11 @@ export class CompaniesCustomersProblemsSolutionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('customerProblemId') customerProblemId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCustomerProblemsSolutionsDto: UpdateCustomerProblemsSolutionsDto
     ){
@@ -79,6 +97,11 @@ export class CompaniesCustomersProblemsSolutionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,        
+        @Param('customer_segmentId') customer_segmentId: string,
+        @Param('customerId') customerId: string,
+        @Param('customerProblemId') customerProblemId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         this.companiesCustomersProblemsSolutionsService.delete(params,req.user)

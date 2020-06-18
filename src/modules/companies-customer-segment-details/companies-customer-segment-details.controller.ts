@@ -22,6 +22,8 @@ export class CompaniesCustomerSegmentDetailsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
         @Request() req
     ) {
         return this.companiesCustomerSegmentDetailsService.getAll(params, req.user)
@@ -33,6 +35,9 @@ export class CompaniesCustomerSegmentDetailsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomerSegmentDetailsService.getById(params, req.user)
@@ -45,6 +50,8 @@ export class CompaniesCustomerSegmentDetailsController {
     create(
         @Param() params: ValidParamId,
         @Request() req,
+        @Param('companyId') companyId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
         @Body() createCompanyCustomerSegmentDetailsDetailsDto: CreateCompanyCustomerSegmentDetailsDetailsDto
     ) {
         return this.companiesCustomerSegmentDetailsService.create(
@@ -60,6 +67,9 @@ export class CompaniesCustomerSegmentDetailsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyCustomerSegmentDetailsDetailsDto: UpdateCompanyCustomerSegmentDetailsDetailsDto
     ){
@@ -76,6 +86,9 @@ export class CompaniesCustomerSegmentDetailsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
+        @Param('company_customer_segmentId') company_customer_segmentId: string,
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomerSegmentDetailsService.delete(params,req.user)

@@ -22,6 +22,7 @@ export class CompaniesRelationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req
     ) {
         return this.companiesRelationsService.getAll(params, req.user)
@@ -33,6 +34,8 @@ export class CompaniesRelationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesRelationsService.getById(params, req.user)
@@ -44,6 +47,7 @@ export class CompaniesRelationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createCompanyRelationDto: CreateCompanyRelationDto 
     ){
@@ -57,6 +61,8 @@ export class CompaniesRelationsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
+        @Param('companyId') companyId: string,                
+        @Param('id') id: string,
         @Request() req
     ){
         this.companiesRelationsService.delete(params,req.user)
