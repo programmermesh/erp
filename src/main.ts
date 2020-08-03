@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common'
 async function bootstrap () {
   const API_PREFIX = 'v1/api'
   const app = await NestFactory.create(AppModule)
+  app.enableCors()
   app.useGlobalPipes(new ValidationPipe())
   app.setGlobalPrefix(API_PREFIX)
 
