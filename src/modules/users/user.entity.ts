@@ -1,6 +1,5 @@
 import { Entity,Column,OneToMany} from 'typeorm'
  import { AbstractEntity } from '../../common/abstract.entity'
-import { CrudValidationGroups } from '@nestjsx/crud';
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
 import { ResetPasswordRequestEntity } from '../auth/reset-password.entity'
 import { CompanyEntity } from '../companies/company.entity' 

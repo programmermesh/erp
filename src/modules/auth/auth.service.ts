@@ -26,7 +26,9 @@ export class AuthService {
             throw new UnauthorizedException('Invalid Credentials')
         }
 
-        const payload = { email: validUser.email, id: validUser.id }
+        let { profile_photo, firstname_lastname } = validUser
+
+        const payload = { email: validUser.email, id: validUser.id, name: firstname_lastname, profile_photo }
         const access_token = await this.jwtService.sign(payload)
 
         this.logger.debug(`Generated JWT token with payload ${JSON.stringify(payload)}`)

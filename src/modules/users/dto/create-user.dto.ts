@@ -14,6 +14,8 @@ export class CreateUserDto {
 
     @ApiProperty({ description: 'This is the user surname' })
     @IsNotEmpty()
+    @IsOptional({ always: true })
+    @ApiPropertyOptional()
     @IsString() readonly surname: string
 
     @ApiProperty({ description: 'This is the user password' })

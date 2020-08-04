@@ -40,6 +40,7 @@ export class UsersController {
     @ApiResponse({ status: 200, description: 'Creating new user successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     async createUser(@Body() createUserDto: CreateUserDto) {
+        //return {createUserDto, message: 'Successful'}
         return await this.userService.createUser(createUserDto)
     }
 

@@ -31,7 +31,7 @@ export class UsersService {
     async createUser(userData: CreateUserDto){
         const userExists = await this.userRepo.findOne({email: userData.email})
         if(userExists){
-            throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+            throw new HttpException('Email entered is already registered', HttpStatus.BAD_REQUEST);
         }else{
             const user = await this.userRepo.save(userData)
             if(user){
