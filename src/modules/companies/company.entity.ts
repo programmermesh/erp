@@ -46,8 +46,8 @@ export class CompanyEntity extends AbstractEntity{
     @Column('varchar', { nullable: true })
     website: string
     
-    @Column('int', { nullable: true})
-    customer_size: number
+    @Column('varchar', { nullable: true})
+    company_size: string
 
     @Column('int', { nullable: true})
     minimum_investment_amount?: number

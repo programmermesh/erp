@@ -43,11 +43,11 @@ export class UpdateCompanyDto {
     @ApiPropertyOptional()
     @IsString() readonly website: string
 
-    @ApiProperty({ description: 'This is the size of the company', minimum:1, default: 1 })
+    @ApiProperty({ description: 'This is the size of the company'})
     @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
-    @IsNumber() readonly customer_size: number
+    @IsNumber() readonly customer_size: string
 
     @ApiProperty({ description: 'This is the minimum investment amount of the company looking for ', minimum:1, default: 1 })
     @IsNotEmpty()

@@ -7,7 +7,7 @@ export interface CompanyInterface {
     email: string
     phone: string
     website: string
-    customer_size: number
+    company_size: number
     minimum_investment_amount?: number
     max_investment_amount?: number
     interested_in_investment?: boolean

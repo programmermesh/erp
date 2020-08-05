@@ -49,11 +49,11 @@ export class CompaniesService {
         }else{            
             const newCompany = new Company()
             
-            const { address, city, country, customer_size, email, name, phone, website, interested_in_investment, max_investment_amount, minimum_investment_amount } = companyData
+            const { address, city, country, company_size, email, name, phone, website, interested_in_investment, max_investment_amount, minimum_investment_amount } = companyData
             newCompany.address = address
             newCompany.city = city
             newCompany.country = country
-            newCompany.customer_size = customer_size 
+            newCompany.company_size = company_size 
             newCompany.email = email
             newCompany.name = name
             newCompany.phone = phone
