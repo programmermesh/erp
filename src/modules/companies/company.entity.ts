@@ -25,7 +25,7 @@ import { ConversationsMembersEntity } from '../companies-conversations-members/c
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
     
-    @Column('varchar', { length: 500, unique: true })
+    @Column('varchar', { length: 500 })
     name: string
     
     @Column('varchar', { length: 200, nullable: true })

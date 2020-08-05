@@ -9,7 +9,10 @@ import { UserEntity } from '../users/user.entity'
 
 @Injectable()
 export class CompaniesService {
-    constructor (@InjectRepository(Company) private readonly companyRepo: Repository<Company> ){}
+    constructor (
+        @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
+        @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>
+    ){}
     private logger = new Logger('Company service')
     
     async getCompanies(user:UserEntity): Promise<Company[]>{
@@ -37,11 +40,16 @@ export class CompaniesService {
         } 
     }
 
-    async createCompany(companyData: CreateCompanyDto, user: UserEntity): Promise<any>{
+    //async createCompany(companyData: CreateCompanyDto, user: UserEntity): Promise<any>{
+    async createCompany(companyData: CreateCompanyDto): Promise<any>{
+        const user= await this.userRepo.findOne(companyData.user_id)
+        if(!user){
+            throw new NotFoundException(`User with ID "${companyData.user_id}" not found`)
+        }
         const companyExists = await this.companyRepo.findOne({ 
             where: { 
                 name: companyData.name,
-                created_by: user.id
+                created_by: user
             } 
         })
         if(companyExists){
@@ -64,8 +72,9 @@ export class CompaniesService {
             newCompany.created_by = user
 
             try {
-                const result = await this.companyRepo.save(newCompany)                
-                return { status: 'success', data: { id: result.id } }
+                const result = await this.companyRepo.save(newCompany) 
+                delete result.created_by.password               
+                return { status: 'success', result }
             } catch(error){
                 this.logger.error(error.message, error.stack)
                 throw new InternalServerErrorException()

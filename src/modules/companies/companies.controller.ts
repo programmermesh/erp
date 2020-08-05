@@ -9,8 +9,8 @@ import { AuthGuard } from '../../common/guards'
 
 @ApiTags('Companies')
 @Controller('companies')
-@UseGuards(AuthGuard)
-@ApiBearerAuth()
+//@UseGuards(AuthGuard)
+//@ApiBearerAuth()
 export class CompaniesController {
     constructor(private readonly companiesService: CompaniesService){}
     
@@ -42,7 +42,8 @@ export class CompaniesController {
         @Request() req,
         @Body() createCompanyDto: CreateCompanyDto
     ){
-        return this.companiesService.createCompany(createCompanyDto, req.user)
+        //return createCompanyDto
+        return this.companiesService.createCompany(createCompanyDto)
     }
 
     @Patch('/:id')

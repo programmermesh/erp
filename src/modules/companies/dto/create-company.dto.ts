@@ -2,6 +2,10 @@ import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsUUID}
 import { ApiProperty, ApiPropertyOptional, ApiBearerAuth } from '@nestjs/swagger'
 
 export class CreateCompanyDto {
+    @ApiProperty({ description: 'This is the user id ' })
+    @IsNotEmpty()
+    @IsUUID() readonly user_id: string
+
     @ApiProperty({ description: 'This is the name of the company' })
     @IsNotEmpty()
     @IsString() readonly name: string
@@ -32,7 +36,7 @@ export class CreateCompanyDto {
 
     @ApiProperty({ description: 'This is the size of the company'})
     @IsNotEmpty()
-    @IsNumber() readonly company_size: string
+    @IsString() readonly company_size: string
 
     @ApiProperty({ description: 'This is the minimum investment amount of the company looking for ', minimum:1, default: 1 })
     @IsOptional({ always: true })
