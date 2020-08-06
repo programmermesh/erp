@@ -48,18 +48,19 @@ export class CompaniesTeamMembersController {
     }
 
     @Post()    
-    @UseGuards(AuthGuard)
-    @ApiBearerAuth()
+    //@UseGuards(AuthGuard)
+    //@ApiBearerAuth()
     @ApiOperation({summary: 'Create a company team member', description: 'This will be used to create a new company team member the will be used in the company' })
     @ApiResponse({ status: 200, description: 'Creating new company team member successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string,
-        @Request() req,
+        //@Request() req,
         @Body() createCompanyTeamMemberDto: CreateCompanyTeamMemberDto
     ){
-        return this.companiesTeamMembersService.create(params, req.user, createCompanyTeamMemberDto)
+        //return this.companiesTeamMembersService.create(params, req.user, createCompanyTeamMemberDto)
+        return this.companiesTeamMembersService.create(params, createCompanyTeamMemberDto)
     }
 
     @Patch('/:id')

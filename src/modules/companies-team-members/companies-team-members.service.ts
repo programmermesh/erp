@@ -49,7 +49,8 @@ export class CompaniesTeamMembersService {
         } 
     }
 
-    async create(params: ValidParamId, user: User, newData: CreateCompanyTeamMemberDto): Promise<any>{
+    //async create(params: ValidParamId, user: User, newData: CreateCompanyTeamMemberDto): Promise<any>{
+    async create(params: ValidParamId, newData: CreateCompanyTeamMemberDto): Promise<any>{
         const requestFound = await this.userRepo.findOne({
             where: {
                 email: newData.invite_email
@@ -63,14 +64,15 @@ export class CompaniesTeamMembersService {
             const alreadyTeamMember = await this.companyTeamMemberRepo.findOne({
                 where: {
                     user: requestFound.id,
-                    role:{
+                    company: params.companyId
+                    /*role:{
                         id: newData.role,
                         company: {
                             id: params.companyId
                         }
-                    }
+                    }*/
                 },
-                relations: ['role']
+                //relations: ['role']
             })
 
             if(alreadyTeamMember){
@@ -87,7 +89,7 @@ export class CompaniesTeamMembersService {
                 const isAnewUser = false
                 this.sendInvitationEmail(result.id, newData.invite_email, params)
                 /*SENDING AN INVITATION EMAIL*/
-                return { status: 'success', data:{ id:result.id } }
+                return { status: 'success', result:{ id:result.id, email: newData.invite_email } }
             }
             
         }else{              
@@ -108,7 +110,7 @@ export class CompaniesTeamMembersService {
                 const isAnewUser = true
                 this.sendInvitationEmail(result.id, newData.invite_email, params, isAnewUser)
                 /*SENDING AN INVITATION EMAIL*/
-                return { status: 'success', data:{ id:result.id } }
+                return { status: 'success', result:{ id:result.id, email: newData.invite_email } }
             } catch (error) {
                 this.logger.error(error.message, error.stack)
                 throw new InternalServerErrorException()
@@ -176,11 +178,32 @@ export class CompaniesTeamMembersService {
         
         try {
             const newTeamMemberData = new CompanyTeamMember()
-            newTeamMemberData.company = await this.companyRepo.findOne(companyId)
+            let company = await this.companyRepo.findOne(companyId)
+            newTeamMemberData.company = company
             newTeamMemberData.user = user
             newTeamMemberData.invite_email = newData.invite_email
             newTeamMemberData.access_type = await this.accessTypeRepo.findOne(newData.access_type)
-            newTeamMemberData.role = await this.roleRepo.findOne(newData.role)
+            //newTeamMemberData.role = await this.roleRepo.findOne(newData.role)
+            //check if the role exists
+            const userRoleFound = await this.roleRepo.findOne({
+                where: {
+                    name: newData.role.toUpperCase(),  
+                    company: { 
+                        id: companyId 
+                    } 
+                }                      
+            }) 
+            if(userRoleFound){
+                newTeamMemberData.role = userRoleFound
+            }else{
+                //create a new user role
+                const newEntry = new Role()
+                newEntry.name = newData.role.toUpperCase()
+                newEntry.company = company
+                newTeamMemberData.role = await this.roleRepo.save(newEntry)  
+            }
+
+                
 
             const result = await this.companyTeamMemberRepo.save(newTeamMemberData)
             return result
@@ -192,9 +215,11 @@ export class CompaniesTeamMembersService {
     
     private async sendInvitationEmail(id: string, invite_email: string,params: ValidParamId, newUser?: boolean){
         const invitation_url =  `${process.env.BASE_URL}companies/${params.companyId}/team_members/${id}/invitation`
+        const company = await this.companyRepo.findOne(params.companyId)
         // IF newUser add a parameter
-        const compose = `Hello! <br><br> You have been invited to be part a team member<br><br>`+
-                `<a href='${invitation_url}/'>Click here to review your invitation</a>`
+        const compose = `Hello! <br><br> You have been invited to be part a team member of <b>${company.name.toUpperCase()}</b>.<br><br>`+
+                `If you already have an account with Vibrant creator login to accept the invitation.<br>`+
+                `If this is your first time use you email "${invite_email}" as your email and password (No registration needed). (URL WILL GO HERE)`
                 
         await sendMail(
             invite_email,

@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsUUID} from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsUUID, IsArray} from 'class-validator'
 import { ApiProperty, ApiPropertyOptional, ApiBearerAuth } from '@nestjs/swagger'
 
 export class CreateCompanyDto {
@@ -52,5 +52,28 @@ export class CreateCompanyDto {
     @ApiPropertyOptional()
     @IsOptional({ always: true })
     @IsBoolean() readonly interested_in_investment?: boolean
+
+    // WHEN CREATING A NEW COMPANY THE business_stages, business_sectors and customer_segments will be sent as arrays
+
+    @ApiProperty({ description: 'This is a field with the customer segments assigned to the company', default: [] })
+    @ApiPropertyOptional()
+    @IsOptional({ always: true })
+    @IsArray() readonly customer_segments: any
+
+    @ApiProperty({ description: 'This is a field with the business sectors assigned to the company', default: [] })
+    @ApiPropertyOptional()
+    @IsOptional({ always: true })
+    @IsArray() readonly business_sectors: any
+
+    @ApiProperty({ description: 'This is a field with the business stages assigned to the company', default: [] })
+    @ApiPropertyOptional()
+    @IsOptional({ always: true })
+    @IsArray() readonly business_stages: any
+
+    /*
+     customer_segments: [],
+      business_sectors: [],
+      business_stages: [],
+    */
     
 }

@@ -49,7 +49,7 @@ export class CompaniesUserRolesService {
             //     } 
             // },
             where: {
-                name: newData.name,  
+                name: newData.name.toUpperCase(),  
                 company: { 
                     id: companyId , 
                     created_by: user 
@@ -62,7 +62,7 @@ export class CompaniesUserRolesService {
             
             try {   
                 const newEntry = new UserRole()
-                newEntry.name = newData.name
+                newEntry.name = newData.name.toUpperCase()
                 newEntry.company = await this.companyRepo.findOne(companyId)
                 const result = await this.userRoleRepo.save(newEntry)                
                 
@@ -79,6 +79,7 @@ export class CompaniesUserRolesService {
     }
 
     async update(params: ValidParamId, user: User, updateData: UpdateCompanyUserRoleDto): Promise<any>{
+        updateData.name.toUpperCase()
         
         const requestFound = await this.findOneEntityById(params,user)
         if(!requestFound){
