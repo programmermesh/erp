@@ -124,7 +124,7 @@ export class CompaniesService {
 
                 delete result.created_by.password
                 let final_result = { ...result, business_sectors_result, business_stages_result, customer_segments_result }  
-                return { status: 'success', result: final_result, companyData }
+                return { status: 'success', result: final_result }
             } catch(error){
                 this.logger.error(error.message, error.stack)
                 throw new InternalServerErrorException()
@@ -155,10 +155,26 @@ export class CompaniesService {
         } catch (error) {
             this.logger.error(error.message, error.stack)
             throw new InternalServerErrorException()
+        }     
+    }
+
+    async updateCompanyMissionVision(id:string, updateData: UpdateCompanyDto){
+        const companyExists = await this.companyRepo.findOne(id)
+        if(!companyExists){
+            throw new NotFoundException(`Company with ID '${id}' by current user cannot be found `)
         }
 
-        
-                
+        try {
+            this.companyRepo.merge(companyExists, updateData)
+            const result = await this.companyRepo.save(companyExists)
+            return Promise.resolve({
+                status: 'success',
+                result
+            })
+        } catch (error) {
+            this.logger.error(error.message, error.stack)
+            throw new InternalServerErrorException()
+        }  
     }
 
     async deleteCompany(id: string, user: UserEntity): Promise<any>{

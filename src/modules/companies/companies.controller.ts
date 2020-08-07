@@ -46,6 +46,8 @@ export class CompaniesController {
         return this.companiesService.createCompany(createCompanyDto)
     }
 
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
@@ -57,6 +59,17 @@ export class CompaniesController {
         @Body() updateCompanyDto: UpdateCompanyDto
     ){
         return this.companiesService.updateCompany(params.id,updateCompanyDto,req.user)
+    }
+
+    @Patch('/:id/update_mission_vision')
+    @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company VISION AND MISSION details using the ID' })
+    @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    update_mission_vision(
+        @Param() params: ValidParamId,
+        @Body() updateCompanyDto: UpdateCompanyDto
+    ){
+        return this.companiesService.updateCompanyMissionVision(params.id,updateCompanyDto)
     }
 
     @Delete('/:id')

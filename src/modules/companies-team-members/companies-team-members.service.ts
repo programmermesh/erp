@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
 
@@ -77,19 +77,26 @@ export class CompaniesTeamMembersService {
 
             if(alreadyTeamMember){
                 //throw new NotFoundException(`User already exists as a team member`)
-                return `User already exists as a team member` 
+                //return `User already exists as a team member` 
+                throw new HttpException('Email already exists as a team member', HttpStatus.BAD_REQUEST);
             }else{
-                //user not a team member    
-                const result = await this.createTeamMember(
-                    requestFound,
-                    params.companyId,
-                    newData
-                )
-                /*SENDING AN INVITATION EMAIL*/
-                const isAnewUser = false
-                this.sendInvitationEmail(result.id, newData.invite_email, params)
-                /*SENDING AN INVITATION EMAIL*/
-                return { status: 'success', result:{ id:result.id, email: newData.invite_email } }
+                try {
+                    //user not a team member    
+                    const result = await this.createTeamMember(
+                        requestFound,
+                        params.companyId,
+                        newData
+                    )
+                    /*SENDING AN INVITATION EMAIL*/
+                    const isAnewUser = false
+                    this.sendInvitationEmail(result.id, newData.invite_email, params)
+                    /*SENDING AN INVITATION EMAIL*/
+                    return { status: 'success', result:{ id:result.id, email: newData.invite_email } }
+                } catch (error) {
+                    this.logger.error(error.message, error.stack)
+                    throw new InternalServerErrorException()
+                }
+                
             }
             
         }else{              

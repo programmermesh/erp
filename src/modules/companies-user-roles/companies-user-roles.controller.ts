@@ -9,8 +9,8 @@ import { CompaniesUserRolesService } from './companies-user-roles.service'
 
 @ApiTags('Company User Roles')
 @Controller('/companies/:companyId/user_roles')
-@UseGuards(AuthGuard)
-@ApiBearerAuth()
+//@UseGuards(AuthGuard)
+//@ApiBearerAuth()
 export class CompaniesUserRolesController {
     constructor(private readonly companiesUserRolesService: CompaniesUserRolesService){}
 
@@ -21,7 +21,7 @@ export class CompaniesUserRolesController {
     get(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string,
-        @Request() req
+        //@Request() req
     ){
         return this.companiesUserRolesService.getAll(params.companyId)
     }
