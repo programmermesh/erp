@@ -9,8 +9,8 @@ import { UpdateCompanySustainableGoalDto } from './dto/update-company-sustainabl
 
 @ApiTags('Company sustainable goals')
 @Controller('/companies/:companyId/sustainable_goals')
-@UseGuards(AuthGuard)
-@ApiBearerAuth()
+//@UseGuards(AuthGuard)
+//@ApiBearerAuth()
 export class CompaniesSustainableGoalsController {
 
     constructor( private readonly companiesSustainableGoalsService: CompaniesSustainableGoalsService) {}
@@ -53,6 +53,20 @@ export class CompaniesSustainableGoalsController {
         return this.companiesSustainableGoalsService.create(
             params,
             req.user,
+            createCompanySustainableGoalDto
+        )
+    }
+
+    @Post('/registration')
+    @ApiOperation({summary: 'Create a company sustainable goal', description: 'This will be used to create a new company sustainable goal the will be used in the system but restricted to super admin' })
+    @ApiResponse({ status: 200, description: 'Creating new company sustainable goal successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    from_registration(
+        @Param() params: ValidParamId,
+        @Body() createCompanySustainableGoalDto: CreateCompanySustainableGoalDto
+    ){
+        return this.companiesSustainableGoalsService.from_registration(
+            params,
             createCompanySustainableGoalDto
         )
     }

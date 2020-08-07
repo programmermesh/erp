@@ -14,12 +14,33 @@ export class SustainableGoalsService {
     private logger = new Logger('SustainableGoalsService')
     private entity_prefix_name: string = 'Sustainable Goal'
     
-    async getAll(): Promise<SustainableGoal[]>{
-        return await this.sustainableGoalRepo.find({            
-            order: {
-                name: 'DESC'
+    async getAll(): Promise<any>{
+        let result = await this.sustainableGoalRepo.find(); 
+        //return { result, total: result.length}
+        if(result.length == 17){
+            return result
+        }
+
+        // sustainable goals should be 17
+        const system_sdgs = [
+            'NO POVERTY', 'ZERO HUNGER', 'GOOD HEALTH AND WELL-BEING', 'QUALITY EDUCATION', 'GENDER EQUALITY',
+            'CLEAN WATER AND SANITATION', 'AFFORDABLE AND CLEAN ENERGY', 'DECENT WORK AND ECONOMIC GROWTH',
+            'INDUSTRY INNOVATION AND INFRASTRUCTURE', 'REDUCE INEQUALITIES', 'SUSTAINABLE CITIES AND COMMUNITIES',
+            'RESPONSIBLE CONSUMPTION AND PRODUCTION', 'CLIMATE ACTION','LIFE BELOW WATER', 'LIFE ON LAND', 
+            'PEACE, JUSTICE AND STRONG INSTITUTIONS', 'PAERTNERSHIPS FOR THE GOALS'
+        ]
+        for (const [idx, element] of system_sdgs.entries()) {
+            let elementExists = await this.findSustainableGoalByname(element)
+            if(!elementExists){
+                // we create the sustatinable goal
+                const newEntry = new SustainableGoal()
+                newEntry.name = element
+                newEntry.position = (idx+1)                
+                await this.sustainableGoalRepo.save(newEntry)  
             }
-        });
+        }
+        result = await this.sustainableGoalRepo.find();
+        return result
     }
 
     async getById(id: string): Promise<any>{
@@ -34,7 +55,7 @@ export class SustainableGoalsService {
     async create(newData: CreateSustainableGoalDto): Promise<any>{
         const requestFound = await this.sustainableGoalRepo.findOne({ 
             where: { 
-                name: newData.name
+                name: newData.name.toUpperCase()
             } 
         })
         if(requestFound){
@@ -126,9 +147,14 @@ export class SustainableGoalsService {
 
     private async findSustainableGoalById(id: string){
         const requestFound = await this.sustainableGoalRepo.findOne({ 
-            where: { 
-                id
-            } 
+            where: { id } 
+        })
+        return requestFound
+    }
+
+    private async findSustainableGoalByname(name: string){
+        const requestFound = await this.sustainableGoalRepo.findOne({ 
+            where: { name: name.toUpperCase() } 
         })
         return requestFound
     }

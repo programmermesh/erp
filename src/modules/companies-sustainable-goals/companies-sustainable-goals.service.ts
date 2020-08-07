@@ -45,6 +45,46 @@ export class CompaniesSustainableGoalsService {
         } 
     }
 
+    async from_registration(params: ValidParamId, newData: CreateCompanySustainableGoalDto): Promise<any>{
+        const requestFound = await this.companySustainableGoalRepo.findOne({
+            where: {
+                sustainable_goal: newData.sustainable_goal,  
+                company: { 
+                    id: params.companyId 
+                } 
+            }                     
+        })
+
+        if(requestFound){            
+            const { sustainable_goal, ...updateThis } = newData
+            this.companySustainableGoalRepo.merge(requestFound, updateThis)            
+            const update = await this.companySustainableGoalRepo.save(requestFound)
+            return {
+                status: 'success',
+                result: update
+            }
+        }else{ 
+            
+            try {   
+                const newEntry = new CompanySustainableGoal()
+                newEntry.objective = newData.objective
+                newEntry.description = newData.description
+                newEntry.company = await this.companyRepo.findOne(params.companyId)
+                newEntry.sustainable_goal = await this.sustainableGoalRepo.findOne(newData.sustainable_goal)
+                
+                const result = await this.companySustainableGoalRepo.save(newEntry)                
+                
+                return Promise.resolve({
+                    status: 'success',
+                    result
+                })
+            } catch(error){
+                this.logger.error(error.message, error.stack)
+                throw new InternalServerErrorException()
+            }
+        }
+    }
+
     async create(params: ValidParamId, user: User, newData: CreateCompanySustainableGoalDto): Promise<any>{
         const requestFound = await this.companySustainableGoalRepo.findOne({
             where: {
@@ -66,7 +106,7 @@ export class CompaniesSustainableGoalsService {
             return {
                 status: 'success',
                 message: 'Sustatinable Already assigned to company',
-                data: {
+                result: {
                     id: update.id,
                     objective: update.objective,
                     description: update.description

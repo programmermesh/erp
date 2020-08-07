@@ -12,6 +12,9 @@ export class CompanySustainableGoalsEntity extends AbstractEntity {
     
     @Column('text', { nullable: true})
     description: string
+
+    @Column('boolean', { default: false })
+    active: boolean
     
     /* Many companies_sustainable_goals can belong to one sustainable_goal*/
     @ManyToOne( type => SustainableGoalEntity, sustainable_goal => sustainable_goal.companies )

@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, IsOptional } from "class-validator";
+import { IsNotEmpty, IsString, IsOptional, IsInt } from "class-validator";
 
 export class CreateSustainableGoalDto {
     @ApiProperty({ description: 'This is the unique name for the sustainable goal '})
@@ -13,5 +13,12 @@ export class CreateSustainableGoalDto {
     @IsString()
     @ApiPropertyOptional()
     readonly image_uri: string
+
+    @ApiProperty({ description: 'This is position of the goal' })
+    @IsOptional()
+    @IsNotEmpty()
+    @IsInt()
+    @ApiPropertyOptional()
+    readonly position: number
 
 }
