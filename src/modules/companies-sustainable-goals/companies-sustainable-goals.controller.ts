@@ -22,9 +22,10 @@ export class CompaniesSustainableGoalsController {
     get(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string, 
-        @Request() req
+        //@Request() req
     ){
-        return this.companiesSustainableGoalsService.getAll(params, req.user)
+        //return this.companiesSustainableGoalsService.getAll(params, req.user)
+        return this.companiesSustainableGoalsService.getAll(params)
     }
 
     @Get('/:id')
@@ -40,6 +41,8 @@ export class CompaniesSustainableGoalsController {
         return this.companiesSustainableGoalsService.getById(params, req.user)
     }
 
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @Post()
     @ApiOperation({summary: 'Create a company sustainable goal', description: 'This will be used to create a new company sustainable goal the will be used in the system but restricted to super admin' })
     @ApiResponse({ status: 200, description: 'Creating new company sustainable goal successful.'})
@@ -71,6 +74,8 @@ export class CompaniesSustainableGoalsController {
         )
     }
 
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @Patch('/:id')
     @ApiOperation({summary: 'Update a company sustainable goal', description: 'This will be used to create a new company sustainable goal the will be used in the system but restricted to super admin' })
     @ApiResponse({ status: 200, description: 'Updating company sustainable goal successful.'})
@@ -89,6 +94,8 @@ export class CompaniesSustainableGoalsController {
         )
     }
 
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company sustainable goal', description: 'This will be used to delete a company sustainable goal but restricted to super admin only' })
     @ApiResponse({ status: 200, description: 'Deleting of the company sustainable goal successful.'})

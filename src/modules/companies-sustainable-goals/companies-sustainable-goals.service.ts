@@ -20,17 +20,17 @@ export class CompaniesSustainableGoalsService {
     private logger = new Logger('CompanySustainableGoalsService')
     private entity_prefix_name: string = 'Company Sustainable Goal'
     
-    async getAll(params: ValidParamId, user: User): Promise<CompanySustainableGoal[]>{
+    async getAll(params: ValidParamId): Promise<CompanySustainableGoal[]>{
         return await this.companySustainableGoalRepo.find({
             where: {
                 company: {
-                    id: params.companyId,
-                    created_by: user
+                    id: params.companyId
                 }                
             },            
             order: {
                 createdAt: 'DESC'
-            }
+            },
+            relations: ['sustainable_goal']
         });
     }
 
@@ -69,6 +69,7 @@ export class CompaniesSustainableGoalsService {
                 const newEntry = new CompanySustainableGoal()
                 newEntry.objective = newData.objective
                 newEntry.description = newData.description
+                newEntry.active = newData.active? newData.active : false
                 newEntry.company = await this.companyRepo.findOne(params.companyId)
                 newEntry.sustainable_goal = await this.sustainableGoalRepo.findOne(newData.sustainable_goal)
                 
@@ -118,6 +119,7 @@ export class CompaniesSustainableGoalsService {
                 const newEntry = new CompanySustainableGoal()
                 newEntry.objective = newData.objective
                 newEntry.description = newData.description
+                newEntry.active = newData.active? newData.active : false
                 newEntry.company = await this.companyRepo.findOne(params.companyId)
                 newEntry.sustainable_goal = await this.sustainableGoalRepo.findOne(newData.sustainable_goal)
                 
