@@ -46,19 +46,31 @@ export class CompaniesController {
         return this.companiesService.createCompany(createCompanyDto)
     }
 
-    @UseGuards(AuthGuard)
-    @ApiBearerAuth()
+    // @UseGuards(AuthGuard)
+    // @ApiBearerAuth()
+    // @Patch('/:id')
+    // @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
+    // @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
+    // @ApiResponse({ status: 401, description: 'Unauthorized'})
+    // update(
+    //     //@Request() req,
+    //     @Param('id') id: string,
+    //     @Param() params: ValidParamId,
+    //     @Body() updateCompanyDto: UpdateCompanyDto
+    // ){
+    //     return this.companiesService.updateCompany(params.id,updateCompanyDto,req.user)
+    // }
+
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
-        @Request() req,
         @Param('id') id: string,
         @Param() params: ValidParamId,
         @Body() updateCompanyDto: UpdateCompanyDto
     ){
-        return this.companiesService.updateCompany(params.id,updateCompanyDto,req.user)
+        return this.companiesService.updateCompany(params.id,updateCompanyDto)
     }
 
     @Patch('/:id/update_mission_vision')

@@ -68,73 +68,61 @@ export class UpdateCompanyDto {
     @IsBoolean() readonly interested_in_investment?: boolean
     
     @ApiProperty({ description: 'This is a field where the company states its vision', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly vision?: string
 
     @ApiProperty({ description: 'This is a field where the company states its mission', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly mission?: string
 
     @ApiProperty({description: 'This is a field where the company states the date it was established'})
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly date_of_establishment?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company logo', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly logo?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company profile photo', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly profile_photo: string
 
     @ApiProperty({ description: 'This is a field will have the company elevator pitch ', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly elevator_pitch?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company facebook page', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly facebook?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company linkedin page', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly linkedin?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company twitter page', default: "" })
-    @IsNotEmpty()
-    @IsOptional({ always: true })    
+    @IsOptional()    
     @ApiPropertyOptional()
     @IsString() readonly twitter?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company youtube page', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly youtube?: string
 
     @ApiProperty({ description: 'This is a field that will have the URI to the company other page', default: "" })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly others?: string
 
     @ApiProperty({ description: 'This field will have the company\'s minimum valuation ', minimum:1, default: 1 })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsNumber() readonly min_valuation?: number

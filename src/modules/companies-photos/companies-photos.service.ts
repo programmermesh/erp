@@ -22,12 +22,12 @@ export class CompaniesPhotosService {
     ){}
     private logger = new Logger('CompanyPhotoService')
 
-    async uploadFile(params: ValidParamId, file: any, fileType: FILETYPE, user: User ){
+    async uploadFile(params: ValidParamId, file: any, fileType: FILETYPE, ){
 
         const companyFound = await this.companyRepo.findOne({
             where: {
                 id: params.companyId,
-                created_by: user
+                //created_by: user
             }
         })
 
@@ -64,7 +64,7 @@ export class CompaniesPhotosService {
             const updateLogo = await this.companyRepo.save(companyFound)
             return Promise.resolve({
                 status: 'success',
-                updateLogo
+                result: {logo: updateLogo.logo, profile_photo: updateLogo.profile_photo}
             })
         }else{
             this.logger.error(data)

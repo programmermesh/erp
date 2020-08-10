@@ -133,16 +133,16 @@ export class CompaniesService {
         
     }
 
-    async updateCompany(id: string, updateData: UpdateCompanyDto, user: UserEntity): Promise<any>{
+    async updateCompany(id: string, updateData: UpdateCompanyDto): Promise<any>{
+    //async updateCompany(id: string, updateData: UpdateCompanyDto, user: UserEntity): Promise<any>{
         
         const companyExists = await this.companyRepo.findOne({ 
             where: { 
-                id,
-                created_by: user.id
+                id
             } 
         })
         if(!companyExists){
-            throw new NotFoundException(`Company with ID '${id}' by current user cannot be found `)
+            throw new NotFoundException(`Company with ID '${id}' cannot be found `)
         }
 
         try {

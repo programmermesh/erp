@@ -9,8 +9,8 @@ import { FILETYPE } from '../../common/enum_values';
 
 @ApiTags('Upload Company Logo and Profile Photo')
 @Controller('/companies/:companyId')
-@UseGuards(AuthGuard)
-@ApiBearerAuth()
+//@UseGuards(AuthGuard)
+//@ApiBearerAuth()
 export class CompaniesPhotosController {
     
     constructor(
@@ -28,14 +28,14 @@ export class CompaniesPhotosController {
     uploadLogo(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string,
-        @Request() req,
+        //@Request() req,
         @UploadedFile() file: any
     ){
         return this.companiesPhotosService.uploadFile(
             params,
             file,
             FILETYPE.logo,
-            req.user
+            //req.user
         )
     }
 
@@ -50,14 +50,14 @@ export class CompaniesPhotosController {
     uploadProfilePhoto(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string,
-        @Request() req,
+        //@Request() req,
         @UploadedFile() file: any
     ){
         return this.companiesPhotosService.uploadFile(
             params,
             file,
             FILETYPE.profile_photo,
-            req.user
+            //req.user
         )
     }
 }
