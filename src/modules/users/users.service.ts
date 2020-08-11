@@ -4,6 +4,8 @@ import { Repository } from 'typeorm'
 import { UserEntity as User } from './user.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { uploadImageToS3 } from '../../utils/s3UploadImages'
+import { FILETYPE } from '../../common/enum_values'
 
 @Injectable()
 export class UsersService {
@@ -22,7 +24,8 @@ export class UsersService {
     async getUserById(user: User){
         const userFound = await this.userRepo.findOne(user.id)
         if(userFound){
-            return userFound
+            const { password, ...return_result } = userFound //remove password from result
+            return { status: 'success', result: return_result }
         }else{
             throw new NotFoundException(`User with ID "${user.id}" not found`)
         } 
@@ -45,6 +48,30 @@ export class UsersService {
         
     }
 
+    async uploadProfilePhoto(user: User, file: any, fileType: FILETYPE){
+        const userFound = await this.userRepo.findOne(user.id)
+        if(!userFound){
+            throw new NotFoundException(`User with ID not found`)
+        } 
+        const urlKey = `${fileType}/${userFound.id}/${Date.now().toString()}-${file.originalname}`
+        //const urlKey = `users/profile_photos/${Date.now().toString()}-${file.originalname}`
+        
+        const data = await uploadImageToS3(
+            null,
+            file,
+            urlKey
+        )
+        if(data.success){
+            //update the sustainable goal table
+            userFound.profile_photo = data.url
+            const updateImage = await this.userRepo.save(userFound)
+            return Promise.resolve({
+                status: 'success',
+                result: userFound
+            }) 
+        }
+    }
+
     async updateUser(user: User, updateData: UpdateUserDto): Promise<any>{
         const userFound = await this.userRepo.findOne(user.id)
         if(!userFound){
@@ -56,7 +83,7 @@ export class UsersService {
             const { password, ...return_result } = result //remove password from result
             return Promise.resolve({
                 status: 'success',
-                return_result
+                result: return_result
             })
         } catch (error) {
             this.logger.error(error.message, error.stack)

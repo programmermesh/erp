@@ -60,7 +60,6 @@ export class SustainableGoalsController {
     @UseInterceptors(FileInterceptor('file'))
     uploadLogo(
         @Param() params: ValidParamId,
-        @Param('id') id: string,
         @UploadedFile() file: any
     ){
         return this.sustainableGoalsService.updateSustainableGoalImage(

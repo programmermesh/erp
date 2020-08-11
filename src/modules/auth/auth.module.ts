@@ -19,7 +19,7 @@ import { ResetPasswordRequestEntity } from './reset-password.entity'
     }) ,
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY || JWT_CONSTANTS.secret,
-      signOptions: { expiresIn: process.env.JWT_EXPIRATION_TIME || '3600s' }
+      signOptions: { expiresIn: process.env.JWT_EXPIRATION_TIME || JWT_CONSTANTS.expiresIn }
     }),
     TypeOrmModule.forFeature([AuthRepository, ResetPasswordRequestEntity])    
   ],

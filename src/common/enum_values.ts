@@ -49,6 +49,7 @@ export enum FILETYPE {
     profile_photo = 'profile_photo',
     sustainable_goal_image = 'sustainable_goal_image',
     pitch_decks_image = 'pitch_decks_image',
-    market_potential_file_url = 'market_potential_file_url'
+    market_potential_file_url = 'market_potential_file_url',
+    user_profile_photo = 'user_profile_photo'
 }
   

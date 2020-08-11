@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Patch, Delete, Body, UsePipes, Param, UseInterceptors, ClassSerializerInterceptor, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, UsePipes, Param, UseInterceptors, ClassSerializerInterceptor, UseGuards, Request, UploadedFile } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 import { AuthGuard } from '../../common/guards'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FILETYPE } from '../../common/enum_values'
 
 @ApiTags('Users')
 @Controller('users')
@@ -56,6 +58,21 @@ export class UsersController {
         @Body() updateUserDto: UpdateUserDto 
     ){
         return await this.userService.updateUser(req.user, updateUserDto)                
+    }
+
+    @UseInterceptors(ClassSerializerInterceptor)
+    @Post('/me/profile_photo')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Update user profile image', description: 'This will be used to upload the user profile image' })
+    @ApiResponse({ status: 200, description: 'Updating the user details successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadProfilePhoto(
+        @Request() req,
+        @UploadedFile() file: any 
+    ){
+        return await this.userService.uploadProfilePhoto(req.user, file, FILETYPE.user_profile_photo)                
     }
 
     @Delete('/me')
