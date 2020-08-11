@@ -64,6 +64,9 @@ export class UsersService {
         if(data.success){
             //update the sustainable goal table
             userFound.profile_photo = data.url
+            if(userFound.password){
+                delete userFound.password //avoid saving the user password
+            }
             const updateImage = await this.userRepo.save(userFound)
             return Promise.resolve({
                 status: 'success',
@@ -79,6 +82,9 @@ export class UsersService {
         }
         try {
             this.userRepo.merge(userFound, updateData)
+            if(userFound.password){
+                delete userFound.password //avoid saving the user password
+            }
             const result = await this.userRepo.save(userFound)
             const { password, ...return_result } = result //remove password from result
             return Promise.resolve({
