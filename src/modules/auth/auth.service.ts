@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login-dto'
 import { ResetPasswordRequestDto } from './dto/reset-password-dto'
 import { ResetPasswordRequestEntity } from './reset-password.entity'
 import { UpdatePasswordRequestDto } from './dto/update-password.dto'
+import { sendMail } from '../../utils/sendEmail'
 
 @Injectable()
 export class AuthService {
@@ -29,9 +30,9 @@ export class AuthService {
         let { profile_photo, firstname_lastname } = validUser
 
         const payload = { email: validUser.email, id: validUser.id, name: firstname_lastname, profile_photo }
-        const access_token = await this.jwtService.sign(payload)
+        const access_token = this.jwtService.sign(payload)
 
-        this.logger.debug(`Generated JWT token with payload ${JSON.stringify(payload)}`)
+        // this.logger.debug(`Generated JWT token with payload ${JSON.stringify(payload)}`)
         
         return { access_token }
     }
@@ -52,7 +53,8 @@ export class AuthService {
             const result = await this.passwordRepo.save(newResetPasswordRequest)
             const { users, ...sendResult } = result
             /*PENDING::::SEND A LINK TO THE EMAIL*/
-            return { status: 'success', data: sendResult }
+            this.sendResetPasswordEmail(result.id, data.email)
+            return { status: 'success', result: 'Password reset request created successfully. Please check your email for more info on how to reset the password' }
         } catch (error) {
             this.logger.error(error.message, error.stack)
             throw new InternalServerErrorException()
@@ -77,14 +79,29 @@ export class AuthService {
             await this.passwordRepo.save(updateRequest)
 
             return Promise.resolve({
-                status: 'success'
+                status: 'success',
+                result: 'Password reset successful'
             })
         } catch (error) {
             this.logger.error(error.message, error.stack)
             throw new InternalServerErrorException()
-        }
+        }            
+    }
 
-            
+    private async sendResetPasswordEmail(token: string, email: string){
+        const reset_password_url =  `${process.env.FRONTEND_BASE_URL}/reset-password/${token}`
+        // IF newUser add a parameter
+        const compose = `Hello! <br><br> A request to reset your vibrant creator app account has been initiated.<br><br>`+
+                `To reset the password please use the following link.<br>`+
+                `<a href="${reset_password_url}">${reset_password_url}</a><br><br>`+
+                `If you did not initiate this, please ignore this email.`
+                
+        await sendMail(
+            email,
+            "Password reset request",
+            "You requested a password reset",
+            compose)
+        return true
     }
 
 }
