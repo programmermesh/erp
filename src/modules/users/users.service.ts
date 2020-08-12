@@ -67,6 +67,7 @@ export class UsersService {
             if(userFound.password){
                 delete userFound.password //avoid saving the user password
             }
+            console.log(userFound)
             const updateImage = await this.userRepo.save(userFound)
             return Promise.resolve({
                 status: 'success',

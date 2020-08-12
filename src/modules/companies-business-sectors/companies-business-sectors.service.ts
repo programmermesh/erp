@@ -20,8 +20,8 @@ export class CompaniesBusinessSectorsService {
     private logger = new Logger('CompanyBusinessSectorsService')
     private entity_prefix_name: string = 'Company business sector'
     
-    async getAll(params: ValidParamId, user: User): Promise<CompanyBusinessSector[]>{
-        return await this.companyBusinessSectorRepo.find({
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const result = await this.companyBusinessSectorRepo.find({
             where: {
                 company: {
                     id: params.companyId,
@@ -30,6 +30,7 @@ export class CompaniesBusinessSectorsService {
             },
             relations: ['business_sector']
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
@@ -37,7 +38,7 @@ export class CompaniesBusinessSectorsService {
         const requestFound = await this.findOneEntityById(params,user)
         
         if(requestFound){
-            return requestFound
+            return { status: 'success', result: requestFound }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 

@@ -15,7 +15,9 @@ export class CompaniesController {
     constructor(private readonly companiesService: CompaniesService){}
     
     @Get()
-    @ApiOperation({ summary: 'Get all companies', description: 'This will be used to get a list of companies under the current user'  })
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get all companies under the user', description: 'This will be used to get a list of companies under the current user'  })
     @ApiResponse({ status: 200, description: 'List of companies fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(@Request() req) {
@@ -23,13 +25,14 @@ export class CompaniesController {
     }
 
     @Get('/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Get a company profile' , description: 'This will be used to get the a company profile using the ID' })
     @ApiResponse({ status: 200, description: 'User profile fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Request() req,
         @Param() params: ValidParamId,
-        @Param('id') id: string,
     ) {
         return this.companiesService.getCompanyById(params.id, req.user)
     }

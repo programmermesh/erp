@@ -9,11 +9,18 @@ export class UserPostSubscriber implements EntitySubscriberInterface<UserEntity>
     }
 
     async beforeInsert(event: InsertEvent<UserEntity>){
-        event.entity.password = await bcrypt.hash( event.entity.password, 10 )
+        // if we have a password in the inser event then we convert it to a hashed password
+        if(event.entity.password){
+          event.entity.password = await bcrypt.hash( event.entity.password, 10 )  
+        }
+        
     }
 
     async beforeUpdate(event: UpdateEvent<UserEntity> ){
-        event.entity.password = await bcrypt.hash( event.entity.password, 10 )
+        if(event.entity.password){
+           event.entity.password = await bcrypt.hash( event.entity.password, 10 ) 
+        }
+            
     }
 
 }

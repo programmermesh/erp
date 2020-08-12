@@ -21,8 +21,8 @@ export class CompaniesCustomerSegmentsService {
     private logger = new Logger('CompanyCustomerSegmentsService')
     private entity_prefix_name: string = 'Company Customer Segment'
     
-    async getAll(params: ValidParamId, user: User): Promise<CompanyCustomerSegment[]>{
-        return await this.companyCustomerSegmentRepo.find({
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const result = await this.companyCustomerSegmentRepo.find({
             where: {
                 company: {
                     id: params.companyId,
@@ -31,6 +31,7 @@ export class CompaniesCustomerSegmentsService {
             },
             relations: ['customer_segment']
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
@@ -38,7 +39,7 @@ export class CompaniesCustomerSegmentsService {
         const requestFound = await this.findOneEntityById(params,user)
         
         if(requestFound){
-            return requestFound
+            return { status: 'success', result: requestFound }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 

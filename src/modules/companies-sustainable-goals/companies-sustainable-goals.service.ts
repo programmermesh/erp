@@ -20,8 +20,8 @@ export class CompaniesSustainableGoalsService {
     private logger = new Logger('CompanySustainableGoalsService')
     private entity_prefix_name: string = 'Company Sustainable Goal'
     
-    async getAll(params: ValidParamId): Promise<CompanySustainableGoal[]>{
-        return await this.companySustainableGoalRepo.find({
+    async getAll(params: ValidParamId): Promise<any>{
+        const result = await this.companySustainableGoalRepo.find({
             where: {
                 company: {
                     id: params.companyId
@@ -32,6 +32,7 @@ export class CompaniesSustainableGoalsService {
             },
             relations: ['sustainable_goal']
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
@@ -39,7 +40,7 @@ export class CompaniesSustainableGoalsService {
         const requestFound = await this.findOneEntityById(params,user)
         
         if(requestFound){
-            return requestFound
+            return { status: 'success', result: requestFound }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 

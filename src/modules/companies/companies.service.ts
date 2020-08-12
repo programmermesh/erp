@@ -27,8 +27,8 @@ export class CompaniesService {
     ){}
     private logger = new Logger('Company service')
     
-    async getCompanies(user:UserEntity): Promise<Company[]>{
-        return await this.companyRepo.find({
+    async getCompanies(user:UserEntity): Promise<any>{
+        const result = await this.companyRepo.find({
             where:{
                 created_by: user.id
             },
@@ -36,17 +36,19 @@ export class CompaniesService {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getCompanyById(id: string, user: UserEntity): Promise<any>{
-        const company = await this.companyRepo.findOne({ 
+        console.log(user)
+        const result = await this.companyRepo.findOne({ 
             where: { 
                 id,
                 created_by:user.id
             } 
         })
-        if(company){
-            return company
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`Company with ID '${id}' not found`)
         } 
