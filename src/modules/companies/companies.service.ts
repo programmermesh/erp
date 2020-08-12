@@ -39,6 +39,15 @@ export class CompaniesService {
         return { status: 'success', result }
     }
 
+    async explore(user:UserEntity): Promise<any>{
+        const result = await this.companyRepo.find({
+            order: {
+                createdAt: 'DESC'
+            }
+        });
+        return { status: 'success', result }
+    }
+
     async getCompanyById(id: string, user: UserEntity): Promise<any>{
         console.log(user)
         const result = await this.companyRepo.findOne({ 

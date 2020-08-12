@@ -1,5 +1,6 @@
-import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean} from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsEnum} from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { COMPANY_TYPE } from '../../../common/enum_values'
 
 export class UpdateCompanyDto {
     @ApiProperty({ description: 'This is the name of the company' })
@@ -139,9 +140,10 @@ export class UpdateCompanyDto {
     @ApiPropertyOptional()
     @IsString() readonly valuation_description?: string
 
-    @ApiProperty({ description: 'This field will describe the company type' })
-    @IsNotEmpty()
-    @IsOptional({ always: true })    
+    @ApiProperty({ description: 'This field will describe the company type', enum: COMPANY_TYPE})
+    @IsEnum(COMPANY_TYPE)
+    @IsOptional()
     @ApiPropertyOptional()
-    @IsString() readonly company_type?: string
+    @IsNotEmpty()
+    readonly company_type: COMPANY_TYPE
 }

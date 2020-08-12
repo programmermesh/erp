@@ -24,6 +24,16 @@ export class CompaniesController {
         return this.companiesService.getCompanies(req.user)
     }
 
+    @Get('/explore/search')    
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Explore companies', description: 'This will be used to get a list of companies under the explor page'  })
+    @ApiResponse({ status: 200, description: 'List of companies fetching successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    explore(@Request() req) {
+        return this.companiesService.explore(req.user)
+    }
+
     @Get('/:id')
     @UseGuards(AuthGuard)
     @ApiBearerAuth()

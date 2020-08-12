@@ -1,5 +1,6 @@
-import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsUUID, IsArray} from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsUUID, IsArray, IsEnum} from 'class-validator'
 import { ApiProperty, ApiPropertyOptional, ApiBearerAuth } from '@nestjs/swagger'
+import { COMPANY_TYPE } from '../../../common/enum_values'
 
 export class CreateCompanyDto {
     @ApiProperty({ description: 'This is the user id ' })
@@ -69,6 +70,13 @@ export class CreateCompanyDto {
     @ApiPropertyOptional()
     @IsOptional({ always: true })
     @IsArray() readonly business_stages: any
+
+    @ApiProperty({ description: 'This field will describe the company type', enum: COMPANY_TYPE})
+    @IsEnum(COMPANY_TYPE)
+    @IsOptional()
+    @ApiPropertyOptional()
+    @IsNotEmpty()
+    readonly company_type: COMPANY_TYPE
 
     /*
      customer_segments: [],

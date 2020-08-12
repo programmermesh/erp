@@ -1,4 +1,5 @@
 import { Entity, Column , OneToMany,  ManyToOne } from 'typeorm'
+import { COMPANY_TYPE } from '../../common/enum_values'
 import { AbstractEntity } from '../../common/abstract.entity'
 import { UserEntity } from '../users/user.entity'
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
@@ -100,8 +101,12 @@ export class CompanyEntity extends AbstractEntity{
     @Column('text', { nullable: true})
     valuation_description?: string
 
-    @Column({ type: 'varchar', length: 200, nullable: true})
-    company_type?: string
+    @Column({
+        type: 'enum',
+        enum: COMPANY_TYPE,
+        default: COMPANY_TYPE.business
+      })
+      company_type: COMPANY_TYPE
 
     @Column({ type: 'varchar', length: 200, nullable: true })
     updated_by?: string

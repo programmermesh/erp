@@ -52,4 +52,11 @@ export enum FILETYPE {
     market_potential_file_url = 'market_potential_file_url',
     user_profile_photo = 'user_profile_photo'
 }
+
+export enum COMPANY_TYPE {
+    business = 'business',
+    hub = 'hub',
+    incubator = 'incubator',
+    investor = 'investor'
+}
   
