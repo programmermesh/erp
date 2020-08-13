@@ -20,6 +20,6 @@ export class SustainableGoalEntity extends AbstractEntity {
     position: number
     
     /* One sustainable goal can be assigned to many companies */
-    @OneToMany( type => CompanySustainableGoalsEntity, sustainable_goal => sustainable_goal.company )
+    @OneToMany( type => CompanySustainableGoalsEntity, system_data => system_data.sustainable_goal )
     companies: CompanySustainableGoalsEntity[]
 }

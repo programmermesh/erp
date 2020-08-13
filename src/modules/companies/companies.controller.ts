@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ValidParamId } from '../../common/valid-param-id.dto'
 import { CreateCompanyDto } from './dto/create-company.dto'
 import { UpdateCompanyDto } from './dto/update-company.dto'
+import { PaginationDto } from './dto/pagination.dto'
 import { CompaniesService } from './companies.service'
 import { AuthGuard } from '../../common/guards'
 
@@ -20,7 +21,9 @@ export class CompaniesController {
     @ApiOperation({ summary: 'Get all companies under the user', description: 'This will be used to get a list of companies under the current user'  })
     @ApiResponse({ status: 200, description: 'List of companies fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    get(@Request() req) {
+    get(
+        @Request() req,
+    ) {
         return this.companiesService.getCompanies(req.user)
     }
 
@@ -30,8 +33,17 @@ export class CompaniesController {
     @ApiOperation({ summary: 'Explore companies', description: 'This will be used to get a list of companies under the explor page'  })
     @ApiResponse({ status: 200, description: 'List of companies fetching successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
-    explore(@Request() req) {
-        return this.companiesService.explore(req.user)
+    explore(
+        @Request() req,
+        @Query() paginationDto: PaginationDto
+    ) {
+        paginationDto.page = Number(paginationDto.page)
+        paginationDto.limit = Number(paginationDto.limit)
+        console.log(paginationDto)
+        return this.companiesService.explore({
+            ...paginationDto,
+            limit: paginationDto.limit > 10 ? 10: paginationDto.limit
+        })
     }
 
     @Get('/:id')

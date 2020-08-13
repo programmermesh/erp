@@ -10,7 +10,7 @@ import { CompanyCustomerSegmentDetailsEntity } from '../companies-customer-segme
 export class CompanyCustomerSegmentsEntity extends AbstractEntity {
     
     /* Many companies_customers_segments can belong to one customer_segment*/
-    @ManyToOne( type => CustomerSegmentEntity, customer_segment => customer_segment.company )
+    @ManyToOne( type => CustomerSegmentEntity, customer_segment => customer_segment.system_data )
     customer_segment: CustomerSegmentEntity
         
     /* Many customer_segments can belong to one company */

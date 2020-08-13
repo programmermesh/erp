@@ -13,8 +13,8 @@ export class BusinessStagesEntity extends AbstractEntity {
   description: string
 
     /* One business_stage can have many company_business_stages assigned to it */
-  @OneToMany( type => CompanyBusinessStagesEntity, business_stage => business_stage.company )
-  companies: CompanyBusinessStagesEntity[]
+  @OneToMany( type => CompanyBusinessStagesEntity, system_data => system_data.business_stage )
+  system_data: CompanyBusinessStagesEntity[]
 }
 
 /**

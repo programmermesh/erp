@@ -15,6 +15,6 @@ export class BusinessSectorsEntity extends AbstractEntity {
     description: string
 
     /* One business_sector can be in many company_business_sectors */
-    @OneToMany( type => CompanyBusinessSectorsEntity, business_sector => business_sector.business_sector )
-    company: CompanyBusinessSectorsEntity[]
+    @OneToMany( type => CompanyBusinessSectorsEntity, system_data => system_data.business_sector )
+    system_data: CompanyBusinessSectorsEntity[]
 }

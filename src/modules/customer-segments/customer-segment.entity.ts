@@ -24,8 +24,8 @@ export class CustomerSegmentEntity extends AbstractEntity  {
     description: string
 
     /* One customer segment can have many company assigned to it*/
-    @OneToMany( type => CompanyCustomerSegmentsEntity, company => company.customer_segment )
-    company: CompanyCustomerSegmentsEntity[] 
+    @OneToMany( type => CompanyCustomerSegmentsEntity, system_data => system_data.customer_segment )
+    system_data: CompanyCustomerSegmentsEntity[] 
 }
 
 /**

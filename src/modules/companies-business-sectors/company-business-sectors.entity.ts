@@ -8,7 +8,7 @@ import { BusinessSectorsEntity } from '../business-sectors/business-sectors.enti
 export class CompanyBusinessSectorsEntity extends AbstractEntity {
     
     /* Many companies_business_sector can belong to one business_sector*/
-    @ManyToOne( type => BusinessSectorsEntity, business_sector => business_sector.company )
+    @ManyToOne( type => BusinessSectorsEntity, business_sector => business_sector.system_data )
     business_sector: BusinessSectorsEntity
         
     /* Many customer_segments can belong to one company */

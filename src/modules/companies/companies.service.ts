@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 
 import { CompanyEntity as Company } from './company.entity'
 import { CreateCompanyDto } from './dto/create-company.dto'
 import { UpdateCompanyDto } from './dto/update-company.dto'
+
 import { UserEntity } from '../users/user.entity'
 import { CompanyCustomerSegmentsEntity as CompanyCustomerSegment } from '../companies-customer-segments/company-customer-segments.entity'
 import { CustomerSegmentEntity as CustomerSegment } from '../customer-segments/customer-segment.entity'
@@ -12,6 +13,7 @@ import { CompanyBusinessStagesEntity as CompanyBusinessStage } from '../companie
 import { BusinessStagesEntity as BusinessStage } from '../business-stages/business-stages.entity'
 import { BusinessSectorsEntity as BusinessSector } from '../business-sectors/business-sectors.entity'
 import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from '../companies-business-sectors/company-business-sectors.entity'
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class CompaniesService {
@@ -39,13 +41,51 @@ export class CompaniesService {
         return { status: 'success', result }
     }
 
-    async explore(user:UserEntity): Promise<any>{
-        const result = await this.companyRepo.find({
-            order: {
-                createdAt: 'DESC'
-            }
-        });
-        return { status: 'success', result }
+    async explore(paginationDto: PaginationDto): Promise<any>{
+        const skippeditems = (paginationDto.page - 1) * paginationDto.limit
+
+        //const totalCount = await this.companyRepo.count()
+        const totalCount = await this.companyRepo.createQueryBuilder('company')
+            .where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+            .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+            .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+            .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+            .leftJoinAndSelect("company.created_by", "company_owner")                      
+            .leftJoinAndSelect("company.business_sectors", "company_business_sectors")
+            .leftJoinAndSelect('company_business_sectors.business_sector',"system_business_sector")
+            .leftJoinAndSelect("company.business_stages", "company_business_stages")
+            .leftJoinAndSelect('company_business_stages.business_stage',"system_business_stage")
+            .leftJoinAndSelect("company.customer_segments", "company_customer_segements")
+            .leftJoinAndSelect('company_customer_segements.customer_segment',"system_customer_segment")
+            .getCount()
+        
+
+        const result = await this.companyRepo.createQueryBuilder('company')
+            .where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+            .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+            .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+            .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+            .leftJoinAndSelect('company.created_by', 'company_owner')                      
+            .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+            .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+            .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+            .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+            .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+            .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+            // .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            // .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .orderBy('company.createdAt', 'DESC')           
+            .skip(skippeditems)
+            .take(paginationDto.limit)           
+            .getMany()
+            
+        return { 
+            status: 'success', 
+            result,
+            page: paginationDto.page,
+            limit: paginationDto.limit,
+            totalCount
+        }
     }
 
     async getCompanyById(id: string, user: UserEntity): Promise<any>{

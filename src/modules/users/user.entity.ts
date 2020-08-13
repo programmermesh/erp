@@ -18,7 +18,7 @@ export class UserEntity extends AbstractEntity {
     surname: string
 
     @Exclude()
-    @Column('varchar', { length: 255})
+    @Column({select: false, type: 'varchar', length: 255})
     password: string
 
     @Column('varchar', { length: 255 ,nullable: true})

@@ -11,14 +11,18 @@ export class AuthRepository extends Repository<UserEntity> {
     async validateUserPassword(loginDto: LoginDto): Promise<any>{
         this.logger.debug(`Validating a user email and password`)  
 
-        const user = await this.findOne({ 
-            where: {
-                email: loginDto.email
-            }
-            })        
+        // const user = await this.findOne({ 
+        //     where: {
+        //         email: loginDto.email
+        //     }
+        //     }) 
+        const user = await this.createQueryBuilder('row')
+            .addSelect('row.password')
+            .where('row.email = :name', {name: loginDto.email})
+            .getOne();       
         if(user && ( await this.passwordsAreEqual(user.password, loginDto.password) )){
-            const { password, ...result } = user
-            return result
+            //const { password, ...result } = user
+            return user
         }else{
             return null
         }

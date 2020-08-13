@@ -17,7 +17,7 @@ export class CompanySustainableGoalsEntity extends AbstractEntity {
     active: boolean
     
     /* Many companies_sustainable_goals can belong to one sustainable_goal*/
-    @ManyToOne( type => SustainableGoalEntity, sustainable_goal => sustainable_goal.companies )
+    @ManyToOne( type => SustainableGoalEntity, system_data => system_data.companies )
     sustainable_goal: SustainableGoalEntity
         
     /* Many sustainable_goals can belong to one company */
