@@ -30,14 +30,27 @@ export class CompaniesService {
     private logger = new Logger('Company service')
     
     async getCompanies(user:UserEntity): Promise<any>{
-        const result = await this.companyRepo.find({
+        const result = await this.companyRepo.createQueryBuilder('company')
+            .where("company.created_by = :owner", {owner: user.id })
+            // .leftJoinAndSelect('company.created_by', 'company_owner')                      
+            .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+            .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+            .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+            .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+            .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+            .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+            .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .orderBy('company.createdAt', 'DESC')              
+            .getMany()
+        /*const result = await this.companyRepo.find({
             where:{
                 created_by: user.id
             },
             order: {
                 createdAt: 'DESC'
             }
-        });
+        });*/
         return { status: 'success', result }
     }
 
@@ -173,7 +186,7 @@ export class CompaniesService {
                     }                 
                 }
 
-                delete result.created_by.password
+                //delete result.created_by.password
                 let final_result = { ...result, business_sectors_result, business_stages_result, customer_segments_result }  
                 return { status: 'success', result: final_result }
             } catch(error){

@@ -48,7 +48,6 @@ export class CompaniesConnectionGroupsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,
         @Request() req,
         @Body() createConnectionGroupsDto: CreateConnectionGroupsDto
     ) {
@@ -77,7 +76,7 @@ export class CompaniesConnectionGroupsController {
         )
     }
 
-    @Patch('/:id/upload_cover_photo')
+    @Post('/:id/upload_cover_photo')
     @ApiOperation({ summary: 'Upload a company connection group', description: 'This will be used to update a company connection group image using the ID ' })
     @ApiResponse({ status: 200, description: 'Upload the company connection group Image successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})

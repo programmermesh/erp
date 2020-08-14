@@ -3,12 +3,14 @@ import { CompaniesConnectionGroupsController } from './companies-connection-grou
 import { CompaniesConnectionGroupsService } from './companies-connection-groups.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConnectionGroupsEntity } from './connection-groups.entity'
+import { ConnectionGroupsCategoryEntity } from '../companies-connection-groups-categories/company-connection-group-category.entity'
 import { CompanyEntity } from '../companies/company.entity'
 
 @Module({
   imports:[TypeOrmModule.forFeature([
     ConnectionGroupsEntity,
-    CompanyEntity
+    CompanyEntity,
+    ConnectionGroupsCategoryEntity
   ])],
   controllers: [CompaniesConnectionGroupsController],
   providers: [CompaniesConnectionGroupsService]
