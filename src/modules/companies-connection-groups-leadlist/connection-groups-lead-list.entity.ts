@@ -15,6 +15,11 @@ export class ConnectionGroupsLeadListEntity extends AbstractEntity {
     @ManyToOne(type => LeadListEntity, lead_list => lead_list.connection_groups_lead_lists)
     lead_list: LeadListEntity
 
+    /****
+     * I WILL CONSOLIDATE THE LEADLIST TABLE WITH THE CONNECTION GROUPS LEADLIST
+     * 
+     * ****/
+
     /* A lead list can be in many connection groups  */
     @ManyToOne(type => ConnectionGroupsCategoryEntity, lead_list => lead_list.connection_groups_lead_lists)
     connection_group_category: ConnectionGroupsCategoryEntity

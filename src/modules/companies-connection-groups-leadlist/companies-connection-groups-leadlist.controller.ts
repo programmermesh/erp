@@ -22,8 +22,6 @@ export class CompaniesConnectionGroupsLeadlistController {
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     get(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,
-        @Param('connection_groupId') connection_groupId: string,
         @Request() req
     ) {
         return this.companiesConnectionGroupsLeadlistService.getAll(params,req.user)
@@ -35,9 +33,6 @@ export class CompaniesConnectionGroupsLeadlistController {
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     getById(
         @Param() params: ValidParamId,
-        @Param('id') id: string,
-        @Param('companyId') companyId: string,
-        @Param('connection_groupId') connection_groupId: string,
         @Request() req
     ){
         return this.companiesConnectionGroupsLeadlistService.getById(params,req.user)
@@ -49,8 +44,6 @@ export class CompaniesConnectionGroupsLeadlistController {
     @ApiResponse({ status: 403, description: 'Forbidden.'})
     create(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,
-        @Param('connection_groupId') connection_groupId: string,
         @Request() req,
         @Body() createConnectionGroupsLeadListDto: CreateConnectionGroupsLeadListDto
     ) {
