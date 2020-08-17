@@ -36,7 +36,7 @@ export class CompaniesConnectionGroupsService {
             order: {
                 createdAt: 'DESC'
             },
-            relations:['categories']
+            relations:['categories', 'connection_groups_lead_lists']
         });
         
         return { status: 'success', result }

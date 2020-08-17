@@ -22,6 +22,7 @@ import { NetworkConversationEntity } from '../companies-conversations/company-co
 import { CompanyRelationEntity } from '../companies-relations/company-relation.entity'
 import { CompetitorEntity } from '../companies-competitions/competitor.entity'
 import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
+import { ConnectionGroupsLeadListEntity } from '../companies-connection-groups-leadlist/connection-groups-lead-list.entity' /*THIS IS THE LEADLIST TABLE*/
 
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
@@ -152,13 +153,17 @@ export class CompanyEntity extends AbstractEntity{
     @OneToMany( type => ConnectionGroupsEntity, connection_group => connection_group.company)
     connection_groups: ConnectionGroupsEntity[]
 
-    /* One company can have many lead list */
-    @OneToMany( type => LeadListEntity, lead_list => lead_list.main_company)
-    lead_lists: LeadListEntity[]
+    /* One company can be added as a lead list by many other companies (have any leadlist entties) */
+    @OneToMany( type => ConnectionGroupsLeadListEntity, lead_list => lead_list.lead_list_company)
+    lead_lists: ConnectionGroupsLeadListEntity[]
+
+    // /* One company can have many lead list */
+    // @OneToMany( type => LeadListEntity, lead_list => lead_list.main_company)
+    // lead_lists: LeadListEntity[]
     
-    /* One company can have many entities as a lead company */
-    @OneToMany( type => LeadListEntity, lead_list => lead_list.added_lead_company)
-    lead_lists_company: LeadListEntity[]
+    // /* One company can have many entities as a lead company */
+    // @OneToMany( type => LeadListEntity, lead_list => lead_list.added_lead_company)
+    // lead_lists_company: LeadListEntity[]
 
     /* One compnay can have many milestones */
     @OneToMany( type => CompanyMilestonesEntity, company_milestones => company_milestones.milestone_archived)

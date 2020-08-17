@@ -57,7 +57,7 @@ export class CompanyConnectionGroupsCategoriesService {
         }else{   
             try {    
                 const newEntry = new ConnectionGroupCategory()
-                newEntry.name = newData.name
+                newEntry.name = newData.name.toUpperCase()
                 newEntry.connection_group = await this.connectionGroupRepo.findOne(params.connection_groupId)                 
 
                 const result = await this.companyConnectionGroupCategoryRepo.save(newEntry)

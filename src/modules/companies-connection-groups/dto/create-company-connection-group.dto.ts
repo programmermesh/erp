@@ -9,7 +9,6 @@ export class CreateConnectionGroupsDto {
 
     @ApiProperty({ description: 'This is the notes about the group'})
     @IsString()
-    @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
     readonly notes: string

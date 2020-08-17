@@ -54,6 +54,22 @@ export class CompaniesConnectionGroupsLeadlistController {
         )
     }
 
+    @Patch('/:id')
+    @ApiOperation({summary: 'Update a company connection group leadlist', description: 'This will be used to update a company connection group leadlist the will be used in the system but restricted to super admin' })
+    @ApiResponse({ status: 200, description: 'Updating leadlist successful.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    update(
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() createConnectionGroupsLeadListDto: CreateConnectionGroupsLeadListDto
+    ) {
+        return this.companiesConnectionGroupsLeadlistService.update(
+            params,
+            req.user,
+            createConnectionGroupsLeadListDto
+        )
+    }
+
     
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company connection group leadlist', description: 'This will be used to delete a company connection group leadlist but restricted to super admin only' })
