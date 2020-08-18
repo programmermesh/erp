@@ -29,6 +29,7 @@ export class CompaniesConnectionGroupsController {
         return this.companiesConnectionGroupsService.getAll(params,req.user)
     }
 
+
     @Get('/:id')
     @ApiOperation({ summary: 'Get a company connection groups' , description: 'This will be used to get the a company connection groups using the ID' })
     @ApiResponse({ status: 200, description: 'company connection groups fetching successful.'})
