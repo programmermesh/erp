@@ -17,7 +17,7 @@ import { AccessTypesModule } from './modules/access-types/access-types.module';
 import { SustainableGoalsModule } from './modules/sustainable-goals/sustainable-goals.module';
 import { CompaniesSustainableGoalsModule } from './modules/companies-sustainable-goals/companies-sustainable-goals.module';
 import { CompaniesPhotosModule } from './modules/companies-photos/companies-photos.module';
-import { CompaniesConnectionsModule } from './modules/companies-connections/companies-connections.module';
+import { CompaniesConnectionsModule } from './modules/companies-network/companies-networks.module';
 import { CompaniesMilestonesModule } from './modules/companies-milestones/companies-milestones.module';
 import { RiskAnalysisModule } from './modules/companies-risks/risk-analysis/risk-analysis.module';
 import { RiskAssessmentsModule } from './modules/companies-risks/risk-assessments/risk-assessments.module';

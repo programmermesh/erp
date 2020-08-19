@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CompaniesConnectionsService } from './companies-connections.service';
+import { CompaniesConnectionsService } from './companies-networks.service';
 
 describe('CompaniesConnectionsService', () => {
   let service: CompaniesConnectionsService;

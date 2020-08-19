@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CompaniesConnectionsController } from './companies-connections.controller';
+import { CompaniesConnectionsController } from './companies-networks.controller';
 
 describe('CompaniesConnections Controller', () => {
   let controller: CompaniesConnectionsController;

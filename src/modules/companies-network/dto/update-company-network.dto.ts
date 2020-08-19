@@ -8,7 +8,7 @@ export class UpdateCompanyConnectionkDto {
     @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
-    readonly role: string
+    readonly reason: string
 
     @ApiProperty({ description: 'This is the message that will be sent to a company ' })
     @IsString()
@@ -20,7 +20,6 @@ export class UpdateCompanyConnectionkDto {
     @ApiProperty({ description: 'This is the status of the invite the company sent', enum: COMPANY_NETWORK_INVITES_STATUS })
     @IsEnum(COMPANY_NETWORK_INVITES_STATUS)
     @IsNotEmpty()    
-    @IsNotEmpty()
     @IsOptional()
     readonly invitation_status: COMPANY_NETWORK_INVITES_STATUS
 }

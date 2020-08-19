@@ -1,18 +1,19 @@
-import { Entity, Column, ManyToOne } from 'typeorm'
+import { Entity, Column, ManyToOne, Index } from 'typeorm'
 
 import { AbstractEntity } from '../../common/abstract.entity'
 import { CompanyEntity } from '../companies/company.entity'
 import { COMPANY_NETWORK_INVITES_STATUS } from '../../common/enum_values'
 
-@Entity('company_networks')
+@Entity('company_network_connections')
 export class CompanyNetworksEntity extends AbstractEntity {
     
-    @Column('varchar', { length: 100 })
-    role: string
+    @Column('varchar', { length: 500 })
+    reason: string
 
     @Column('text')
     message: string
 
+    @Index()
     @Column({
       type: 'enum',
       enum: COMPANY_NETWORK_INVITES_STATUS,

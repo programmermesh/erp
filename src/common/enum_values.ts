@@ -40,7 +40,7 @@ export enum RISK_ASSESSTMENT_TYPE {
 export enum COMPANY_NETWORK_INVITES_STATUS {
     pending = 'pending',
     accepted = 'accepted',
-    denied = 'denied'
+    denied = 'declined'
 }
 
 //file field names according to how they are in the tables

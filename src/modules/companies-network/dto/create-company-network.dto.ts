@@ -5,7 +5,7 @@ export class CreateCompanyConnectionkDto {
     @ApiProperty({ description: 'This is the role that the company will have in the network' })
     @IsString()
     @IsNotEmpty()
-    readonly role: string
+    readonly reason: string
 
     @ApiProperty({ description: 'This is the message that will be sent to a company ' })
     @IsString()
