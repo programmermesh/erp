@@ -24,7 +24,7 @@ export class CompaniesConnectionsController {
         @Param() params: ValidParamId,
         @Request() req,
         @Query() searchDto: SearchDto
-    ) {
+    ) {        
         return this.companiesConnectionsService.getAll(params,searchDto, req.user)
     }
 
@@ -81,8 +81,6 @@ export class CompaniesConnectionsController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
-        @Param('id') id: string,
-        @Param('companyId') companyId: string,
         @Request() req,
         @Body() updateCompanyConnectionkDto: UpdateCompanyConnectionkDto
     ) {

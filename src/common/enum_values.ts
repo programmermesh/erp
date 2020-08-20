@@ -59,4 +59,9 @@ export enum COMPANY_TYPE {
     incubator = 'incubator',
     investor = 'investor'
 }
+
+export enum CONNECTION_TYPE {
+    incoming = 'incoming',
+    outgoing = 'outgoing'
+}
   

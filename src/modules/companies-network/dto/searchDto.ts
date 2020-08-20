@@ -1,5 +1,6 @@
-import { IsNumber, IsNotEmpty, IsOptional } from "class-validator";
+import { IsNumber, IsNotEmpty, IsOptional, IsEnum } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { CONNECTION_TYPE } from '../../../common/enum_values'
 
 export class SearchDto {
     @ApiProperty({ description: 'This is the page number' })
@@ -19,4 +20,10 @@ export class SearchDto {
     @ApiPropertyOptional()
     @IsOptional()
     connection_status: string
+
+    @ApiProperty({ description: 'This is IN for incoming requests and OUT for outcoming requests', default: CONNECTION_TYPE.outgoing })
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsEnum(CONNECTION_TYPE)
+    connection_type: string
 }
