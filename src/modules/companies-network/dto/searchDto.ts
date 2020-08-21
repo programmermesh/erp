@@ -21,7 +21,7 @@ export class SearchDto {
     @IsOptional()
     connection_status: string
 
-    @ApiProperty({ description: 'This is IN for incoming requests and OUT for outcoming requests', default: CONNECTION_TYPE.outgoing })
+    @ApiProperty({ description: 'This is "incoming" for incoming requests and "outgoing" for outcoming requests', default: CONNECTION_TYPE.outgoing })
     @ApiPropertyOptional()
     @IsOptional()
     @IsEnum(CONNECTION_TYPE)
