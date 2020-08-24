@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, Brackets } from 'typeorm';
 
 import { CompanyEntity as Company } from './company.entity'
 import { CreateCompanyDto } from './dto/create-company.dto'
@@ -41,28 +41,28 @@ export class CompaniesService {
             .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
             .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
             .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
             .orderBy('company.createdAt', 'DESC')              
             .getMany()
-        /*const result = await this.companyRepo.find({
-            where:{
-                created_by: user.id
-            },
-            order: {
-                createdAt: 'DESC'
-            }
-        });*/
+        
         return { status: 'success', result }
     }
 
-    async explore(paginationDto: PaginationDto): Promise<any>{
+    async explore(paginationDto: PaginationDto, user: UserEntity): Promise<any>{
         const skippeditems = (paginationDto.page - 1) * paginationDto.limit
 
         //const totalCount = await this.companyRepo.count()
         const totalCount = await this.companyRepo.createQueryBuilder('company')
-            .where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
-            .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
-            .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
-            .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+            .where('company.created_by != :id', { id: user.id} )
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                })
+            )       
             .leftJoinAndSelect("company.created_by", "company_owner")                      
             .leftJoinAndSelect("company.business_sectors", "company_business_sectors")
             .leftJoinAndSelect('company_business_sectors.business_sector',"system_business_sector")
@@ -70,14 +70,21 @@ export class CompaniesService {
             .leftJoinAndSelect('company_business_stages.business_stage',"system_business_stage")
             .leftJoinAndSelect("company.customer_segments", "company_customer_segements")
             .leftJoinAndSelect('company_customer_segements.customer_segment',"system_customer_segment")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
             .getCount()
         
 
-        const result = await this.companyRepo.createQueryBuilder('company')
-            .where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
-            .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
-            .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
-            .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+        const result = await this.companyRepo.createQueryBuilder('company')            
+            .where('company.created_by != :id', { id: user.id} )
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                })
+            )
             .leftJoinAndSelect('company.created_by', 'company_owner')                      
             .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
             .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
@@ -85,8 +92,10 @@ export class CompaniesService {
             .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
             .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
             .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
-            // .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
-            // .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
             .orderBy('company.createdAt', 'DESC')           
             .skip(skippeditems)
             .take(paginationDto.limit)           
@@ -114,6 +123,24 @@ export class CompaniesService {
         }else{
             throw new NotFoundException(`Company with ID '${id}' not found`)
         } 
+    }
+
+    private async getCompanyProfileById(company: Company, user:UserEntity) {
+        const result = await this.companyRepo.createQueryBuilder('company')
+            .where("company.created_by = :owner", {owner: user.id })
+            .andWhere("company.id = :id", { id: company.id})                      
+            .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+            .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+            .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+            .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+            .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+            .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+            .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')              
+            .getOne()   
+        return result     
     }
 
     //async createCompany(companyData: CreateCompanyDto, user: UserEntity): Promise<any>{
@@ -153,37 +180,43 @@ export class CompaniesService {
                 //save the customer segments
                 let customer_segments_result = []
                 if(companyData.customer_segments.length > 0){
-                    for (const [idx, element] of companyData.customer_segments.entries()) {
-                        const newEntry = new CompanyCustomerSegment()
-                        newEntry.company = result
-                        newEntry.customer_segment = element
-                        const newResult = await this.companyCustomerSegmentRepo.save(newEntry)
-                        customer_segments_result.push(newResult)
-                    }                    
+                    // for (const [idx, element] of companyData.customer_segments.entries()) {
+                    //     const newEntry = new CompanyCustomerSegment()
+                    //     newEntry.company = result
+                    //     newEntry.customer_segment = element
+                    //     const newResult = await this.companyCustomerSegmentRepo.save(newEntry)
+                    //     customer_segments_result.push(newResult)
+                    // }  
+                    let savedData = await this.saveCustomerSegments(result, companyData.customer_segments)
+                    customer_segments_result = [...savedData]                   
                 }
 
                 //save the business stages
                 let business_stages_result = []
                 if(companyData.business_stages.length > 0){
-                    for (const [idx, element] of companyData.business_stages.entries()) {
-                        const newEntry = new CompanyBusinessStage()
-                        newEntry.company = result
-                        newEntry.business_stage = element
-                        const newResult = await this.companyBusinessStageRepo.save(newEntry)
-                        business_stages_result.push(newResult)
-                    }                 
+                    // for (const [idx, element] of companyData.business_stages.entries()) {
+                    //     const newEntry = new CompanyBusinessStage()
+                    //     newEntry.company = result
+                    //     newEntry.business_stage = element
+                    //     const newResult = await this.companyBusinessStageRepo.save(newEntry)
+                    //     business_stages_result.push(newResult)
+                    // }     
+                    let savedData = await this.saveBusinessStages(result, companyData.business_stages)
+                    business_stages_result = [...savedData]            
                 }
 
                 //save the business sectors
                 let business_sectors_result = []
                 if(companyData.business_sectors.length > 0){
-                    for (const [idx, element] of companyData.business_sectors.entries()) {
-                        const newEntry = new CompanyBusinessSector()
-                        newEntry.company = result
-                        newEntry.business_sector = element
-                        const newResult = await this.companyBusinessSectorRepo.save(newEntry)  
-                        business_sectors_result.push(newResult)
-                    }                 
+                    // for (const [idx, element] of companyData.business_sectors.entries()) {
+                    //     const newEntry = new CompanyBusinessSector()
+                    //     newEntry.company = result
+                    //     newEntry.business_sector = element
+                    //     const newResult = await this.companyBusinessSectorRepo.save(newEntry)  
+                    //     business_sectors_result.push(newResult)
+                    // }    
+                    let savedData = await this.saveBusinessSectors(result, companyData.business_sectors)
+                    business_sectors_result = [...savedData]             
                 }
 
                 //delete result.created_by.password
@@ -196,8 +229,87 @@ export class CompaniesService {
         }
         
     }
+    private async saveBusinessSectors(company: Company, data: any) {
+        await this.companyBusinessSectorRepo.delete({company}) //DELETE ALL ENTRIES OF THAT COMPANY
+        let result = []
+        for (const [idx, element] of data.entries()) {
+            const newEntry = new CompanyBusinessSector()
+            newEntry.company = company
+            newEntry.business_sector = element
+            const newResult = await this.companyBusinessSectorRepo.save(newEntry)  
+            result.push(newResult)
+        }  
+        return result              
+    }
 
-    async updateCompany(id: string, updateData: UpdateCompanyDto): Promise<any>{
+    private async saveBusinessStages(company: Company, data: any) {
+        await this.companyBusinessStageRepo.delete({company}) //DELETE ALL ENTRIES OF THAT COMPANY
+        let result = []
+        for (const [idx, element] of data.entries()) {
+            const newEntry = new CompanyBusinessStage()
+            newEntry.company = company
+            newEntry.business_stage = element
+            const newResult = await this.companyBusinessStageRepo.save(newEntry)  
+            result.push(newResult)
+        }  
+        return result              
+    }
+
+    private async saveCustomerSegments(company: Company, data: any) {
+        await this.companyCustomerSegmentRepo.delete({company}) //DELETE ALL ENTRIES OF THAT COMPANY
+        let result = []
+        for (const [idx, element] of data.entries()) {
+            const newEntry = new CompanyCustomerSegment()
+            newEntry.company = company
+            newEntry.customer_segment = element
+            const newResult = await this.companyCustomerSegmentRepo.save(newEntry)
+            result.push(newResult)
+        }   
+        return result              
+    }
+
+    async updateCompany(id: string, updateData: UpdateCompanyDto, user: UserEntity): Promise<any>{
+        
+        const companyExists = await this.companyRepo.findOne({ 
+            where: { 
+                id,
+                created_by: user.id
+            } 
+        })
+        if(!companyExists){
+            throw new NotFoundException(`Company with ID '${id}' cannot be found `)
+        }
+
+        try {
+            this.companyRepo.merge(companyExists, updateData)
+            const result = await this.companyRepo.save(companyExists)
+            //save the customer segments
+            if(updateData.customer_segments && updateData.customer_segments.length > 0){
+                let savedData = await this.saveCustomerSegments(result, updateData.customer_segments)                
+            }
+
+            //save the business stages
+            if(updateData.business_stages && updateData.business_stages.length > 0){  
+                let savedData = await this.saveBusinessStages(result, updateData.business_stages)           
+            }
+
+            //save the business sectors
+            if(updateData.business_sectors && updateData.business_sectors.length > 0){    
+                let savedData = await this.saveBusinessSectors(result, updateData.business_sectors)            
+            }
+
+            //delete result.created_by.password
+            //let final_result = { ...result, business_sectors_result, business_stages_result, customer_segments_result }  
+            let final_result = await this.getCompanyProfileById(result, user)
+            return { status: 'success', result: final_result }
+        } catch (error) {
+            this.logger.error(error.message, error.stack)
+            throw new InternalServerErrorException()
+        }     
+    }
+    
+
+    async updateCompanyRegistration(id: string, updateData: UpdateCompanyDto): Promise<any>{
     //async updateCompany(id: string, updateData: UpdateCompanyDto, user: UserEntity): Promise<any>{
         
         const companyExists = await this.companyRepo.findOne({ 

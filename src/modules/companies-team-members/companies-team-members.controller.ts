@@ -1,5 +1,5 @@
 
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { AuthGuard } from '../../common/guards'
@@ -7,6 +7,7 @@ import { ValidParamId } from 'src/common/valid-param-id.dto';
 import { CompaniesTeamMembersService } from './companies-team-members.service'
 import { CreateCompanyTeamMemberDto } from './dto/create-company-team-member.dto'
 import { UpdateCompanyTeamMemberDto } from './dto/update-company-team-member.dto'
+import { SearchDto } from './dto/search.dto';
 
 @ApiTags('Company Team Members')
 @Controller('/companies/:companyId/team_members')
@@ -25,9 +26,10 @@ export class CompaniesTeamMembersController {
     get(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string,
-        @Request() req
+        @Request() req,
+        @Query() searchDto: SearchDto
     ) {
-        return this.companiesTeamMembersService.getAll(params, req.user)
+        return this.companiesTeamMembersService.getAll(params, searchDto, req.user)
     }
 
     // @Get('/:id')

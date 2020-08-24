@@ -11,6 +11,7 @@ import { UpdateCompanyTeamMemberDto } from './dto/update-company-team-member.dto
 import { AccessTypesEntity as AccessType } from '../access-types/access-types.entity'
 import { RolesEntity as Role } from '../companies-user-roles/roles.entity'
 import { sendMail } from '../../utils/sendEmail'
+import { SearchDto } from './dto/search.dto';
 
 @Injectable()
 export class CompaniesTeamMembersService {
@@ -24,26 +25,42 @@ export class CompaniesTeamMembersService {
     private logger = new Logger('CompanyTeamMembersService')
     private entity_prefix_name: string = 'Company Team Member'
     
-    async getAll(params: ValidParamId, user: User): Promise<CompanyTeamMember[]>{
+    async getAll(params: ValidParamId, searchDto: SearchDto, user: User): Promise<any>{
+
+        const skippeditems = (searchDto.page - 1) * searchDto.limit
         
-        return await this.companyTeamMemberRepo.find({
-            where: {
-                company: params.companyId,
-                created_by: user 
-            },            
-            order: {
-                createdAt: 'DESC'
-            },
-            relations: ['role', 'access_type']
-        });
+        const totalCount = await this.companyTeamMemberRepo.createQueryBuilder('company_team_members')
+            .where("company_team_members.company = :id", { id: params.companyId })                       
+            .leftJoinAndSelect('company_team_members.role', 'role')
+            .leftJoinAndSelect('company_team_members.user','userInfo')
+            .leftJoinAndSelect('company_team_members.access_type', 'access') 
+            .getCount()
+
+        const result = await this.companyTeamMemberRepo.createQueryBuilder('company_team_members')
+            .where("company_team_members.company = :id", { id: params.companyId })                    
+            .leftJoinAndSelect('company_team_members.role', 'role')
+            .leftJoinAndSelect('company_team_members.user','userInfo')
+            .leftJoinAndSelect('company_team_members.access_type', 'access')
+            .orderBy('company_team_members.createdAt', 'DESC')
+            .skip(skippeditems)
+            .take(searchDto.limit)               
+            .getMany()
+        
+        return {
+            status: 'success',
+            result,
+            page: searchDto.page,
+            limit: searchDto.limit,
+            totalCount
+        }
     }
 
     async getInvitationById(params: ValidParamId): Promise<any>{
 
-        const requestFound = await this.companyTeamMemberRepo.findOne(params.id)
+        const result = await this.companyTeamMemberRepo.findOne(params.id)
         
-        if(requestFound){
-            return requestFound
+        if(result){
+            return { result, status: 'success' }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} Invitation with ID '${params.id}' not found`)
         } 
@@ -91,7 +108,7 @@ export class CompaniesTeamMembersService {
                     const isAnewUser = false
                     this.sendInvitationEmail(result.id, newData.invite_email, params)
                     /*SENDING AN INVITATION EMAIL*/
-                    return { status: 'success', result:{ id:result.id, email: newData.invite_email } }
+                    return { status: 'success', result }
                 } catch (error) {
                     this.logger.error(error.message, error.stack)
                     throw new InternalServerErrorException()
@@ -117,7 +134,7 @@ export class CompaniesTeamMembersService {
                 const isAnewUser = true
                 this.sendInvitationEmail(result.id, newData.invite_email, params, isAnewUser)
                 /*SENDING AN INVITATION EMAIL*/
-                return { status: 'success', result:{ id:result.id, email: newData.invite_email } }
+                return { status: 'success', result }
             } catch (error) {
                 this.logger.error(error.message, error.stack)
                 throw new InternalServerErrorException()
@@ -168,15 +185,13 @@ export class CompaniesTeamMembersService {
     }
 
     private async findOneEntityById(params: ValidParamId, user: User){
-        const requestFound = await this.companyTeamMemberRepo.findOne({
-            where: { 
-                id: params.id, 
-                company: { 
-                    id: params.companyId , 
-                    created_by: user 
-                } 
-            }                    
-        })
+        const requestFound = await this.companyTeamMemberRepo.createQueryBuilder('company_team_members')
+        .where("company_team_members.company = :id", { id: params.companyId })
+        .andWhere('company_team_members.id = :id', { id: params.id })                    
+        .leftJoinAndSelect('company_team_members.role', 'role')
+        .leftJoinAndSelect('company_team_members.user','userInfo')
+        .leftJoinAndSelect('company_team_members.access_type', 'access')              
+        .getOne()
 
         return requestFound
     }

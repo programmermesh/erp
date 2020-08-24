@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsEnum} from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty, IsEmail, IsNumber, IsBoolean, IsEnum, IsArray} from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { COMPANY_TYPE } from '../../../common/enum_values'
 
@@ -146,4 +146,20 @@ export class UpdateCompanyDto {
     @ApiPropertyOptional()
     @IsNotEmpty()
     readonly company_type: COMPANY_TYPE
+
+    
+    @ApiProperty({ description: 'This is a field with the customer segments assigned to the company', default: [] })
+    @ApiPropertyOptional()
+    @IsOptional({ always: true })
+    @IsArray() readonly customer_segments: any
+
+    @ApiProperty({ description: 'This is a field with the business sectors assigned to the company', default: [] })
+    @ApiPropertyOptional()
+    @IsOptional({ always: true })
+    @IsArray() readonly business_sectors: any
+
+    @ApiProperty({ description: 'This is a field with the business stages assigned to the company', default: [] })
+    @ApiPropertyOptional()
+    @IsOptional({ always: true })
+    @IsArray() readonly business_stages: any
 }

@@ -39,11 +39,10 @@ export class CompaniesController {
     ) {
         paginationDto.page = Number(paginationDto.page)
         paginationDto.limit = Number(paginationDto.limit)
-        console.log(paginationDto)
         return this.companiesService.explore({
             ...paginationDto,
             limit: paginationDto.limit > 10 ? 10: paginationDto.limit
-        })
+        },req.user)
     }
 
     @Get('/:id')
@@ -71,31 +70,29 @@ export class CompaniesController {
         return this.companiesService.createCompany(createCompanyDto)
     }
 
-    // @UseGuards(AuthGuard)
-    // @ApiBearerAuth()
-    // @Patch('/:id')
-    // @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
-    // @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
-    // @ApiResponse({ status: 401, description: 'Unauthorized'})
-    // update(
-    //     //@Request() req,
-    //     @Param('id') id: string,
-    //     @Param() params: ValidParamId,
-    //     @Body() updateCompanyDto: UpdateCompanyDto
-    // ){
-    //     return this.companiesService.updateCompany(params.id,updateCompanyDto,req.user)
-    // }
-
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
     @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
-        @Param('id') id: string,
+        @Request() req,
         @Param() params: ValidParamId,
         @Body() updateCompanyDto: UpdateCompanyDto
     ){
-        return this.companiesService.updateCompany(params.id,updateCompanyDto)
+        return this.companiesService.updateCompany(params.id,updateCompanyDto,req.user)
+    }
+
+    @Patch('/:id/registration')
+    @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
+    @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
+    @ApiResponse({ status: 401, description: 'Unauthorized'})
+    updateRegistration(
+        @Param() params: ValidParamId,
+        @Body() updateCompanyDto: UpdateCompanyDto
+    ){
+        return this.companiesService.updateCompanyRegistration(params.id,updateCompanyDto)
     }
 
     @Patch('/:id/update_mission_vision')
