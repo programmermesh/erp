@@ -5,6 +5,7 @@ import { AuthGuard } from '../../common/guards'
 import { ValidParamId } from "../../common/valid-param-id.dto"
 import { CompaniesCustomerSegmentsService } from './companies-customer-segments.service'
 import { CreateCompanyCustomerSegmentDto } from './dto/create-comp-customer-segment.dto'
+import { BulkCompanyCustomerSegmentDto } from './dto/bulk-create-segment.dto'
 
 @ApiTags('Company Customer Segments')
 @Controller('/companies/:companyId/customer_segments')
@@ -39,6 +40,16 @@ export class CompaniesCustomerSegmentsController {
         @Body() createCompanyCustomerSegmentDto: CreateCompanyCustomerSegmentDto
     ){
         return this.companiesCustomerSegmentsService.create(params, req.user, createCompanyCustomerSegmentDto)
+    }
+
+    @Post('/bulk/data')
+    @ApiOperation({summary: 'Create multiple company customer segments', description: 'This will be used to create multiple new company customer segments ' })
+    createBulk( 
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() bulkCompanyCustomerSegmentDto: BulkCompanyCustomerSegmentDto
+    ){
+        return this.companiesCustomerSegmentsService.createBulk(params, req.user, bulkCompanyCustomerSegmentDto)
     }
 
     @Delete('/:id')

@@ -8,6 +8,7 @@ import { CompanyCustomerSegmentsEntity as CompanyCustomerSegment } from './compa
 import { UserEntity as User } from '../users/user.entity'
 import { CreateCompanyCustomerSegmentDto } from './dto/create-comp-customer-segment.dto'
 import { CustomerSegmentEntity as CustomerSegment } from '../customer-segments/customer-segment.entity'
+import { BulkCompanyCustomerSegmentDto } from './dto/bulk-create-segment.dto';
 
 
 @Injectable()
@@ -75,6 +76,45 @@ export class CompaniesCustomerSegmentsService {
             }
         }
         
+    }
+
+    // CRETING BULK CUSTOMER SEGMENTS
+    async createBulk(params: ValidParamId, user: User, newData: BulkCompanyCustomerSegmentDto): Promise<any>{
+        
+        /// First delete all the existing entried
+        const deleteExisting = await this.companyCustomerSegmentRepo.delete({
+            company: { 
+                id: params.companyId , 
+                created_by: user 
+            }
+        })
+
+        const company = await this.companyRepo.findOne(params.companyId)
+        try {
+            
+            let savedData = await this.saveCustomerSegments(company, newData.customer_segments)
+            return {
+                status: 'success',
+                result: savedData
+            }  
+        } catch(error){
+            this.logger.error(error.message, error.stack)
+            throw new InternalServerErrorException()
+        }
+        
+    }
+
+    private async saveCustomerSegments(company: Company, data: any) {
+        // await this.companyCustomerSegmentRepo.delete({company}) //DELETE ALL ENTRIES OF THAT COMPANY
+        let result = []
+        for (const element of data.entries()) {
+            const newEntry = new CompanyCustomerSegment()
+            newEntry.company = company
+            newEntry.customer_segment = await this.customerSegmentRepo.findOne(element.id)
+            const newResult = await this.companyCustomerSegmentRepo.save(newEntry)
+            result.push(newResult)
+        }   
+        return result              
     }
 
     

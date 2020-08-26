@@ -8,6 +8,7 @@ import { UserEntity as User } from '../users/user.entity'
 import { CreateCompanyBusinessStageDto } from './dto/create-company-business-stage.dto'
 import { CompanyBusinessStagesEntity as CompanyBusinessStage } from './company-business-stages.entity'
 import { BusinessStagesEntity as BusinessStage } from '../business-stages/business-stages.entity'
+import { BulkCompanyBusinessStagesDto } from './dto/bulk-create-business-stage.dto';
 
 @Injectable()
 export class CompaniesBusinessStagesService {
@@ -74,6 +75,45 @@ export class CompaniesBusinessStagesService {
             }
         }
         
+    }
+
+
+    // CRETING BULK BUSINESS STAGES
+    async createBulk(params: ValidParamId, user: User, newData: BulkCompanyBusinessStagesDto): Promise<any>{
+        
+        /// First delete all the existing entried
+        const deleteExisting = await this.companyBusinessStageRepo.delete({
+            company: { 
+                id: params.companyId , 
+                created_by: user 
+            }
+        })
+
+        const company = await this.companyRepo.findOne(params.companyId)
+        try {
+            
+            let savedData = await this.saveBusinessStages(company, newData.business_stages)
+            return {
+                status: 'success',
+                result: savedData
+            }  
+        } catch(error){
+            this.logger.error(error.message, error.stack)
+            throw new InternalServerErrorException()
+        }
+        
+    }
+
+    private async saveBusinessStages(company: Company, data: any) {        
+        let result = []
+        for (const [idx, element] of data.entries()) {
+            const newEntry = new CompanyBusinessStage()
+            newEntry.company = company
+            newEntry.business_stage = await this.businessStageRepo.findOne(element.id)
+            const newResult = await this.companyBusinessStageRepo.save(newEntry)  
+            result.push(newResult)
+        }  
+        return result              
     }
 
     

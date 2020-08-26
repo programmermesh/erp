@@ -15,11 +15,11 @@ export class CompaniesValuesService {
         @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
         @InjectRepository(CompanyValue) private readonly companyValueRepo: Repository<CompanyValue> 
     ){}
-    private logger = new Logger('CompaniesCostAndRevenuesService')
-    private entity_prefix_name: string = 'Company Costs and Revenues'
+    private logger = new Logger('CompaniesVeluese')
+    private entity_prefix_name: string = 'Company Values'
     
-    async getAll( params: ValidParamId, user: User ): Promise<CompanyValue[]>{
-        return await this.companyValueRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<any>{
+        const result = await this.companyValueRepo.find({
             select:[
                 "title" , "summary", "color_code",
                 "id","createdAt", "updatedAt"
@@ -34,12 +34,13 @@ export class CompaniesValuesService {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyCostAndRevenueById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.findCompanyCostAndRevenueById(params, user)
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 

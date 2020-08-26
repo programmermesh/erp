@@ -5,6 +5,7 @@ import { AuthGuard } from '../../common/guards'
 import {  ValidParamId } from "../../common/valid-param-id.dto";
 import { CompaniesBusinessSectorsService } from './companies-business-sectors.service'
 import { CreateCompanyBusinessSectorDto } from './dto/create-company-business-sector.dto'
+import { BulkCompanyBusinessSectorDto } from './dto/bulk-create.dto'
 
 @ApiTags('Company Business Sectors')
 @Controller('/companies/:companyId/business_sectors')
@@ -37,6 +38,16 @@ export class CompaniesBusinessSectorsController {
         @Body() createCompanyBusinessSectorDto: CreateCompanyBusinessSectorDto
     ){
         return this.companiesBusinessSectorsService.create(params,req.user,createCompanyBusinessSectorDto)
+    }
+
+    @Post('/bulk/data')
+    @ApiOperation({summary: 'Create bulk company business sector', description: 'This will be used to create bulk new company business sectors' })
+    createBulk(
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() bulkCompanyBusinessSectorDto: BulkCompanyBusinessSectorDto
+    ){
+        return this.companiesBusinessSectorsService.createBulk(params,req.user,bulkCompanyBusinessSectorDto)
     }
 
     @Delete('/:id')

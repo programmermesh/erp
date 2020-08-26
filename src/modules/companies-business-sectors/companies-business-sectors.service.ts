@@ -8,6 +8,7 @@ import { UserEntity as User } from '../users/user.entity'
 import { BusinessSectorsEntity as BusinessSector } from '../business-sectors/business-sectors.entity'
 import { CreateCompanyBusinessSectorDto } from './dto/create-company-business-sector.dto'
 import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from './company-business-sectors.entity'
+import { BulkCompanyBusinessSectorDto } from './dto/bulk-create.dto';
 
 @Injectable()
 export class CompaniesBusinessSectorsService {
@@ -76,6 +77,43 @@ export class CompaniesBusinessSectorsService {
         
     }
 
+    // CRETING BULK BUSINESS STAGES
+    async createBulk(params: ValidParamId, user: User, newData: BulkCompanyBusinessSectorDto): Promise<any>{
+        
+        /// First delete all the existing entried
+        const deleteExisting = await this.companyBusinessSectorRepo.delete({
+            company: { 
+                id: params.companyId , 
+                created_by: user 
+            }
+        })
+
+        const company = await this.companyRepo.findOne(params.companyId)
+        try {
+            
+            let savedData = await this.saveBusinessSector(company, newData.business_sectors)
+            return {
+                status: 'success',
+                result: savedData
+            }  
+        } catch(error){
+            this.logger.error(error.message, error.stack)
+            throw new InternalServerErrorException()
+        }
+        
+    }
+
+    private async saveBusinessSector(company: Company, data: any) {        
+        let result = []
+        for (const [idx, element] of data.entries()) {
+            const newEntry = new CompanyBusinessSector()
+            newEntry.company = company
+            newEntry.business_sector = await this.businessSectorRepo.findOne(element.id)
+            const newResult = await this.companyBusinessSectorRepo.save(newEntry)  
+            result.push(newResult)
+        }  
+        return result              
+    }
     
     async delete(params : ValidParamId, user: User): Promise<any>{
         const requestFound = await this.findOneEntityById(params,user)

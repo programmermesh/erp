@@ -5,6 +5,7 @@ import { AuthGuard } from '../../common/guards'
 import {  ValidParamId } from "../../common/valid-param-id.dto";
 import { CompaniesBusinessStagesService } from './companies-business-stages.service'
 import { CreateCompanyBusinessStageDto } from './dto/create-company-business-stage.dto'
+import { BulkCompanyBusinessStagesDto } from './dto/bulk-create-business-stage.dto'
 
 @ApiTags('Company Business Stages')
 @Controller('/companies/:companyId/business_stages')
@@ -40,6 +41,18 @@ export class CompaniesBusinessStagesController {
     ) {
         return this.companiesBusinessStagesService.create(params,req.user,createCompanyBusinessStageDto)
     }
+
+    // SAVE IN BULK
+    @Post('/bulk/data')
+    @ApiOperation({summary: 'Create multiple company business stages', description: 'This will be used to create multiple new company business stages using an array ' })
+    createBulk(
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Body() bulkCompanyBusinessStagesDto: BulkCompanyBusinessStagesDto
+    ) {
+        return this.companiesBusinessStagesService.createBulk(params,req.user,bulkCompanyBusinessStagesDto)
+    }
+
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company business stage', description: 'This will be used to delete a company business stage ' })
