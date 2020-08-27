@@ -20,28 +20,28 @@ export class CompaniesPitchDecksService {
     private logger = new Logger('CompaniesPitchDecksService')
     private entity_prefix_name: string = 'Company Pitch Deck'
     
-    async getAll( params: ValidParamId, user: User ): Promise<CompanyPitchDeck[]>{
-        return await this.companyPitchDeckRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<any>{
+        const result = await this.companyPitchDeckRepo.find({
             select: [
                 "title","type","notes","link", "pitch_decks_image",
                 "id","createdAt", "updatedAt"
             ],
             where: {
                 company:{
-                    id: params.companyId,
-                    created_by: user
+                    id: params.companyId
                 }
             },            
             order: {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompaniesPitchDeckById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.findCompaniesPitchDeckById(params, user)
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 
@@ -121,7 +121,7 @@ export class CompaniesPitchDecksService {
             const updateImage = await this.companyPitchDeckRepo.save(requestFound)
             return Promise.resolve({
                 status: 'success',
-                updateImage
+                result: updateImage
             }) 
         }
     }

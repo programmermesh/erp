@@ -80,7 +80,7 @@ export class CompaniesPitchDecksController {
         )
     }
 
-    @Patch('/:id/upload_cover_photo')
+    @Post('/:id/upload_cover_photo')
     @ApiOperation({summary: 'Upload a pitch deck cover photo', description: 'This will be used Upload a pitch deckcover photo using its ID' })
     @ApiResponse({ status: 200, description: 'Upload and update of the photo successful.'})
     @ApiResponse({ status: 401, description: 'Unauthorized'})
