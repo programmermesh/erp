@@ -64,4 +64,11 @@ export enum CONNECTION_TYPE {
     incoming = 'incoming',
     outgoing = 'outgoing'
 }
+
+export enum COMPETITORS_IMPORTANCE_LEVEL {
+    low = 'low',
+    moderate = 'moderate',
+    high = 'high',
+    severe = 'severe'
+}
   

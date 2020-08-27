@@ -18,8 +18,8 @@ export class CompaniesCompetitionsService {
     private logger = new Logger('CompaniesCompetitionsService')
     private entity_prefix_name: string = 'Company competitor'
     
-    async getAll( params: ValidParamId, user: User ): Promise<CompanyCompetitor[]>{
-        return await this.companyCompetitorRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<any>{
+        const result = await this.companyCompetitorRepo.find({
             select:[
                 "name" , "type", "point_of_differentiation", "details", "importance_level", "website" , 
                 "id","createdAt", "updatedAt"
@@ -34,12 +34,13 @@ export class CompaniesCompetitionsService {
                 createdAt: 'DESC'
             }
         });
+        return {status: 'success', result}
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyCostAndRevenueById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.findCompanyCostAndRevenueById(params, user)
+        if(result){
+            return {status: 'success', result}
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 
@@ -48,7 +49,8 @@ export class CompaniesCompetitionsService {
     async create(params: ValidParamId, user: User, newData: CreateCompanyCompetitorDto): Promise<any>{
         const requestFound = await this.companyCompetitorRepo.findOne({ 
             where: { 
-                title: newData.name,
+                name: newData.name,
+                type: newData.type,
                 company:{
                     id: params.companyId,
                     created_by: user
@@ -56,7 +58,7 @@ export class CompaniesCompetitionsService {
             } 
         })
         if(requestFound){
-            throw new NotFoundException(`${this.entity_prefix_name} with name '${newData.name}' already exists`)
+            throw new NotFoundException(`${this.entity_prefix_name} with name '${newData.name}' and same type already exists`)
         }else{   
             try {    
                 const newEntry = new CompanyCompetitor()
