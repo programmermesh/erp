@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsString, IsNotEmpty, IsEnum, IsNumber, IsBoolean } from "class-validator"
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { IsString, IsNotEmpty, IsEnum, IsNumber, IsBoolean, IsOptional, IsDate, IsDateString } from "class-validator"
 import { MONTHS_OF_THE_YEAR } from '../../../common/enum_values'
 
 export class CreateCompanyMilestoneDto {
@@ -13,18 +13,14 @@ export class CreateCompanyMilestoneDto {
     @IsNotEmpty()
     readonly description: string
 
-    @ApiProperty({ description: 'This is the month', enum: MONTHS_OF_THE_YEAR})
-    @IsEnum(MONTHS_OF_THE_YEAR)
+    @ApiProperty({ description: 'This is the year of milestone achievement'})
     @IsNotEmpty()
-    readonly month: MONTHS_OF_THE_YEAR
+    @IsDateString()
+    readonly achievement_date: Date
 
-    @ApiProperty({ description: 'This is the year'})
-    @IsNotEmpty()
-    @IsNumber()
-    readonly year: number
 
-    @ApiProperty({ description: 'This is the status of the milestone. True if archived and False if not archived'})
+    @ApiProperty({ description: 'This is the status of the milestone. True if archived and False if not achieved'})
     @IsBoolean()
     @IsNotEmpty()
-    readonly milestone_archived: boolean
+    readonly milestone_achieved: boolean
 }

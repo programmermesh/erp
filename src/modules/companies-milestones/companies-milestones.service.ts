@@ -18,12 +18,8 @@ export class CompaniesMilestonesService {
     private logger = new Logger('CompaniesMilestonesService')
     private entity_prefix_name: string = 'Company Milestone'
     
-    async getAll( params: ValidParamId, user: User ): Promise<CompanyMilestone[]>{
-        return await this.companyMilestoneRepo.find({
-            select:[
-                "id","title" , "description", "milestone_archived",
-                "createdAt", "updatedAt", "year", "month" 
-            ],
+    async getAll( params: ValidParamId, user: User ): Promise<any>{
+        const result = await this.companyMilestoneRepo.find({
             where: {
                 company:{
                     id: params.companyId,
@@ -31,15 +27,16 @@ export class CompaniesMilestonesService {
                 }
             },            
             order: {
-                createdAt: 'DESC'
+                achievement_date: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyMilestoneById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.findCompanyMilestoneById(params, user)
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 

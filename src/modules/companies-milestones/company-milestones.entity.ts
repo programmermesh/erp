@@ -11,19 +11,12 @@ export class CompanyMilestonesEntity extends AbstractEntity {
 
     @Column('text', { nullable: true })
     description: string
-    
-    @Column({
-      type: 'enum',
-      enum: MONTHS_OF_THE_YEAR,
-      default: MONTHS_OF_THE_YEAR.January
-    })
-    month: MONTHS_OF_THE_YEAR
-    
-    @Column('integer', { default: 2000})
-    year: number
+
+    @Column('date', {nullable: true })
+    achievement_date: Date
 
     @Column('boolean', { default: false})
-    milestone_archived: boolean
+    milestone_achieved: boolean
 
     /* Many connection groups can belong to one company */
     @ManyToOne(type => CompanyEntity, company => company.connection_groups )
