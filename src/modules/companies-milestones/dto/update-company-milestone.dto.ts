@@ -17,6 +17,13 @@ export class UpdateCompanyMilestoneDto {
     @IsNotEmpty()
     readonly description: string
 
+    @ApiProperty({ description: 'This is the category of the milestone'})
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional()
+    @IsNotEmpty()
+    readonly category: string
+
     @ApiProperty({ description: 'This is the year of milestone achievement'})
     @IsNotEmpty()
     @IsDateString()
@@ -24,7 +31,7 @@ export class UpdateCompanyMilestoneDto {
     @ApiPropertyOptional()
     readonly achievement_date: Date
 
-    @ApiProperty({ description: 'This is the status of the milestone. True if archived and False if not archived'})
+    @ApiProperty({ description: 'This is the status of the milestone. True if achieved and False if not archived'})
     @IsBoolean()
     @IsNotEmpty()
     @IsOptional()

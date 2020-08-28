@@ -12,6 +12,9 @@ export class CompanyMilestonesEntity extends AbstractEntity {
     @Column('text', { nullable: true })
     description: string
 
+    @Column('text', { nullable: true })
+    category: string
+
     @Column('date', {nullable: true })
     achievement_date: Date
 

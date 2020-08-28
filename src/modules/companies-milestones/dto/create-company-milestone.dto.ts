@@ -13,6 +13,13 @@ export class CreateCompanyMilestoneDto {
     @IsNotEmpty()
     readonly description: string
 
+    @ApiProperty({ description: 'This is the category of the milestone'})
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional()
+    @IsNotEmpty()
+    readonly category: string
+
     @ApiProperty({ description: 'This is the year of milestone achievement'})
     @IsNotEmpty()
     @IsDateString()
