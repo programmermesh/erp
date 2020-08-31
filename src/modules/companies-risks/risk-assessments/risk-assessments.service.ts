@@ -18,8 +18,8 @@ export class RiskAssessmentsService {
     private logger = new Logger('RiskAssessmentsService')
     private entity_prefix_name: string = 'Company Risk Assessment'
     
-    async getAll( params: ValidParamId, user: User ): Promise<RiskAssessment[]>{
-        return await this.companyRiskAssessmentRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<any>{
+        const result = await this.companyRiskAssessmentRepo.find({
             select:[
                 "title" , "description", "type",
                 "id","createdAt", "updatedAt"
@@ -27,19 +27,20 @@ export class RiskAssessmentsService {
             where: {
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    //created_by: user
                 }
             },            
             order: {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'succcess', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyCostAndRevenueById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.findById(params, user)
+        if(result){
+            return { status: 'succcess', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 
@@ -49,9 +50,9 @@ export class RiskAssessmentsService {
         const requestFound = await this.companyRiskAssessmentRepo.findOne({ 
             where: { 
                 title: newData.title,
+                type: newData.type,
                 company:{
-                    id: params.companyId,
-                    created_by: user
+                    id: params.companyId
                 }
             } 
         })
@@ -82,7 +83,7 @@ export class RiskAssessmentsService {
 
     async update(params: ValidParamId, user: User, updateData: UpdateRiskAssessmentDto): Promise<any>{
         
-        const requestFound = await this.findCompanyCostAndRevenueById(params,user)
+        const requestFound = await this.findById(params,user)
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by cannot be found `)
         }
@@ -128,7 +129,7 @@ export class RiskAssessmentsService {
         })
     }
 
-    private async findCompanyCostAndRevenueById(params: ValidParamId, user: User){
+    private async findById(params: ValidParamId, user: User){
         const requestFound = await this.companyRiskAssessmentRepo.findOne({ 
             where: { 
                 id: params.id,

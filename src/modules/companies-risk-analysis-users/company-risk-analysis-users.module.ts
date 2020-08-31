@@ -11,6 +11,7 @@ import { RiskAnalysisEntity as RiskAnalysis } from '../companies-risks/risk-anal
     RiskAnalysis, CompanyTeamMember, RiskAnalysisUser
   ])],
   controllers: [CompanyRiskAnalysisUsersController],
-  providers: [CompanyRiskAnalysisUsersService]
+  providers: [CompanyRiskAnalysisUsersService],
+  exports:[CompanyRiskAnalysisUsersService]
 })
 export class CompanyRiskAnalysisUsersModule {}

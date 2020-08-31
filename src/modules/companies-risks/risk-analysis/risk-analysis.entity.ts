@@ -2,6 +2,7 @@ import { Entity, Column, ManyToOne, OneToMany } from 'typeorm'
 import { AbstractEntity } from '../../../common/abstract.entity'
 import { CompanyEntity } from '../../companies/company.entity'
 import { RiskAnalysisUserEntity } from '../../companies-risk-analysis-users/risk-analysis-user.entity'
+import { RISK_ANALYSIS_TYPE } from '../../../common/enum_values'
 
 @Entity('risk_analysis')
 export class RiskAnalysisEntity extends AbstractEntity{ 
@@ -9,8 +10,12 @@ export class RiskAnalysisEntity extends AbstractEntity{
     @Column('varchar', { length: 255 })
     title: string
 
-    @Column('varchar', { length: 255, nullable: true})
-    type: string
+    @Column({
+        type: 'enum',
+        enum: RISK_ANALYSIS_TYPE,
+        default: RISK_ANALYSIS_TYPE.medium
+    })
+    type: RISK_ANALYSIS_TYPE
 
     @Column('varchar', { length: 255, nullable: true })
     consequences: string

@@ -32,9 +32,17 @@ export enum COST_OR_REVENUE {
 
 export enum RISK_ASSESSTMENT_TYPE {
     strengths = 'strengths',
-    weakness = 'weakness',
+    weakness = 'weaknesses',
     opportunities = 'opportunities',
     threats = 'threats'
+}
+
+export enum RISK_ANALYSIS_TYPE {
+    low = 'low',
+    medium_low = 'medium_low',
+    medium = 'medium',
+    medium_high = 'medium_high',
+    high = 'high'
 }
 
 export enum COMPANY_NETWORK_INVITES_STATUS {

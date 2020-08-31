@@ -100,6 +100,18 @@ export class CompanyRiskAnalysisUsersService {
                 status: 'success'
             })
         }
+
+        async deleteManyByRiskAnalysisId(id): Promise<any>{
+            try {
+                await this.riskAnalysisUserRepo.createQueryBuilder('risk_analysis_users')
+                    .where("risk_analysis = :id", { id })
+                    .delete()
+                    .execute()
+                return true
+            } catch (error) {
+                throw new NotFoundException(`could not be deleted`)
+            }
+        }
     
         private async findCompanyRiskAnalysisUseryId(params: ValidParamId, user: User){
             const requestFound = await this.riskAnalysisUserRepo.findOne({ 
