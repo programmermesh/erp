@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { ValidParamId } from '../../common/valid-param-id.dto';
 import { CustomerEntity as Customer } from './customer.entity'
 import { UserEntity as User } from '../users/user.entity'
+import { CompanyEntity as Company } from '../companies/company.entity'
 import { CompanyCustomerSegmentsEntity as CompanyCustomerSegment } from '../companies-customer-segments/company-customer-segments.entity'
 import { IncomeBracketEntity as IncomeBracket } from '../income-brackets/income-bracket.entity'
 import { EducationStagesEntity as EducationStage } from '../education-stages/education-stages.entity'
@@ -17,21 +18,20 @@ export class CompaniesCustomersService {
         @InjectRepository(Customer) private readonly customerRepo: Repository<Customer>,
         @InjectRepository(IncomeBracket) private readonly incomeBracketRepo: Repository<IncomeBracket>,
         @InjectRepository(EducationStage) private readonly educationStageRepo: Repository<EducationStage>,
-        @InjectRepository(CompanyCustomerSegment) private readonly companyCustomerSegmentRepo: Repository<CompanyCustomerSegment>
+        @InjectRepository(CompanyCustomerSegment) private readonly companyCustomerSegmentRepo: Repository<CompanyCustomerSegment>,
+        @InjectRepository(Company) private readonly companyRepo: Repository<Company>
     ){}
     private logger = new Logger('CompaniesCustomersService')
     private entity_prefix_name: string = 'Company customer'
     
-    async getAll(params: ValidParamId, user: User): Promise<Customer[]>{
-        return await this.customerRepo.find({
-            company_customer_segment: {
-                id: params.customer_segmentId,
-                company: {
-                    id: params.companyId,
-                    created_by: user
-                }
-            }
-        });
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const result = await this.customerRepo.createQueryBuilder('customers')
+            .leftJoin('customers.company', 'company')
+            .leftJoinAndSelect('customers.customer_problems','problems')
+            .where('company.id = :id', { id: params.companyId })
+            .getMany()
+        
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
@@ -46,29 +46,23 @@ export class CompaniesCustomersService {
     async create(params: ValidParamId, user: User, newData: CreateCompanyCustomerDto): Promise<any>{
         const requestFound = await this.customerRepo.findOne({ 
             where: { 
-                title: newData.title,
-                company_customer_segment: {
-                    id: params.customer_segmentId,
-                    company: {
-                        id: params.companyId,
-                        created_by: user
-                    }
+                name: newData.name,
+                segment: newData.segment,
+                company: {
+                    id: params.companyId,
+                    created_by: user
                 }
             } 
         })
         
         if(requestFound){
-            throw new NotFoundException(`${this.entity_prefix_name} with the title '${newData.title}' already exists`)
+            throw new NotFoundException(`${this.entity_prefix_name} with the name '${newData.name}' already exists`)
         }else{   
             try {
-                const {
-                    income_bracketId,
-                    education_stageId,
-                    ...saveThis
-                } = newData
-                saveThis['education_stage'] =  education_stageId ? await this.educationStageRepo.findOne(education_stageId) : null
-                saveThis['income_bracket'] = income_bracketId ? await this.incomeBracketRepo.findOne(income_bracketId) : null              
-                saveThis['company_customer_segment'] = await this.companyCustomerSegmentRepo.findOne(params.customer_segmentId)
+                const saveThis = {
+                    ...newData,
+                    company: await this.companyRepo.findOne(params.companyId)
+                }
                 
                 const result = await this.customerRepo.save(saveThis)                
                 
@@ -92,14 +86,8 @@ export class CompaniesCustomersService {
         }
 
         try {
-            const {
-                income_bracketId,
-                education_stageId,
-                ...updateThis
-            } = updateData
-            updateThis['education_stage'] =  education_stageId ? await this.educationStageRepo.findOne(education_stageId) : requestFound.education_stage
-            updateThis['income_bracket'] = income_bracketId ? await this.incomeBracketRepo.findOne(income_bracketId) : requestFound.income_bracket 
-            this.customerRepo.merge(requestFound, updateThis)
+            
+            this.customerRepo.merge(requestFound, updateData)
             const result = await this.customerRepo.save(requestFound)
             return Promise.resolve({
                 status: 'success',
@@ -133,14 +121,12 @@ export class CompaniesCustomersService {
 
     private async findCustomerById(params: ValidParamId, user: User){
         const requestFound = await this.customerRepo.findOne({ 
-            id: params.id,
-            company_customer_segment: {
-                id: params.customer_segmentId,
-                company: {
-                    id: params.companyId,
-                    created_by: user
-                }
-            } 
+            id: params.id,            
+            company: {
+                id: params.companyId,
+                created_by: user
+            }
+             
         })
         return requestFound
     }

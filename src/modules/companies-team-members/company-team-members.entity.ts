@@ -22,7 +22,7 @@ export class CompanyTeamMembersEntity extends AbstractEntity {
     user: UserEntity
 
     /* Many team members can belong to one role*/
-    @ManyToOne( type => RolesEntity, role => role.team_members )
+    @ManyToOne( type => RolesEntity, role => role.team_members , { onDelete: 'CASCADE' })
     role: RolesEntity
         
     /* Many team members can belong to one company */
@@ -30,7 +30,7 @@ export class CompanyTeamMembersEntity extends AbstractEntity {
     company: CompanyEntity
 
     /* Many team members can be assigned to one role */
-    @ManyToOne( type => AccessTypesEntity, access_type => access_type.team_members )
+    @ManyToOne( type => AccessTypesEntity, access_type => access_type.team_members, { onDelete: 'CASCADE' } )
     access_type: AccessTypesEntity
 
     /* One team member can assigned many risks analysis */

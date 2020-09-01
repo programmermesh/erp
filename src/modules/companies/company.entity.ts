@@ -23,6 +23,7 @@ import { CompanyRelationEntity } from '../companies-relations/company-relation.e
 import { CompetitorEntity } from '../companies-competitions/competitor.entity'
 import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 import { ConnectionGroupsLeadListEntity } from '../companies-connection-groups-leadlist/connection-groups-lead-list.entity' /*THIS IS THE LEADLIST TABLE*/
+import { CustomerEntity } from '../companies-customers/customer.entity'
 
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
@@ -148,6 +149,10 @@ export class CompanyEntity extends AbstractEntity{
     /* A company can have many cost and revenues entities */
     @OneToMany( type => CostAndRevenuesEntity, costs_and_revenues => costs_and_revenues.company)
     costs_and_revenues: CostAndRevenuesEntity[]
+
+    /* A Company can have many customer segments */
+    @OneToMany( type => CustomerEntity, customers => customers.company )
+    customers: CustomerEntity[]
 
     /* One company can have many connections groups */
     @OneToMany( type => ConnectionGroupsEntity, connection_group => connection_group.company)

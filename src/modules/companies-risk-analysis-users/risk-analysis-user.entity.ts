@@ -10,6 +10,6 @@ export class RiskAnalysisUserEntity extends AbstractEntity {
     risk_analysis: RiskAnalysisEntity
 
     /* Many risk_analysis_users entities can belong to one company team member */
-    @ManyToOne( Type => CompanyTeamMembersEntity, company_team_member => company_team_member.risk_analysis_users )
+    @ManyToOne( Type => CompanyTeamMembersEntity, company_team_member => company_team_member.risk_analysis_users, {onDelete:'CASCADE'} )
     company_team_members: CompanyTeamMembersEntity
 }

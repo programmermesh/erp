@@ -18,17 +18,14 @@ export class CompaniesCustomersProblemsService {
     private logger = new Logger('CompaniesCustomersProblemsService')
     private entity_prefix_name: string = 'Companies Customers Problems'
     
-    async getAll(params: ValidParamId, user: User): Promise<CustomerProblem[]>{
-        return await this.customerProblemRepo.find({
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const result = await this.customerProblemRepo.find({
             where:{
                 customer:{
-                    id:params. customerId,
-                    company_customer_segment: {
-                        id: params.customer_segmentId,
-                        company: {
-                            id: params.companyId,
-                            created_by: user
-                        }
+                    id:params. customerId,                    
+                    company: {
+                        id: params.companyId,
+                        created_by: user
                     }
                 }
             },                        
@@ -36,6 +33,7 @@ export class CompaniesCustomersProblemsService {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
@@ -51,7 +49,13 @@ export class CompaniesCustomersProblemsService {
         const requestFound = await this.customerProblemRepo.findOne({ 
             where: { 
                 title: newData.title,
-                customer: params.customerId
+                customer: {
+                    id: params.customerId,
+                    company:{
+                        id: params.companyId,
+                        created_by: user
+                    }
+                }
             } 
         })
         if(requestFound){

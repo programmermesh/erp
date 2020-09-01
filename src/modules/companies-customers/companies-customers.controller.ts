@@ -8,7 +8,7 @@ import { CreateCompanyCustomerDto } from './dto/create-company-customer.dto'
 import { UpdateCompanyCustomerDto } from './dto/update-company-customer.dto'
 
 @ApiTags('Companies Customers')
-@Controller('/companies/:companyId/customer_segments/:customer_segmentId/customers')
+@Controller('/companies/:companyId/customers')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class CompaniesCustomersController {
@@ -19,8 +19,6 @@ export class CompaniesCustomersController {
 
     @Get()
     @ApiOperation({ summary: 'Get all company customers', description: 'This will be used to get a list of company customers'  })
-    @ApiResponse({ status: 200, description: 'List of company customers fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
         @Param('companyId') companyId: string,        
@@ -32,13 +30,8 @@ export class CompaniesCustomersController {
 
     @Get('/:id')
     @ApiOperation({ summary: 'Get a company customer' , description: 'This will be used to get the a company customer using the ID' })
-    @ApiResponse({ status: 200, description: 'company customers fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('id') id: string,
         @Request() req
     ) {
         return this.companiesCustomersService.getById(params, req.user)
@@ -46,13 +39,9 @@ export class CompaniesCustomersController {
 
     @Post()
     @ApiOperation({summary: 'Register a company customer', description: 'This will be used to create a new company customer' })
-    @ApiResponse({ status: 200, description: 'Creating new company customer successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
         @Request() req,        
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
         @Body() createCompanyCustomerDto: CreateCompanyCustomerDto
     ) {
         return this.companiesCustomersService.create(params, req.user,createCompanyCustomerDto)
@@ -60,13 +49,8 @@ export class CompaniesCustomersController {
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company customers', description: 'This will be used to update a profile details using the ID' })
-    @ApiResponse({ status: 200, description: 'Updating the company customers details successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyCustomerDto: UpdateCompanyCustomerDto
     ) {
@@ -75,13 +59,8 @@ export class CompaniesCustomersController {
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company customer', description: 'This will be used to delete a company customer' })
-    @ApiResponse({ status: 200, description: 'Deleting of the company customer successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId, 
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomersService.delete(params,req.user)

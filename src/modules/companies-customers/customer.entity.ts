@@ -5,45 +5,36 @@ import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
 import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
 import { CustomerProblemsEntity } from '../companies-customers-problems/customer-problems.entity'
 import { MarketPotentialsCustomerEntity } from '../companies-market-potential-customers/market-potentials-customer.entity'
-import { GENDER, RELATIONSHIP_STATUS } from '../../common/enum_values'
+import { CompanyEntity } from '../companies/company.entity'
+import { CUSTOMERS_SEGMENTS } from '../../common/enum_values'
 
 @Entity('customers')
 export class CustomerEntity extends AbstractEntity {
-    @Column('varchar',{ length: 255})
-    title: string
-
-    @Column('int')
-    minimum_age: number
-
-    @Column('int')
-    maximum_age: number
-    
-    @Column({
-      type: 'enum',
-      enum: GENDER,
-      default: GENDER.male
-    })
-    sex: GENDER
+    @Column('varchar',{ length: 255, nullable: true})
+    name: string
 
     @Column({
       type: 'enum',
-      enum: RELATIONSHIP_STATUS,
-      default: RELATIONSHIP_STATUS.single
+      enum: CUSTOMERS_SEGMENTS,
+      default: CUSTOMERS_SEGMENTS.business
     })
-    relationship_status: RELATIONSHIP_STATUS
+    segment: CUSTOMERS_SEGMENTS
 
-    @Column('varchar',{ length: 100, nullable: true})
-    occupation: string
+    @Column('varchar',{ length: 100, nullable: true, default:'primary'})
+    type: string
 
     @Column('varchar',{ length: 30, nullable: true})
     color_code: string
 
     @Column('text', { nullable: true })
-    general_description: string
+    description: string
 
     /* Many customers can belong to one COMPANY through the customer segement  */
     @ManyToOne(type => EducationStagesEntity, education_stage => education_stage.customers)
     education_stage: EducationStagesEntity
+
+    @ManyToOne(type => CompanyEntity, customer => customer.customers)
+    company: CompanyEntity
 
     /* Many customers can belong to one education_stages */
     @ManyToOne( type => IncomeBracketEntity, income_bracket => income_bracket.customers )

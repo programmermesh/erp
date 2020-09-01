@@ -1,3 +1,9 @@
+export enum  CUSTOMERS_SEGMENTS {
+    consumer = 'consumer',
+    business = 'business',
+    government = 'government'
+}
+
 export enum GENDER {
     male = 'male',
     female = 'female'

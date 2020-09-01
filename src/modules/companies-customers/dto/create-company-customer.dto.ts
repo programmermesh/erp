@@ -1,38 +1,23 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 import { IsNotEmpty, IsString, IsNumber, IsEnum, IsUUID, IsOptional } from "class-validator"
-import { RELATIONSHIP_STATUS, GENDER } from '../../../common/enum_values'
+import { CUSTOMERS_SEGMENTS } from '../../../common/enum_values'
 
 export class CreateCompanyCustomerDto {
 
     @ApiProperty({ description: 'This is the title of the customer '})
     @IsNotEmpty()
     @IsString()
-    readonly title: string
+    readonly name: string
 
-    @ApiProperty({ description: 'This is the minimum age'})
-    @IsNotEmpty()
-    @IsNumber()
-    readonly minimum_age: number
-
-    @ApiProperty({ description: 'This is the maximum age'})
-    @IsNotEmpty()
-    @IsNumber()
-    readonly maximum_age: number
-
-    @ApiProperty({ description: 'This is the gender of the customer', enum: GENDER})
-    @IsEnum(GENDER)
-    @IsNotEmpty()
-    readonly sex: GENDER
-
-    @ApiProperty({ description: 'This is the relationship status of the customer', enum: RELATIONSHIP_STATUS})
-    @IsEnum(RELATIONSHIP_STATUS)
-    @IsNotEmpty()
-    readonly relationship_status: RELATIONSHIP_STATUS
-
-    @ApiProperty({ description: 'This is the occupation of the customer'})
+    @ApiProperty({ description: 'This is the type of the customer [primary or secondary]'})
     @IsNotEmpty()
     @IsString()
-    readonly occupation: string
+    readonly type: string
+
+    @ApiProperty({ description: 'This is the customer segment', enum: CUSTOMERS_SEGMENTS})
+    @IsEnum(CUSTOMERS_SEGMENTS)
+    @IsNotEmpty()
+    readonly segment: CUSTOMERS_SEGMENTS
 
     @ApiProperty({ description: 'This is the color code of the customer'})
     @IsNotEmpty()
@@ -42,18 +27,6 @@ export class CreateCompanyCustomerDto {
     @ApiProperty({ description: 'This is the general description of the customer'})
     @IsNotEmpty()
     @IsString()
-    readonly general_description: string
-
-    @ApiProperty({ description: 'The id of the education stage' })
-    @IsUUID()
-    @IsOptional()
-    @ApiPropertyOptional()
-    readonly education_stageId: string
-
-    @ApiProperty({ description: 'The id of the income bracket' })
-    @IsUUID()
-    @IsOptional()
-    @ApiPropertyOptional()
-    readonly income_bracketId: string
+    readonly description: string
 
 }

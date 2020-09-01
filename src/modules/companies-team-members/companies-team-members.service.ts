@@ -167,7 +167,15 @@ export class CompaniesTeamMembersService {
     }
 
     async delete(params : ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findOneEntityById(params,user)
+        const requestFound = await this.companyTeamMemberRepo.findOne({
+            where: {
+                company: {
+                    id: params.companyId,
+                    created_by: user
+                },
+                id: params.id
+            }
+        })
 
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' cannot be found `)
