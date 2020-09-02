@@ -18,28 +18,28 @@ export class CompaniesCostAndRevenuesService {
     private logger = new Logger('CompaniesCostAndRevenuesService')
     private entity_prefix_name: string = 'Company Costs and Revenues'
     
-    async getAll( params: ValidParamId, user: User ): Promise<CostAndRevenues[]>{
-        return await this.companyCostAndRevenuesRepo.find({
+    async getAll( params: ValidParamId, user: User ): Promise<any>{
+        const result = await this.companyCostAndRevenuesRepo.find({
             select:[
                 "title" , "description", "estimated_cost", "type",
                 "id","createdAt", "updatedAt"
             ],
             where: {
                 company:{
-                    id: params.companyId,
-                    created_by: user
+                    id: params.companyId
                 }
             },            
             order: {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCompanyCostAndRevenueById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.findCompanyCostAndRevenueById(params, user)
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 
@@ -49,6 +49,7 @@ export class CompaniesCostAndRevenuesService {
         const requestFound = await this.companyCostAndRevenuesRepo.findOne({ 
             where: { 
                 title: newData.title,
+                type: newData.type,
                 company:{
                     id: params.companyId,
                     created_by: user
