@@ -9,6 +9,6 @@ export class CustomerProblemsSolutionsEntity extends AbstractEntity {
     description: string
 
     /* Many solutions can be related to ONE problem */
-    @ManyToOne(type => CustomerProblemsEntity, customer_problem => customer_problem.solutions )
+    @ManyToOne(type => CustomerProblemsEntity, customer_problem => customer_problem.solutions, { onDelete: 'CASCADE' } )
     custom_problems: CustomerProblemsEntity
 }

@@ -18,22 +18,17 @@ export class CompaniesCustomersProblemsSolutionsService {
     private logger = new Logger('CompaniesCustomersProblemsSolutionsService')
     private entity_prefix_name: string = 'Companies Customers Problems Solution'
     
-    async getAll(params: ValidParamId, user: User): Promise<CustomerProblemsSolution[]>{
-        return await this.customerProblemsSolutionRepo.find({
+    async getAll(params: ValidParamId, user: User): Promise<any>{
+        const result = await this.customerProblemsSolutionRepo.find({
             where:{
                 custom_problems:{
                     id: params.customerProblemId,
                     customer:{
-                        id:params. customerId,
-                        company_customer_segment: {
-                            id: params.customer_segmentId,
-                            company: {
-                                id: params.companyId,
-                                created_by: user
-                            }
+                        id:params.customerId,
+                        company: {
+                            id: params.companyId
                         }
                     }
-
                 }
                 
             },                        
@@ -41,12 +36,17 @@ export class CompaniesCustomersProblemsSolutionsService {
                 createdAt: 'DESC'
             }
         });
+        return { status: 'success', result }
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCustomerProblemSolutionById(params, user)
-        if(requestFound){
-            return requestFound
+        const result = await this.customerProblemsSolutionRepo.findOne({
+            where: {
+                id: params.id
+            }
+        })
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 
@@ -114,10 +114,10 @@ export class CompaniesCustomersProblemsSolutionsService {
             throw new NotFoundException(`${this.entity_prefix_name} with ID "${params.id}" could not be deleted`)
         }
 
-        return Promise.resolve({
+        return {
             result,
             status: 'success'
-        })
+        }
     }
 
     private async findCustomerProblemSolutionById(params: ValidParamId, user: User){
@@ -127,14 +127,11 @@ export class CompaniesCustomersProblemsSolutionsService {
                 custom_problems:{
                     id: params.customerProblemId,
                     customer:{
-                        id:params. customerId,
-                        company_customer_segment: {
-                            id: params.customer_segmentId,
-                            company: {
-                                id: params.companyId,
-                                created_by: user
-                            }
-                        }
+                        id:params. customerId,                        
+                        company: {
+                            id: params.companyId,
+                            created_by: user
+                        }                        
                     }
 
                 }

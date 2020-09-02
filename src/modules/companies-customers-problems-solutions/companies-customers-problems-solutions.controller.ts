@@ -9,7 +9,7 @@ import { CompaniesCustomersProblemsSolutionsService } from './companies-customer
 
 @ApiTags('Companies Customer problems ')
 @Controller(
-    '/companies/:companyId/customer_segments/:customer_segmentId/customers/:customerId/problems/:customerProblemId/solutions'
+    '/companies/:companyId/customers/:customerId/problems/:customerProblemId/solutions'
 )
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
@@ -21,14 +21,8 @@ export class CompaniesCustomersProblemsSolutionsController {
 
     @Get()
     @ApiOperation({ summary: 'Get all company customer problems solutionss ', description: 'This will be used to get a list of company customer problems solutions and restricted to super admin only'  })
-    @ApiResponse({ status: 200, description: 'List of company customer problems solutions fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
-        @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('customerId') customerId: string,
-        @Param('customerProblemId') customerProblemId: string,        
+        @Param() params: ValidParamId,       
         @Request() req
     ) {
         return this.companiesCustomersProblemsSolutionsService.getAll(params, req.user)
@@ -36,15 +30,8 @@ export class CompaniesCustomersProblemsSolutionsController {
 
     @Get('/:id')
     @ApiOperation({ summary: 'Get a company customer problems solutions' , description: 'This will be used to get the a company customer problems solutions using the ID' })
-    @ApiResponse({ status: 200, description: 'company customer problems solutions fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('customerId') customerId: string,
-        @Param('customerProblemId') customerProblemId: string,
-        @Param('id') id: string,
         @Request() req
     ){
         return this.companiesCustomersProblemsSolutionsService.getById(params, req.user)
@@ -52,14 +39,8 @@ export class CompaniesCustomersProblemsSolutionsController {
 
     @Post()
     @ApiOperation({summary: 'Create a company customer problems solution', description: 'This will be used to create a new company customer problems solution the will be used in the system but restricted to super admin' })
-    @ApiResponse({ status: 200, description: 'Creating new company customer problems solution successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('customerId') customerId: string,
-        @Param('customerProblemId') customerProblemId: string,
         @Request() req,
         @Body() createCustomerProblemsSolutionsDto: CreateCustomerProblemsSolutionsDto
     ) {
@@ -72,15 +53,8 @@ export class CompaniesCustomersProblemsSolutionsController {
 
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company customer problems solution', description: 'This will be used to update a company customer problems solution using the ID but only restricted to the super admin' })
-    @ApiResponse({ status: 200, description: 'Updating the company customer problems solution successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('customerId') customerId: string,
-        @Param('customerProblemId') customerProblemId: string,
-        @Param('id') id: string,
         @Request() req,
         @Body() updateCustomerProblemsSolutionsDto: UpdateCustomerProblemsSolutionsDto
     ){
@@ -93,17 +67,10 @@ export class CompaniesCustomersProblemsSolutionsController {
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company customer problems solution', description: 'This will be used to delete a company customer problems solution but restricted to super admin only' })
-    @ApiResponse({ status: 200, description: 'Deleting of the company customer problems solution successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,        
-        @Param('customer_segmentId') customer_segmentId: string,
-        @Param('customerId') customerId: string,
-        @Param('customerProblemId') customerProblemId: string,
-        @Param('id') id: string,
         @Request() req
     ){
-        this.companiesCustomersProblemsSolutionsService.delete(params,req.user)
+        return this.companiesCustomersProblemsSolutionsService.delete(params,req.user)
     }
 }

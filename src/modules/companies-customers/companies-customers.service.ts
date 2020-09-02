@@ -28,6 +28,7 @@ export class CompaniesCustomersService {
         const result = await this.customerRepo.createQueryBuilder('customers')
             .leftJoin('customers.company', 'company')
             .leftJoinAndSelect('customers.customer_problems','problems')
+            .leftJoinAndSelect('problems.solutions','solutions')
             .where('company.id = :id', { id: params.companyId })
             .getMany()
         
@@ -35,9 +36,17 @@ export class CompaniesCustomersService {
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
-        const requestFound = await this.findCustomerById(params, user)
-        if(requestFound){
-            return requestFound
+        //const requestFound = await this.findCustomerById(params, user)
+
+        const result = await this.customerRepo.createQueryBuilder('customers')
+            .leftJoin('customers.company', 'company')
+            .leftJoinAndSelect('customers.customer_problems','problems')
+            .where('company.id = :id', { id: params.companyId })
+            .andWhere('customers.id = :customerId', { customerId: params.id  })
+            .getOne()
+
+        if(result){
+            return { status: 'success', result }
         }else{
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' not found`)
         } 
