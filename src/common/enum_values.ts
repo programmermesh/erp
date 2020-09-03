@@ -1,7 +1,14 @@
-export enum  CUSTOMERS_SEGMENTS {
+export enum CUSTOMERS_SEGMENTS {
     consumer = 'consumer',
     business = 'business',
     government = 'government'
+}
+
+export enum CUSTOMERS_SEGMENTS_CATEGORIES {
+    demographic = 'demographic',
+    psychographic = 'psychographic',
+    behavioral = 'behavioral',
+    geography = 'geography'
 }
 
 export enum GENDER {

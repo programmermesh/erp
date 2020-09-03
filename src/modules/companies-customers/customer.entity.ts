@@ -5,6 +5,7 @@ import { IncomeBracketEntity } from '../income-brackets/income-bracket.entity'
 import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/company-customer-segments.entity'
 import { CustomerProblemsEntity } from '../companies-customers-problems/customer-problems.entity'
 import { MarketPotentialsCustomerEntity } from '../companies-market-potential-customers/market-potentials-customer.entity'
+import { CustomerSegmentationsEntity } from '../customer-segmentations/customer-segmentations.entity'
 import { CompanyEntity } from '../companies/company.entity'
 import { CUSTOMERS_SEGMENTS } from '../../common/enum_values'
 
@@ -47,6 +48,10 @@ export class CustomerEntity extends AbstractEntity {
     /* One customer can have many Problems entries */
     @OneToMany( type => CustomerProblemsEntity, customer_problem => customer_problem.customer )
     customer_problems: CustomerProblemsEntity[]
+
+    /* ONE customer can have MANY segmenations */
+    @OneToMany( type => CustomerSegmentationsEntity, customer_segmentation => customer_segmentation.customer )
+    customer_segmentations: CustomerSegmentationsEntity[]
 
     /* One customer can elong to many market_potentials_customer entities */
     @OneToMany( type => MarketPotentialsCustomerEntity, market_potentials_customer => market_potentials_customer.customers )

@@ -50,6 +50,8 @@ import { CompaniesConnectionGroupsLeadlistModule } from './modules/companies-con
 import { CompaniesCustomersModule } from './modules/companies-customers/companies-customers.module'
 import { DetailsModule } from './modules/channels/details/details.module'
 import { CompanyConnectionGroupsCategoriesModule } from './modules/companies-connection-groups-categories/company-connection-groups-categories.module';
+import { SegmentationsModule } from './modules/segmentations/segmentations.module';
+import { CustomerSegmentationsModule } from './modules/customer-segmentations/customer-segmentations.module';
 
 @Module({
   imports: [ 
@@ -71,7 +73,7 @@ import { CompanyConnectionGroupsCategoriesModule } from './modules/companies-con
     IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule,
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
      CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
-     CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule
+     CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, SegmentationsModule, CustomerSegmentationsModule
   ],
   controllers: [AppController],
   providers: [AppService],
