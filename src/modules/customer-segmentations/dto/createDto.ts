@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsNotEmpty, IsString, IsNumber, IsOptional, IsUUID } from "class-validator"
+import { IsNotEmpty, IsString, IsNumber, IsOptional, IsUUID, IsBoolean } from "class-validator"
 
 export class CreateCustomerSegmentationDto {
 
@@ -11,7 +11,7 @@ export class CreateCustomerSegmentationDto {
     @ApiProperty({ description: 'This is the segmentation ID' })
     @IsUUID()
     @IsNotEmpty()
-    readonly segmenationId: string
+    readonly segmentationId: string
 
     @ApiProperty({ description: 'This is the index to group the entry with'})
     @IsNotEmpty()
@@ -19,5 +19,12 @@ export class CreateCustomerSegmentationDto {
     @ApiPropertyOptional()
     @IsNumber()
     readonly group_index: number
+
+    @ApiProperty({ description: 'This will be used by specific fields to delete previous entries before saving'})
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    @IsBoolean()
+    readonly delete_previous_entries: boolean
 
 }

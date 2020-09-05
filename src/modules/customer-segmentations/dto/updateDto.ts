@@ -13,7 +13,7 @@ export class UpdateCustomerSegmentationDto {
     @ApiProperty({ description: 'This is the segmentation ID' })
     @IsUUID()
     @IsNotEmpty()
-    readonly segmenationId: string
+    readonly segmentationId: string
 
     @ApiProperty({ description: 'This is the index to group the entry with'})
     @IsNotEmpty()

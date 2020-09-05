@@ -29,6 +29,8 @@ export class CompaniesCustomersService {
             .leftJoin('customers.company', 'company')
             .leftJoinAndSelect('customers.customer_problems','problems')
             .leftJoinAndSelect('problems.solutions','solutions')
+            .leftJoinAndSelect('customers.customer_segmentations','customer_segmentations')
+            .leftJoinAndSelect('customer_segmentations.segmentation','segmentation')
             .where('company.id = :id', { id: params.companyId })
             .getMany()
         
@@ -41,6 +43,8 @@ export class CompaniesCustomersService {
         const result = await this.customerRepo.createQueryBuilder('customers')
             .leftJoin('customers.company', 'company')
             .leftJoinAndSelect('customers.customer_problems','problems')
+            .leftJoinAndSelect('customers.customer_segmentations','customer_segmentations')
+            .leftJoinAndSelect('customer_segmentations.segmentation','segmentation')
             .where('company.id = :id', { id: params.companyId })
             .andWhere('customers.id = :customerId', { customerId: params.id  })
             .getOne()
