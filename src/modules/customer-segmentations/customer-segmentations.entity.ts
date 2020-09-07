@@ -10,8 +10,8 @@ export class CustomerSegmentationsEntity extends AbstractEntity {
     @Column('text', { nullable: true})
     segment_value: string
     
-    @Column('int', { nullable: true, default: 0})
-    group_index: number
+    @Column('text', { nullable: true})
+    group_index: string
     
     /* MANY customer segmentations belong to ONE segmentation*/
     @ManyToOne( type => SegmentationsEntity , segmentation => segmentation.customer_segmentations, { onDelete: 'CASCADE' } )

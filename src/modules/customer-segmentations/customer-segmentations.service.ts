@@ -24,7 +24,7 @@ export class CustomerSegmentationsService {
     async getAll(params: ValidParamId, user: User): Promise<any>{
         const result = await this.customerSegmentationsRepo.createQueryBuilder('customer_segmentation')
             .leftJoinAndSelect('customer_segmentation.customer', 'customer')
-            .leftJoinAndSelect('customer.company','company')
+            .leftJoin('customer.company','company')
             .leftJoinAndSelect('customer_segmentation.segmentation', 'segmentation')
             .where('company.id = :id', { id: params.companyId })
             //.andWhere('customer_segmentation.id = :customerSegmentationId', { customerSegmentationId: params.id  })

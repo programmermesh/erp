@@ -13,12 +13,12 @@ export class CreateCustomerSegmentationDto {
     @IsNotEmpty()
     readonly segmentationId: string
 
-    @ApiProperty({ description: 'This is the index to group the entry with'})
+    @ApiProperty({ description: 'This is the ID of the entry to associate with'})
     @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
-    @IsNumber()
-    readonly group_index: number
+    @IsString()
+    readonly group_index: string
 
     @ApiProperty({ description: 'This will be used by specific fields to delete previous entries before saving'})
     @IsNotEmpty()
