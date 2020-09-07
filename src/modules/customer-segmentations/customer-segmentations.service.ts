@@ -52,6 +52,17 @@ export class CustomerSegmentationsService {
     }
 
     async create(params: ValidParamId, user: User, newData: CreateCustomerSegmentationDto): Promise<any>{
+        console.log(':::::::::::::::::DELETING::::::::::::::::::::', newData)
+        //delete any previous data under the segmentation id
+        if(newData.delete_previous_entries){
+            //mainly delete entried to demographic segment
+            
+            await this.customerSegmentationsRepo.createQueryBuilder('customer_segmentation')
+                .delete()
+                .where('segmentation = :segmentationId', { segmentationId: newData.segmentationId })
+                .andWhere('customer = :customerId', { customerId: params.customerId })
+                .execute()
+        } 
         const requestFound = await this.customerSegmentationsRepo.findOne({ 
             where: { 
                 segment_value: newData.segment_value,
@@ -71,16 +82,7 @@ export class CustomerSegmentationsService {
             throw new NotFoundException(`${this.entity_prefix_name} with the value '${newData.segment_value}' already exists`)
         }else{   
             try {
-
-                //delete any previous data under the segmentation id
-                if(newData.delete_previous_entries){
-                    //mainly delete entried to demographic segment
-                    await this.customerSegmentationsRepo.createQueryBuilder('customer_segmentation')
-                        .delete()
-                        .where('segmentation = :segmentationId', { segmentationId: newData.segmentationId })
-                        .andWhere('customer = :customerId', { customerId: params.customerId })
-                        .execute()
-                }                
+               
 
                 const saveThis = {
                     segment_value: newData.segment_value,
