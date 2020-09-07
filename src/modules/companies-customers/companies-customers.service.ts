@@ -32,6 +32,7 @@ export class CompaniesCustomersService {
             .leftJoinAndSelect('customers.customer_segmentations','customer_segmentations')
             .leftJoinAndSelect('customer_segmentations.segmentation','segmentation')
             .where('company.id = :id', { id: params.companyId })
+            .orderBy('customers.createdAt', 'DESC')
             .getMany()
         
         return { status: 'success', result }

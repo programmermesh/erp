@@ -52,7 +52,6 @@ export class CustomerSegmentationsService {
     }
 
     async create(params: ValidParamId, user: User, newData: CreateCustomerSegmentationDto): Promise<any>{
-        console.log(':::::::::::::::::DELETING::::::::::::::::::::', newData)
         //delete any previous data under the segmentation id
         if(newData.delete_previous_entries){
             //mainly delete entried to demographic segment
