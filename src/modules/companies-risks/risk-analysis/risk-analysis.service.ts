@@ -43,7 +43,8 @@ export class RiskAnalysisService {
             .leftJoinAndSelect('risk_analysis_users.company_team_members','company_team_members')
             .leftJoinAndSelect('company_team_members.role', 'role')
             .leftJoinAndSelect('company_team_members.user','userInfo')
-            // .leftJoinAndSelect('company_team_members.access_type', 'access')              
+            // .leftJoinAndSelect('company_team_members.access_type', 'access')
+            .orderBy('createdAt','DESC')              
             .getMany()  
         return { status: 'success', result }
     }

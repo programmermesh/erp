@@ -11,11 +11,11 @@ export class MarketPotentialEntity extends AbstractEntity {
     @Column('varchar', { length: 255})
     title: string
 
-    @Column('integer', { default: 1})
+    @Column('integer', { default: 0})
     market_size: number
 
-    @Column('integer', { default: 1})
-    current_coverage_size: number
+    @Column('integer', { default: 0})
+    current_market_coverage: number
 
     @Column('text', { nullable: true })
     description: string

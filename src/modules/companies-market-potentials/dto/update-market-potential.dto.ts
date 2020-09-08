@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsString, IsNotEmpty, IsNumber, IsOptional } from "class-validator"
+import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray } from "class-validator"
 
 export class UpdateMarketPotentialDto {
 
@@ -22,7 +22,7 @@ export class UpdateMarketPotentialDto {
     @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
-    readonly current_coverage_size: number
+    readonly current_market_coverage: number
 
     @ApiProperty({ description: 'This is the description of the market potentials'})
     @IsString()
@@ -30,4 +30,16 @@ export class UpdateMarketPotentialDto {
     @IsOptional()
     @ApiPropertyOptional()
     readonly description: string
+
+    @ApiProperty({ description: 'This is the list of customers'})
+    @IsArray()
+    @ApiPropertyOptional()
+    @IsOptional()
+    readonly customers: {id:string}[]
+
+    @ApiProperty({ description: 'This is the list of estimate market coverage'})
+    @IsArray()
+    @ApiPropertyOptional()
+    @IsOptional()
+    readonly estimate_market_coverage: {id:string}[]
 }
