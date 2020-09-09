@@ -83,14 +83,14 @@ export class CompaniesMarketPotentialsService {
                 }
 
                 // SAVE THE ESTIMATE COVERAGES
-                if(newData.estimate_market_coverage.length > 0){
-                    for (let index = 0; index < newData.estimate_market_coverage.length; index++) {
-                        const element = newData.estimate_market_coverage[index]
+                if(newData.estimated_market_coverage.length > 0){
+                    for (let index = 0; index < newData.estimated_market_coverage.length; index++) {
+                        const element = newData.estimated_market_coverage[index]
                         const potentialEstimate = new PotentialsEstimateCoverage()
                         potentialEstimate.market_potentials = result
                         potentialEstimate.month = element.month
                         potentialEstimate.year = element.year
-                        potentialEstimate.estimated_market_coverage = element.estimate_market_coverage
+                        potentialEstimate.estimated_market_coverage = element.estimated_market_coverage
 
                         await this.potentialsEstimateCoverageRepo.save(potentialEstimate)
                     }
@@ -118,6 +118,44 @@ export class CompaniesMarketPotentialsService {
         try {
             this.companyMarketPotentialRepo.merge(requestFound, updateData)
             const result = await this.companyMarketPotentialRepo.save(requestFound)
+
+            //DELETE THE EXISTING DATA
+            await this.marketPotentialsCustomerRepo.createQueryBuilder('market_potentials_customers')
+                    .where("market_potentials = :id", { id: result.id })
+                    .delete()
+                    .execute()
+
+            ///SAVE THE CUSTOMERS
+            if(updateData.customers.length > 0){
+                for (let index = 0; index < updateData.customers.length; index++) {
+                    const element = updateData.customers[index]
+                    const marketCustomer = new MarketPotentialsCustomer()
+                    marketCustomer.customers = await this.customerRepo.findOne({ where: { id: element.id } })
+                    marketCustomer.market_potentials = result
+
+                    await this.marketPotentialsCustomerRepo.save(marketCustomer)
+                }
+            }
+
+            //DELETE THE EXISTING DATA
+            await this.potentialsEstimateCoverageRepo.createQueryBuilder('potentials_estimate_coverage')
+                    .where("market_potentials = :id", { id: result.id })
+                    .delete()
+                    .execute()
+
+            // SAVE THE ESTIMATE COVERAGES
+            if(updateData.estimated_market_coverage.length > 0){
+                for (let index = 0; index < updateData.estimated_market_coverage.length; index++) {
+                    const element = updateData.estimated_market_coverage[index]
+                    const potentialEstimate = new PotentialsEstimateCoverage()
+                    potentialEstimate.market_potentials = result
+                    potentialEstimate.month = element.month
+                    potentialEstimate.year = element.year
+                    potentialEstimate.estimated_market_coverage = element.estimated_market_coverage
+
+                    await this.potentialsEstimateCoverageRepo.save(potentialEstimate)
+                }
+            }
             return Promise.resolve({
                 status: 'success',
                 result

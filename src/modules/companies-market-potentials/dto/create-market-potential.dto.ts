@@ -39,5 +39,5 @@ export class CreateMarketPotentialDto {
     @IsArray()
     @ApiPropertyOptional()
     @IsOptional()
-    readonly estimate_market_coverage: {id:string, year: number, estimate_market_coverage: number, month: MONTHS_OF_THE_YEAR}[]
+    readonly estimated_market_coverage: {id:string, year: number, estimated_market_coverage: number, month: MONTHS_OF_THE_YEAR}[]
 }
