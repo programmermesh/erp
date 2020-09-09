@@ -7,10 +7,10 @@ import { CustomerEntity } from '../companies-customers/customer.entity'
 export class MarketPotentialsCustomerEntity extends AbstractEntity {
 
     /* Many market_potentials_customers can belong to one market potential entity */
-    @ManyToOne( type => MarketPotentialEntity, market_potential => market_potential.market_potentials_customers )
+    @ManyToOne( type => MarketPotentialEntity, market_potential => market_potential.market_potentials_customers, { onDelete: 'CASCADE' } )
     market_potentials: MarketPotentialEntity
 
     /* Many market_potentials_customers can belong to one customer entity */
-    @ManyToOne( type => CustomerEntity, customer => customer.market_potentials_customers )
+    @ManyToOne( type => CustomerEntity, customer => customer.market_potentials_customers, { onDelete: 'CASCADE' } )
     customers: CustomerEntity
 }

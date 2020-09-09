@@ -12,16 +12,19 @@ export class MarketPotentialEntity extends AbstractEntity {
     title: string
 
     @Column('integer', { default: 0})
-    market_size: number
+    total_addressable_customers: number
 
     @Column('integer', { default: 0})
-    current_market_coverage: number
+    price: number
+
+    @Column('integer', { default: 0})
+    current_customers: number
 
     @Column('text', { nullable: true })
     description: string
 
     /* Many files can belong to one market potential entry */
-    @ManyToOne( type => CompanyEntity, company => company.market_potentials )
+    @ManyToOne( type => CompanyEntity, company => company.market_potentials, { onDelete: 'CASCADE' } )
     company: CompanyEntity
 
     /* One Market potetial can have many files */

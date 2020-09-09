@@ -15,14 +15,21 @@ export class UpdateMarketPotentialDto {
     @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
-    readonly market_size: number
+    readonly total_addressable_customers: number
 
-    @ApiProperty({ description: 'This is the current coverage size'})
+    @ApiProperty({ description: 'This is the price for the service or product'})
     @IsNumber()
     @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
-    readonly current_market_coverage: number
+    readonly price: number
+
+    @ApiProperty({ description: 'This is the current market coverage'})
+    @IsNumber()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly current_customers: number
 
     @ApiProperty({ description: 'This is the description of the market potentials'})
     @IsString()

@@ -23,17 +23,6 @@ export class RiskAnalysisService {
     private entity_prefix_name: string = 'Company Risk Analysis'
     
     async getAll( params: ValidParamId, user: User ): Promise<any>{
-        // const result = await this.companyRiskAnalysisRepo.find({
-        //     where: {
-        //         company:{
-        //             id: params.companyId
-        //         }
-        //     },            
-        //     order: {
-        //         createdAt: 'DESC'
-        //     },
-        //     relations: ['team']
-        // });
 
         const result = await this.companyRiskAnalysisRepo.createQueryBuilder('risk_analysis')
             .leftJoin('risk_analysis.company', 'company')
@@ -43,8 +32,7 @@ export class RiskAnalysisService {
             .leftJoinAndSelect('risk_analysis_users.company_team_members','company_team_members')
             .leftJoinAndSelect('company_team_members.role', 'role')
             .leftJoinAndSelect('company_team_members.user','userInfo')
-            // .leftJoinAndSelect('company_team_members.access_type', 'access')
-            .orderBy('createdAt','DESC')              
+            .orderBy('risk_analysis.createdAt','DESC')              
             .getMany()  
         return { status: 'success', result }
     }

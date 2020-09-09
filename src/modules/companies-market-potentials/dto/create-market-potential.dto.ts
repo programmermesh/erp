@@ -12,12 +12,17 @@ export class CreateMarketPotentialDto {
     @ApiProperty({ description: 'This is the market size'})
     @IsNumber()
     @IsNotEmpty()
-    readonly market_size: number
+    readonly total_addressable_customers: number
+
+    @ApiProperty({ description: 'This is the price for the service or product'})
+    @IsNumber()
+    @IsNotEmpty()
+    readonly price: number
 
     @ApiProperty({ description: 'This is the current market coverage'})
     @IsNumber()
     @IsNotEmpty()
-    readonly current_market_coverage: number
+    readonly current_customers: number
 
     @ApiProperty({ description: 'This is the description of the market potentials'})
     @IsString()

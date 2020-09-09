@@ -23,6 +23,6 @@ export class PotentialsEstimateCoverageEntity extends AbstractEntity {
     percentage_complete: number
 
     /* Many potentials_estimate_coverage can belong to one market potential entry */
-    @ManyToOne( type => MarketPotentialEntity, market_potential => market_potential.potentials_estimate_coverages )
+    @ManyToOne( type => MarketPotentialEntity, market_potential => market_potential.potentials_estimate_coverages, { onDelete: 'CASCADE' } )
     market_potentials: MarketPotentialEntity
 }
