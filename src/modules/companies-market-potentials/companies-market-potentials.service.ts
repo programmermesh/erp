@@ -28,6 +28,7 @@ export class CompaniesMarketPotentialsService {
         const result = await this.companyMarketPotentialRepo.createQueryBuilder('market_potentials')
             .leftJoinAndSelect('market_potentials.market_potentials_customers', 'market_potentials_customers')
             .leftJoinAndSelect('market_potentials_customers.customers','customers')
+            .leftJoinAndSelect('market_potentials.market_potentials_files','files')
             .leftJoin('customers.company','company')
             .where("company.created_by = :owner", {owner: user.id })
             .andWhere("company.id = :id", { id: params.companyId})

@@ -70,10 +70,11 @@ export class CompaniesMarketPotentialFilesService {
                     const newMarketPotentialFile = new MarketPotentialsFile()
                     newMarketPotentialFile.market_potential_file_url = data.url
                     newMarketPotentialFile.market_potentials = requestFound
-                    const saveImage = await this.marketPotentialsFileRepo.save(newMarketPotentialFile)
+                    newMarketPotentialFile.name = file.originalname
+                    const result = await this.marketPotentialsFileRepo.save(newMarketPotentialFile)
                     return Promise.resolve({
                         status: 'success',
-                        saveImage
+                        result
                     }) 
                 }
                 

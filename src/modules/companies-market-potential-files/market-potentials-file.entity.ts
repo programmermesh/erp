@@ -5,6 +5,9 @@ import { AbstractEntity } from '../../common/abstract.entity'
 @Entity('market_potentials_files')
 export class MarketPotentialsFileEntity extends AbstractEntity{
 
+    @Column('varchar', { nullable: true })
+    name: string
+
     @Column('varchar', { length: 500})
     market_potential_file_url: string
 
