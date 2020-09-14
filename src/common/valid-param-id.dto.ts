@@ -38,6 +38,10 @@ export class ValidParamId {
 
     @IsNotEmpty()
     @IsOptional()
+    @IsUUID()  channelCategoryId: string
+
+    @IsNotEmpty()
+    @IsOptional()
     @IsUUID()  customerProblemId: string
 
     @IsNotEmpty()

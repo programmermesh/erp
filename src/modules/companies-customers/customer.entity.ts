@@ -6,6 +6,7 @@ import { CompanyCustomerSegmentsEntity } from '../companies-customer-segments/co
 import { CustomerProblemsEntity } from '../companies-customers-problems/customer-problems.entity'
 import { MarketPotentialsCustomerEntity } from '../companies-market-potential-customers/market-potentials-customer.entity'
 import { CustomerSegmentationsEntity } from '../customer-segmentations/customer-segmentations.entity'
+import { RelationshipEntity } from '../companies-channels-relationship/relationship.entity'
 import { CompanyEntity } from '../companies/company.entity'
 import { CUSTOMERS_SEGMENTS } from '../../common/enum_values'
 
@@ -48,6 +49,10 @@ export class CustomerEntity extends AbstractEntity {
     /* One customer can have many Problems entries */
     @OneToMany( type => CustomerProblemsEntity, customer_problem => customer_problem.customer )
     customer_problems: CustomerProblemsEntity[]
+
+    /*One customer can have many channel relationships*/
+    @OneToMany( type => RelationshipEntity, channels_relationships => channels_relationships.customer )
+    channel_relationships: RelationshipEntity[]
 
     /* ONE customer can have MANY segmenations */
     @OneToMany( type => CustomerSegmentationsEntity, customer_segmentation => customer_segmentation.customer )

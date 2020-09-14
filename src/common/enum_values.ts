@@ -4,6 +4,14 @@ export enum CUSTOMERS_SEGMENTS {
     government = 'government'
 }
 
+export enum CHANNELS_PHASES {
+    awareness = 'awareness',
+    evaluation = 'evaluation',
+    purchase = 'purchase',
+    delivering_value = 'delivering_value',
+    post_sale_support = 'post_sale_support'
+}
+
 export enum CUSTOMERS_SEGMENTS_CATEGORIES {
     demographic = 'demographic',
     psychographic = 'psychographic',

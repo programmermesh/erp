@@ -52,6 +52,9 @@ import { DetailsModule } from './modules/channels/details/details.module'
 import { CompanyConnectionGroupsCategoriesModule } from './modules/companies-connection-groups-categories/company-connection-groups-categories.module';
 import { SegmentationsModule } from './modules/segmentations/segmentations.module';
 import { CustomerSegmentationsModule } from './modules/customer-segmentations/customer-segmentations.module';
+import { CompanyChannelsModule } from './modules/companies-channels/company-channels.module';
+import { CompanyChannelsCategoryModule } from './modules/companies-channels-category/company-channels-category.module';
+import { CompaniesChannelsRelationshipModule } from './modules/companies-channels-relationship/companies-channels-relationship.module';
 
 @Module({
   imports: [ 
@@ -73,7 +76,8 @@ import { CustomerSegmentationsModule } from './modules/customer-segmentations/cu
     IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule,
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
      CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
-     CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, SegmentationsModule, CustomerSegmentationsModule
+     CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, 
+     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule
   ],
   controllers: [AppController],
   providers: [AppService],

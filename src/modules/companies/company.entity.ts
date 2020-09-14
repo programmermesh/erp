@@ -24,6 +24,7 @@ import { CompetitorEntity } from '../companies-competitions/competitor.entity'
 import { ConversationsMembersEntity } from '../companies-conversations-members/conversations-members.entity'
 import { ConnectionGroupsLeadListEntity } from '../companies-connection-groups-leadlist/connection-groups-lead-list.entity' /*THIS IS THE LEADLIST TABLE*/
 import { CustomerEntity } from '../companies-customers/customer.entity'
+import { ChannelsEntity } from '../companies-channels/channels.entity'
 
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
@@ -121,6 +122,10 @@ export class CompanyEntity extends AbstractEntity{
     /* One company can have many team members */
     @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.company)
     team_members: CompanyTeamMembersEntity[]
+
+    /* One company can have many channels */
+    @OneToMany( type => ChannelsEntity, channels => channels.company)
+    channels: ChannelsEntity[]
 
     /* One company can have many customer segments */
     @OneToMany( type => CompanyCustomerSegmentsEntity, customer_segment => customer_segment.company)
