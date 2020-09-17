@@ -19,4 +19,10 @@ export class UpdateCompanyTeamMemberDto {
     @IsOptional()
     @ApiPropertyOptional()
     @IsBoolean() invite_accepted: boolean
+
+    @ApiProperty({ description: "This is the boolean to determine if the team invitation was archived or not" })
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    @IsBoolean() archived: boolean
 }

@@ -19,20 +19,37 @@ export class CompaniesController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Get all companies under the user', description: 'This will be used to get a list of companies under the current user'  })
-    @ApiResponse({ status: 200, description: 'List of companies fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Request() req,
     ) {
         return this.companiesService.getCompanies(req.user)
     }
 
+    @Get('/user/team-member')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get all companies the current user is a team member in', description: 'This will return a list of companies a user is a team member in'  })
+    getTeamCompanies(
+        @Request() req,
+    ) {
+        return this.companiesService.getTeamCompanies(req.user)
+    }
+
+    @Get('/my/invitations')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get all pending team membership invitations', description: 'This will return a list of all pending team membership invitations'  })
+    getMyPendingInvitations(
+        @Param() params: ValidParamId,
+        @Request() req
+    ) {
+        return this.companiesService.getMyPendingInvitations(req.user)
+    }
+
     @Get('/explore/search')    
     @UseGuards(AuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Explore companies', description: 'This will be used to get a list of companies under the explor page'  })
-    @ApiResponse({ status: 200, description: 'List of companies fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     explore(
         @Request() req,
         @Query() paginationDto: PaginationDto
@@ -49,8 +66,6 @@ export class CompaniesController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Get a company profile' , description: 'This will be used to get the a company profile using the ID' })
-    @ApiResponse({ status: 200, description: 'User profile fetching successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     getById(
         @Request() req,
         @Param() params: ValidParamId,
@@ -60,13 +75,10 @@ export class CompaniesController {
 
     @Post()
     @ApiOperation({summary: 'Register/Create a company', description: 'This will be used to create a new company the will be user the currently logged in user' })
-    @ApiResponse({ status: 200, description: 'Creating new company successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     create(
         @Request() req,
         @Body() createCompanyDto: CreateCompanyDto
     ){
-        //return createCompanyDto
         return this.companiesService.createCompany(createCompanyDto)
     }
 
@@ -74,8 +86,6 @@ export class CompaniesController {
     @ApiBearerAuth()
     @Patch('/:id')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
-    @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Request() req,
         @Param() params: ValidParamId,
@@ -86,8 +96,6 @@ export class CompaniesController {
 
     @Patch('/:id/registration')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company profile details using the ID' })
-    @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     updateRegistration(
         @Param() params: ValidParamId,
         @Body() updateCompanyDto: UpdateCompanyDto
@@ -97,8 +105,6 @@ export class CompaniesController {
 
     @Patch('/:id/update_mission_vision')
     @ApiOperation({ summary: 'Update a company', description: 'This will be used to update a company VISION AND MISSION details using the ID' })
-    @ApiResponse({ status: 200, description: 'Updating the company details successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update_mission_vision(
         @Param() params: ValidParamId,
         @Body() updateCompanyDto: UpdateCompanyDto
@@ -108,11 +114,8 @@ export class CompaniesController {
 
     @Delete('/:id')
     @ApiOperation({ summary: 'Delete a company', description: 'This will be used to delete a compnay but restricted to super admin only' })
-    @ApiResponse({ status: 200, description: 'Deleting of the company successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     delete(
         @Request() req,
-        @Param('id') id: string,
         @Param() params: ValidParamId
     ) {
         return this.companiesService.deleteCompany(params.id, req.user)

@@ -20,16 +20,15 @@ export class CompanyChannelsService {
     private entity_prefix_name: string = 'Company Channels'
     
     async getAll( params: ValidParamId, user: User ): Promise<any>{
-        const result = await this.channelRepo.find({
-            where: {
-                company:{
-                    id: params.companyId
-                }
-            },            
-            order: {
-                createdAt: 'DESC'
-            }
-        });
+        const result = await this.channelRepo.createQueryBuilder('companies_channels')
+            .leftJoinAndSelect('companies_channels.categories', 'categories')
+            .leftJoinAndSelect('categories.relationships','relationships')
+            //.leftJoinAndSelect('relationships.customer','customer')
+            .leftJoin('companies_channels.company','company')
+            .where('company.id = :id', { id: params.companyId })
+            //.andWhere('companies_channels.id = :channelId', { channelId: params.channelId })
+            .orderBy('companies_channels.createdAt', 'DESC')
+            .getMany()
         return { status: 'success', result }
     }
 

@@ -147,7 +147,13 @@ export class CompaniesTeamMembersService {
 
     async update(params: ValidParamId, user: User, updateData: UpdateCompanyTeamMemberDto): Promise<any>{
         
-        const requestFound = await this.findOneEntityById(params,user)
+        // const requestFound = await this.findOneEntityById(params,user)
+        const requestFound = await this.companyTeamMemberRepo.findOne({
+            where: {
+                id: params.id,
+                company: params.companyId
+            }
+        })
         if(!requestFound){
             throw new NotFoundException(`${this.entity_prefix_name} with ID '${params.id}' by current user cannot be found `)
         }

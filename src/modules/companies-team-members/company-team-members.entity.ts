@@ -17,6 +17,9 @@ export class CompanyTeamMembersEntity extends AbstractEntity {
     @Column('boolean', { default: false })
     invite_accepted: boolean
 
+    @Column('boolean', { default: false })
+    archived: boolean
+
     /* Many companies can have One user as a team member */
     @ManyToOne(type => UserEntity, user => user.team_members)
     user: UserEntity

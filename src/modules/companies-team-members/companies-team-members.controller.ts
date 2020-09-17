@@ -25,13 +25,12 @@ export class CompaniesTeamMembersController {
     @ApiResponse({ status: 401, description: 'Unauthorized'})
     get(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,
         @Request() req,
         @Query() searchDto: SearchDto
     ) {
         return this.companiesTeamMembersService.getAll(params, searchDto, req.user)
     }
-
+    
     // @Get('/:id')
     // @ApiOperation({ summary: 'Get a company team members' , description: 'This will be used to get the a company team members using the ID' })
     // @ApiResponse({ status: 200, description: 'company team members fetching successful.'})
@@ -69,12 +68,8 @@ export class CompaniesTeamMembersController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Update a company team member', description: 'This will be used to update a company team member details using the ID ' })
-    @ApiResponse({ status: 200, description: 'Updating the company team member successful.'})
-    @ApiResponse({ status: 401, description: 'Unauthorized'})
     update(
         @Param() params: ValidParamId,
-        @Param('companyId') companyId: string,
-        @Param('id') id: string,
         @Request() req,
         @Body() updateCompanyTeamMemberDto: UpdateCompanyTeamMemberDto
     ){

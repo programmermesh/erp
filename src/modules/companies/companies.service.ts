@@ -5,6 +5,7 @@ import { Repository, getRepository, Brackets } from 'typeorm';
 import { CompanyEntity as Company } from './company.entity'
 import { CreateCompanyDto } from './dto/create-company.dto'
 import { UpdateCompanyDto } from './dto/update-company.dto'
+import { PaginationDto } from './dto/pagination.dto';
 
 import { UserEntity } from '../users/user.entity'
 import { CompanyCustomerSegmentsEntity as CompanyCustomerSegment } from '../companies-customer-segments/company-customer-segments.entity'
@@ -13,7 +14,7 @@ import { CompanyBusinessStagesEntity as CompanyBusinessStage } from '../companie
 import { BusinessStagesEntity as BusinessStage } from '../business-stages/business-stages.entity'
 import { BusinessSectorsEntity as BusinessSector } from '../business-sectors/business-sectors.entity'
 import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from '../companies-business-sectors/company-business-sectors.entity'
-import { PaginationDto } from './dto/pagination.dto';
+import { CompanyTeamMembersEntity as CompanyTeamMember } from '../companies-team-members/company-team-members.entity'
 
 @Injectable()
 export class CompaniesService {
@@ -25,7 +26,8 @@ export class CompaniesService {
         @InjectRepository(CompanyBusinessStage) private readonly companyBusinessStageRepo: Repository<CompanyBusinessStage>,
         @InjectRepository(BusinessStage) private readonly businessStageRepo: Repository<BusinessStage>,
         @InjectRepository(CompanyBusinessSector) private readonly companyBusinessSectorRepo: Repository<CompanyBusinessSector>,
-        @InjectRepository(BusinessSector) private readonly businessSectorRepo: Repository<BusinessSector>
+        @InjectRepository(BusinessSector) private readonly businessSectorRepo: Repository<BusinessSector>,
+        @InjectRepository(CompanyTeamMember) private readonly companyTeamMemberRepo: Repository<CompanyTeamMember>
     ){}
     private logger = new Logger('Company service')
     
@@ -46,6 +48,37 @@ export class CompaniesService {
             .orderBy('company.createdAt', 'DESC')              
             .getMany()
         
+        return { status: 'success', result }
+    }
+
+    async getTeamCompanies(user: UserEntity): Promise<any> {
+        const result = await this.companyRepo.createQueryBuilder('company')
+            .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+            .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+            .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+            .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+            .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+            .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+            .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
+            .where('team_members.invite_email = :email', { email: user.email })
+            .andWhere('team_members.invite_accepted = :accepted', { accepted: true })
+            .orderBy('company.createdAt', 'DESC')
+            .getMany()
+        return { status: 'success', result }
+    }
+
+    async getMyPendingInvitations(user: UserEntity) : Promise<any> {
+        const result = await this.companyTeamMemberRepo.createQueryBuilder('company_team_members')                  
+            .leftJoinAndSelect('company_team_members.role', 'role')
+            .leftJoinAndSelect('company_team_members.access_type', 'access')
+            .leftJoinAndSelect('company_team_members.company', 'company')
+            .where("company_team_members.invite_email = :email", { email: user.email })
+            .andWhere('company_team_members.invite_accepted = :accepted', { accepted: false })
+            .orderBy('company_team_members.createdAt', 'DESC')    
+            .getMany()
         return { status: 'success', result }
     }
 

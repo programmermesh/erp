@@ -1,7 +1,7 @@
 import {  Entity, Column, ManyToOne, OneToMany } from 'typeorm'
 import { AbstractEntity } from '../../common/abstract.entity'
 import { ChannelsEntity } from '../companies-channels/channels.entity'
-import {RelationshipEntity } from '../companies-channels-relationship/relationship.entity'
+import { RelationshipEntity } from '../companies-channels-relationship/relationship.entity'
 
 @Entity('companies_channels_categories')
 export class CategoryEntity extends AbstractEntity {
