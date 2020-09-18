@@ -23,7 +23,7 @@ export class CompaniesMilestonesService {
             where: {
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             },            
             order: {
@@ -48,7 +48,7 @@ export class CompaniesMilestonesService {
                 title: newData.title,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -105,7 +105,7 @@ export class CompaniesMilestonesService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -131,7 +131,7 @@ export class CompaniesMilestonesService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

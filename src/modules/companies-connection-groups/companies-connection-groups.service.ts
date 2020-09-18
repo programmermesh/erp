@@ -30,7 +30,7 @@ export class CompaniesConnectionGroupsService {
             where: {
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             },            
             order: {
@@ -57,7 +57,7 @@ export class CompaniesConnectionGroupsService {
                 name:newData.name.toUpperCase(),
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -156,7 +156,7 @@ export class CompaniesConnectionGroupsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -182,7 +182,7 @@ export class CompaniesConnectionGroupsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

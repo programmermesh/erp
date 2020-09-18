@@ -122,7 +122,7 @@ export class CompaniesConnectionGroupsLeadlistService {
                     id: params.connection_groupId,                    
                     company:{
                         id: params.companyId,
-                        created_by: user
+                        // created_by: user
                     }
                 },
                 lead_list_company: newData.lead_list_companyId
@@ -273,7 +273,7 @@ export class CompaniesConnectionGroupsLeadlistService {
                     id: params.connection_groupId,
                     company: {
                         id: params.companyId,
-                        created_by: user
+                        // created_by: user
                     }
                 }
                 

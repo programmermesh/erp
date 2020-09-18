@@ -25,7 +25,7 @@ export class CompaniesCustomersProblemsService {
                     id:params. customerId,                    
                     company: {
                         id: params.companyId,
-                        created_by: user
+                        // created_by: user
                     }
                 }
             },                        
@@ -53,7 +53,7 @@ export class CompaniesCustomersProblemsService {
                     id: params.customerId,
                     company:{
                         id: params.companyId,
-                        created_by: user
+                        // created_by: user
                     }
                 }
             } 
@@ -130,7 +130,7 @@ export class CompaniesCustomersProblemsService {
                         id: params.customer_segmentId,
                         company: {
                             id: params.companyId,
-                            created_by: user
+                            // created_by: user
                         }
                     }
                 }

@@ -42,17 +42,11 @@ export class CompaniesUserRolesService {
 
     async create(companyId:string, user: User, newData: CreateCompanyUserRoleDto): Promise<any>{
         const requestFound = await this.userRoleRepo.findOne({
-            // join: { 
-            //     alias: 'user_role', 
-            //     leftJoinAndSelect: { 
-            //         company: 'user_role.company' 
-            //     } 
-            // },
             where: {
                 name: newData.name.toUpperCase(),  
                 company: { 
                     id: companyId , 
-                    created_by: user 
+                    // created_by: user 
                 } 
             }                      
         })
@@ -120,17 +114,11 @@ export class CompaniesUserRolesService {
 
     private async findOneEntityById(params: ValidParamId, user: User){
         const requestFound = await this.userRoleRepo.findOne({
-            // join: { 
-            //     alias: 'user_role', 
-            //     leftJoinAndSelect: { 
-            //         company: 'user_role.company' 
-            //     } 
-            // },
             where: { 
                 id: params.id, 
                 company: { 
                     id: params.companyId , 
-                    created_by: user 
+                    //created_by: user 
                 } 
             }                    
         })

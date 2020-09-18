@@ -26,7 +26,7 @@ export class CompaniesMarketPotentialCustomersService {
                        id: params.market_potentialId,
                        company: {
                            id: params.companyId,
-                           created_by: user
+                           // created_by: user
                        }
                    }                                  
                },
@@ -53,7 +53,7 @@ export class CompaniesMarketPotentialCustomersService {
                         id: params.market_potentialId,
                         company: {
                             id: params.companyId,
-                            created_by: user
+                            // created_by: user
                         }
                     },
                     customers: newData.customersId
@@ -109,7 +109,7 @@ export class CompaniesMarketPotentialCustomersService {
                         id: params.market_potentialId,
                         company:{
                              id: params.companyId,
-                             created_by: user
+                             // created_by: user
                          }
                     }               
                 },

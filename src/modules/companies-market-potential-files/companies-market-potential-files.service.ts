@@ -25,7 +25,7 @@ export class CompaniesMarketPotentialFilesService {
                     id: params.market_potentialId,
                     company: {
                         id: params.companyId,
-                        user: user
+                        // user: user
                     }
                 }                
             },            
@@ -50,7 +50,7 @@ export class CompaniesMarketPotentialFilesService {
                 id: params.market_potentialId,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

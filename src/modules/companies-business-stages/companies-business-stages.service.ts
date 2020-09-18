@@ -26,7 +26,7 @@ export class CompaniesBusinessStagesService {
             where: {
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }                
             },
             relations: ['business_stage']
@@ -51,7 +51,7 @@ export class CompaniesBusinessStagesService {
                 business_stage: newData.business_stage ,
                 company: { 
                     id: params.companyId , 
-                    created_by: user 
+                    // created_by: user 
                 } 
             }                     
         })
@@ -85,7 +85,7 @@ export class CompaniesBusinessStagesService {
         const deleteExisting = await this.companyBusinessStageRepo.delete({
             company: { 
                 id: params.companyId , 
-                created_by: user 
+                // created_by: user 
             }
         })
 
@@ -141,7 +141,7 @@ export class CompaniesBusinessStagesService {
                 id: params.id,
                 company: { 
                     id: params.companyId ,
-                    created_by: user 
+                    // created_by: user 
                 } 
             }                      
         })

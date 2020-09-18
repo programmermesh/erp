@@ -52,7 +52,7 @@ export class CompaniesCostAndRevenuesService {
                 type: newData.type,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -127,7 +127,7 @@ export class CompaniesCostAndRevenuesService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

@@ -26,7 +26,7 @@ export class CompaniesMarketPotentialEstimatesCoverageService {
                    id: params.market_potentialId,
                    company:{
                         id: params.companyId,
-                        created_by: user
+                        // created_by: user
                     }
                }               
            },            
@@ -51,7 +51,7 @@ export class CompaniesMarketPotentialEstimatesCoverageService {
                 id: params.market_potentialId,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -127,7 +127,7 @@ export class CompaniesMarketPotentialEstimatesCoverageService {
                     id: params.market_potentialId,
                     company:{
                          id: params.companyId,
-                         created_by: user
+                         // created_by: user
                      }
                 }               
             } 

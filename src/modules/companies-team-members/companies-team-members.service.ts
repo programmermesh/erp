@@ -177,7 +177,7 @@ export class CompaniesTeamMembersService {
             where: {
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    created_by: user // RESTRICT DELETING OF TEAM MEMBERS TO OWNER OF COMPANY
                 },
                 id: params.id
             }

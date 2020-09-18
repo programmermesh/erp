@@ -27,7 +27,7 @@ export class CompanyRiskAnalysisUsersService {
                        id: params.risk_analysisId,
                        company: {
                            id: params.companyId,
-                           created_by: user
+                           // created_by: user
                        }
                    }               
                },            
@@ -54,7 +54,7 @@ export class CompanyRiskAnalysisUsersService {
                         id: params.risk_analysisId,
                         company: {
                             id: params.companyId,
-                            created_by: user
+                            // created_by: user
                         }
                     },
                     company_team_members: newData.company_team_membersId

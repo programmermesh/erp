@@ -24,7 +24,7 @@ export class CompaniesRelationsService {
             where:{
                 companies: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }                
             }, 
             relations: ['relations'],                       
@@ -97,7 +97,7 @@ export class CompaniesRelationsService {
                 id: params.id,
                 companies: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             },
             relations: ['relations'] 

@@ -26,7 +26,7 @@ export class CompanyConnectionGroupsCategoriesService {
             where: {
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             },            
             order: {

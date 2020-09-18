@@ -53,7 +53,7 @@ export class CompaniesPitchDecksService {
                 title: newData.title,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -133,7 +133,7 @@ export class CompaniesPitchDecksService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -159,7 +159,7 @@ export class CompaniesPitchDecksService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

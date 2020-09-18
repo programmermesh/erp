@@ -30,8 +30,8 @@ export class CompaniesMarketPotentialsService {
             .leftJoinAndSelect('market_potentials_customers.customers','customers')
             .leftJoinAndSelect('market_potentials.market_potentials_files','files')
             .leftJoin('customers.company','company')
-            .where("company.created_by = :owner", {owner: user.id })
-            .andWhere("company.id = :id", { id: params.companyId})
+            // .where("company.created_by = :owner", {owner: user.id })
+            .where("company.id = :id", { id: params.companyId})
             .leftJoinAndSelect('market_potentials.potentials_estimate_coverages','potentials_estimate_coverages') 
             .orderBy('market_potentials.createdAt','DESC')            
             .getMany() 
@@ -54,7 +54,7 @@ export class CompaniesMarketPotentialsService {
                 title: newData.title,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

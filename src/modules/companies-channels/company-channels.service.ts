@@ -104,7 +104,7 @@ export class CompanyChannelsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

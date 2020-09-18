@@ -27,7 +27,7 @@ export class CompaniesValuesService {
             where: {
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             },            
             order: {
@@ -52,7 +52,7 @@ export class CompaniesValuesService {
                 title: newData.title,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -109,7 +109,7 @@ export class CompaniesValuesService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -135,7 +135,7 @@ export class CompaniesValuesService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

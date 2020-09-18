@@ -130,7 +130,7 @@ export class CompaniesCustomersProblemsSolutionsService {
                         id:params. customerId,                        
                         company: {
                             id: params.companyId,
-                            created_by: user
+                            // created_by: user
                         }                        
                     }
 

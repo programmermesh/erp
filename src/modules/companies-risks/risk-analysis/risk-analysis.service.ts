@@ -26,8 +26,8 @@ export class RiskAnalysisService {
 
         const result = await this.companyRiskAnalysisRepo.createQueryBuilder('risk_analysis')
             .leftJoin('risk_analysis.company', 'company')
-            .where("company.created_by = :owner", {owner: user.id })
-            .andWhere("company.id = :id", { id: params.companyId})
+            // .where("company.created_by = :owner", {owner: user.id })
+            .where("company.id = :id", { id: params.companyId})
             .leftJoinAndSelect('risk_analysis.risk_analysis_users','risk_analysis_users')
             .leftJoinAndSelect('risk_analysis_users.company_team_members','company_team_members')
             .leftJoinAndSelect('company_team_members.role', 'role')
@@ -52,7 +52,7 @@ export class RiskAnalysisService {
                 title: newData.title,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -142,7 +142,7 @@ export class RiskAnalysisService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -168,7 +168,7 @@ export class RiskAnalysisService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

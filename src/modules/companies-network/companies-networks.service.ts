@@ -199,7 +199,7 @@ export class CompaniesConnectionsService {
                 invited_company: newData.invited_company,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -235,7 +235,7 @@ export class CompaniesConnectionsService {
                 id: params.id,
                 invited_company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -264,7 +264,7 @@ export class CompaniesConnectionsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -290,7 +290,7 @@ export class CompaniesConnectionsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

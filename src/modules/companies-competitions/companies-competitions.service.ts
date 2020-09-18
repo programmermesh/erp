@@ -27,7 +27,7 @@ export class CompaniesCompetitionsService {
             where: {
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             },            
             order: {
@@ -53,7 +53,7 @@ export class CompaniesCompetitionsService {
                 type: newData.type,
                 company:{
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -110,7 +110,7 @@ export class CompaniesCompetitionsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })
@@ -136,7 +136,7 @@ export class CompaniesCompetitionsService {
                 id: params.id,
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }
             } 
         })

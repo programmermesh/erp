@@ -34,7 +34,7 @@ export class CompaniesService {
     async getCompanies(user:UserEntity): Promise<any>{
         const result = await this.companyRepo.createQueryBuilder('company')
             .where("company.created_by = :owner", {owner: user.id })
-            // .leftJoinAndSelect('company.created_by', 'company_owner')                      
+            .leftJoinAndSelect('company.created_by', 'company_owner')                      
             .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
             .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
             .leftJoinAndSelect('company.business_stages', 'company_business_stages')
@@ -53,6 +53,7 @@ export class CompaniesService {
 
     async getTeamCompanies(user: UserEntity): Promise<any> {
         const result = await this.companyRepo.createQueryBuilder('company')
+            .leftJoinAndSelect('company.created_by', 'company_owner')
             .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
             .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
             .leftJoinAndSelect('company.business_stages', 'company_business_stages')
@@ -65,6 +66,7 @@ export class CompaniesService {
             .leftJoinAndSelect('team_members.user', 'memberProfile')
             .where('team_members.invite_email = :email', { email: user.email })
             .andWhere('team_members.invite_accepted = :accepted', { accepted: true })
+            .andWhere('company.created_by != :user', { user: user.id })
             .orderBy('company.createdAt', 'DESC')
             .getMany()
         return { status: 'success', result }
@@ -144,11 +146,10 @@ export class CompaniesService {
     }
 
     async getCompanyById(id: string, user: UserEntity): Promise<any>{
-        console.log(user)
         const result = await this.companyRepo.findOne({ 
             where: { 
                 id,
-                created_by:user.id
+                //created_by:user.id
             } 
         })
         if(result){
@@ -160,8 +161,9 @@ export class CompaniesService {
 
     private async getCompanyProfileById(company: Company, user:UserEntity) {
         const result = await this.companyRepo.createQueryBuilder('company')
-            .where("company.created_by = :owner", {owner: user.id })
-            .andWhere("company.id = :id", { id: company.id})                      
+            //.where("company.created_by = :owner", {owner: user.id })
+            .andWhere("company.id = :id", { id: company.id})   
+            .leftJoinAndSelect('company.created_by', 'company_owner')                   
             .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
             .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
             .leftJoinAndSelect('company.business_stages', 'company_business_stages')
@@ -306,7 +308,7 @@ export class CompaniesService {
         const companyExists = await this.companyRepo.findOne({ 
             where: { 
                 id,
-                created_by: user.id
+                // created_by: user.id
             } 
         })
         if(!companyExists){
@@ -390,7 +392,7 @@ export class CompaniesService {
         const companyExists = await this.companyRepo.findOne({ 
             where: { 
                 id,
-                created_by: user.id
+                created_by: user.id // ONLY THE OWNER CAN DELETE THE COMPANY
             } 
         })
 

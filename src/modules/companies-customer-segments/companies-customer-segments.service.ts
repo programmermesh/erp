@@ -27,7 +27,7 @@ export class CompaniesCustomerSegmentsService {
             where: {
                 company: {
                     id: params.companyId,
-                    created_by: user
+                    // created_by: user
                 }                
             },
             relations: ['customer_segment']
@@ -52,7 +52,7 @@ export class CompaniesCustomerSegmentsService {
                 customer_segment: newData.customer_segment ,
                 company: { 
                     id: params.companyId , 
-                    created_by: user 
+                    // created_by: user 
                 } 
             }                     
         })
@@ -85,7 +85,7 @@ export class CompaniesCustomerSegmentsService {
         const deleteExisting = await this.companyCustomerSegmentRepo.delete({
             company: { 
                 id: params.companyId , 
-                created_by: user 
+                // created_by: user 
             }
         })
 
@@ -142,7 +142,7 @@ export class CompaniesCustomerSegmentsService {
                 id: params.id,
                 company: { 
                     id: params.companyId ,
-                    created_by: user 
+                    // created_by: user 
                 } 
             }                      
         })

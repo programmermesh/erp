@@ -93,7 +93,7 @@ export class CompaniesSustainableGoalsService {
                 sustainable_goal: newData.sustainable_goal,  
                 company: { 
                     id: params.companyId , 
-                    created_by: user 
+                    // created_by: user 
                 } 
             },
             relations: ['sustainable_goal']                     
@@ -187,7 +187,7 @@ export class CompaniesSustainableGoalsService {
                 id: params.id, 
                 company: { 
                     id: params.companyId , 
-                    created_by: user 
+                    // created_by: user 
                 } 
             },
             order: {
