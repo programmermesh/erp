@@ -178,12 +178,7 @@ export class CompaniesService {
         return result     
     }
 
-    //async createCompany(companyData: CreateCompanyDto, user: UserEntity): Promise<any>{
-    async createCompany(companyData: CreateCompanyDto): Promise<any>{
-        const user= await this.userRepo.findOne(companyData.user_id)
-        if(!user){
-            throw new NotFoundException(`User with ID "${companyData.user_id}" not found`)
-        }
+    async createCompany(companyData: CreateCompanyDto, user: UserEntity): Promise<any>{
         const companyExists = await this.companyRepo.findOne({ 
             where: { 
                 name: companyData.name,
@@ -264,6 +259,7 @@ export class CompaniesService {
         }
         
     }
+    
     private async saveBusinessSectors(company: Company, data: any) {
         await this.companyBusinessSectorRepo.delete({company}) //DELETE ALL ENTRIES OF THAT COMPANY
         let result = []

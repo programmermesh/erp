@@ -25,6 +25,6 @@ import { ResetPasswordRequestEntity } from './reset-password.entity'
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [ PassportModule, JwtStrategy ]
+  exports: [ PassportModule, JwtStrategy, AuthService ]
 })
 export class AuthModule {}

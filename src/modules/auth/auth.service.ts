@@ -9,6 +9,7 @@ import { ResetPasswordRequestDto } from './dto/reset-password-dto'
 import { ResetPasswordRequestEntity } from './reset-password.entity'
 import { UpdatePasswordRequestDto } from './dto/update-password.dto'
 import { sendMail } from '../../utils/sendEmail'
+import { UserEntity } from '../users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -30,11 +31,14 @@ export class AuthService {
         let { profile_photo, firstname_lastname } = validUser
 
         const payload = { email: validUser.email, id: validUser.id, name: firstname_lastname, profile_photo }
-        const access_token = this.jwtService.sign(payload)
-
-        // this.logger.debug(`Generated JWT token with payload ${JSON.stringify(payload)}`)
-        
+        const access_token = this.jwtService.sign(payload)       
         return { access_token }
+    }
+
+    generateToken(validUser: UserEntity):string{
+        const payload = { email: validUser.email, id: validUser.id, name: validUser.firstname_lastname, profile_photo: validUser.profile_photo }
+        const access_token = this.jwtService.sign(payload)       
+        return access_token
     }
 
     async createResetPasswordRequest(data: ResetPasswordRequestDto): Promise<any>{

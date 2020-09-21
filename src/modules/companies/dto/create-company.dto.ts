@@ -5,6 +5,8 @@ import { COMPANY_TYPE } from '../../../common/enum_values'
 export class CreateCompanyDto {
     @ApiProperty({ description: 'This is the user id ' })
     @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
     @IsUUID() readonly user_id: string
 
     @ApiProperty({ description: 'This is the name of the company' })

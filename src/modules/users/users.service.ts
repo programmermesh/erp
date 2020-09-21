@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException, Logger, InternalServerErrorException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserEntity as User } from './user.entity'
@@ -6,10 +6,14 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { uploadImageToS3 } from '../../utils/s3UploadImages'
 import { FILETYPE } from '../../common/enum_values'
+import { AuthService } from '../auth/auth.service'
 
 @Injectable()
 export class UsersService {
-    constructor (@InjectRepository(User) private readonly userRepo: Repository<User> ){}
+    constructor (
+        @InjectRepository(User) private readonly userRepo: Repository<User>,
+        private readonly authService: AuthService
+    ){}
 
     private logger = new Logger('Userservice')
     
@@ -39,8 +43,12 @@ export class UsersService {
             const user = await this.userRepo.save(userData)
             if(user){
                 //SEND A VERIFICATION EMAIL 
-                const { password, ...result } = user           
-                return { success: "User created successfully", result }
+                const { password, ...result } = user    
+                //CREATE A TOKEN FOR THE REGISTERED USER
+                const payload = { email: result.email, id: result.id, name: result.firstname_lastname, profile_photo: result.profile_photo }
+                const token = this.authService.generateToken(user)       
+
+                return { success: "User created successfully", result, token }
             }else{
                 throw new HttpException('Error trying to register', HttpStatus.BAD_REQUEST);
             }

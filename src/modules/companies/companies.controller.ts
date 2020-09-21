@@ -74,12 +74,14 @@ export class CompaniesController {
     }
 
     @Post()
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({summary: 'Register/Create a company', description: 'This will be used to create a new company the will be user the currently logged in user' })
     create(
         @Request() req,
         @Body() createCompanyDto: CreateCompanyDto
     ){
-        return this.companiesService.createCompany(createCompanyDto)
+        return this.companiesService.createCompany(createCompanyDto, req.user)
     }
 
     @UseGuards(AuthGuard)
