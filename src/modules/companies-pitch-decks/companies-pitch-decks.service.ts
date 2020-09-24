@@ -33,7 +33,8 @@ export class CompaniesPitchDecksService {
             },            
             order: {
                 createdAt: 'DESC'
-            }
+            },
+            relations: ['pitch_deck_files']
         });
         return { status: 'success', result }
     }

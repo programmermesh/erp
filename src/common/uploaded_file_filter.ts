@@ -6,8 +6,8 @@ export const imageFileFilter = (req, file, callback) => {
 }
 
 export const pdfOrWordFileFilter = (req, file, callback) => {
-  if (!file.originalname.match(/\.(doc|docx|pdf)$/)) {
-    return callback(new Error('Only documents with "doc|docx|pdf" extentions allowed files are allowed'), false)
+  if (!file.originalname.match(/\.(doc|docx|pdf|pptx)$/)) {
+    return callback(new Error('Only documents with "doc|docx|pdf|pptx" extentions allowed files are allowed'), false)
   }
   callback(null, true)
 }

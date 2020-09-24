@@ -1,6 +1,7 @@
-import { Entity, Column, ManyToOne } from 'typeorm'
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm'
 import { AbstractEntity } from '../../common/abstract.entity'
 import { CompanyEntity } from '../companies/company.entity'
+import { CompaniesPitchDecksFilesEntity } from '../companies-pitch-decks-files/companies-pitch-decks-files.entity'
 
 @Entity('pitch_decks')
 export class PitchDecksEntity extends AbstractEntity {
@@ -14,7 +15,7 @@ export class PitchDecksEntity extends AbstractEntity {
     @Column('text', { nullable: true })
     notes: string    
 
-    @Column('varchar', { length: 300, nullable: true })
+    @Column('text', { nullable: true })
     link: string
 
     @Column('varchar', { length: 300, nullable: true })
@@ -23,4 +24,8 @@ export class PitchDecksEntity extends AbstractEntity {
     /* Many connection groups can belong to one company */
     @ManyToOne(type => CompanyEntity, company => company.pick_decks )
     company: CompanyEntity
+
+    /* One Pitch Deck can have many files */
+    @OneToMany( type => CompaniesPitchDecksFilesEntity, pitch_deck_file => pitch_deck_file.pitch_deck )
+    pitch_deck_files: CompaniesPitchDecksFilesEntity[]
 }

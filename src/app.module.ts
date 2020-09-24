@@ -55,6 +55,7 @@ import { CustomerSegmentationsModule } from './modules/customer-segmentations/cu
 import { CompanyChannelsModule } from './modules/companies-channels/company-channels.module';
 import { CompanyChannelsCategoryModule } from './modules/companies-channels-category/company-channels-category.module';
 import { CompaniesChannelsRelationshipModule } from './modules/companies-channels-relationship/companies-channels-relationship.module';
+import { CompaniesPitchDecksFilesModule } from './modules/companies-pitch-decks-files/companies-pitch-decks-files.module';
 
 @Module({
   imports: [ 
@@ -77,7 +78,7 @@ import { CompaniesChannelsRelationshipModule } from './modules/companies-channel
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
      CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
      CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, 
-     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule
+     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule
   ],
   controllers: [AppController],
   providers: [AppService],

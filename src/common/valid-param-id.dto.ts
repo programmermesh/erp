@@ -22,6 +22,10 @@ export class ValidParamId {
 
     @IsNotEmpty()
     @IsOptional()
+    @IsUUID()  pitch_deckId: string
+
+    @IsNotEmpty()
+    @IsOptional()
     @IsUUID()  customer_segmentId: string
 
     @IsNotEmpty()
