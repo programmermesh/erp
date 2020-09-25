@@ -21,6 +21,9 @@ export class MarketPotentialEntity extends AbstractEntity {
     current_customers: number
 
     @Column('text', { nullable: true })
+    links: string
+
+    @Column('text', { nullable: true })
     description: string
 
     /* Many files can belong to one market potential entry */

@@ -80,7 +80,9 @@ export enum FILETYPE {
     pitch_decks_image = 'pitch_decks_image',
     pitch_deck_file_url = 'pitch_deck_file_url',
     market_potential_file_url = 'market_potential_file_url',
-    user_profile_photo = 'user_profile_photo'
+    user_profile_photo = 'user_profile_photo',
+    contract_image = 'contract_image',
+    contract_file_url = 'contract_file_url'
 }
 
 export enum COMPANY_TYPE {

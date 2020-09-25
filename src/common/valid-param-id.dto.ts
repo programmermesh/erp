@@ -63,6 +63,10 @@ export class ValidParamId {
     @IsNotEmpty()
     @IsOptional()
     @IsUUID()  segmentationId: string
+
+    @IsNotEmpty()
+    @IsOptional()
+    @IsUUID()  contractId: string
 }
 
 
