@@ -92,6 +92,12 @@ export enum COMPANY_TYPE {
     investor = 'investor'
 }
 
+export enum CONNECTED_HUB_OR_INCUBATOR {
+    hub = 'hub',
+    incubator = 'incubator',
+    investor = 'investor'
+}
+
 export enum CONNECTION_TYPE {
     incoming = 'incoming',
     outgoing = 'outgoing'

@@ -25,6 +25,7 @@ import { ConversationsMembersEntity } from '../companies-conversations-members/c
 import { ConnectionGroupsLeadListEntity } from '../companies-connection-groups-leadlist/connection-groups-lead-list.entity' /*THIS IS THE LEADLIST TABLE*/
 import { CustomerEntity } from '../companies-customers/customer.entity'
 import { ChannelsEntity } from '../companies-channels/channels.entity'
+import { ConnectedHubEntity } from '../companies-connected-hub/connected-hub.entity'
 
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
@@ -105,11 +106,11 @@ export class CompanyEntity extends AbstractEntity{
     valuation_description?: string
 
     @Column({
-        type: 'enum',
-        enum: COMPANY_TYPE,
-        default: COMPANY_TYPE.business
-      })
-      company_type: COMPANY_TYPE
+      type: 'enum',
+      enum: COMPANY_TYPE,
+      default: COMPANY_TYPE.business
+    })
+    company_type: COMPANY_TYPE
 
     @Column({ type: 'varchar', length: 200, nullable: true })
     updated_by?: string
@@ -182,6 +183,10 @@ export class CompanyEntity extends AbstractEntity{
     /* One company can have many pick decks */
     @OneToMany( type => PitchDecksEntity, pick_decks => pick_decks.company)
     pick_decks: PitchDecksEntity[]
+
+    /* One company can have many connected hub details*/
+    @OneToMany( type => ConnectedHubEntity, connected_hub => connected_hub.company)
+    connected_hubs: PitchDecksEntity[]
 
     /* One company can have many market potentials */
     @OneToMany( type => MarketPotentialEntity, market_potential => market_potential.company)
