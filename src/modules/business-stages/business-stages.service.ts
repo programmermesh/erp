@@ -15,7 +15,7 @@ export class BusinessStagesService {
     async getAll(): Promise<BusinessStage[]>{
         return await this.businessStageRepo.find({            
             order: {
-                name: 'DESC'
+                name: 'ASC'
             }
         });
     }

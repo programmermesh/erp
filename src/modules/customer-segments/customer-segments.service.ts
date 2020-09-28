@@ -15,7 +15,7 @@ export class CustomerSegmentsService {
     async getAll(): Promise<CustomerSegment[]>{
         return await this.customerSegmentRepo.find({            
             order: {
-                name: 'DESC'
+                name: 'ASC'
             }
         });
     }
