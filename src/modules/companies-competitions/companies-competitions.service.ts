@@ -20,10 +20,6 @@ export class CompaniesCompetitionsService {
     
     async getAll( params: ValidParamId, user: User ): Promise<any>{
         const result = await this.companyCompetitorRepo.find({
-            select:[
-                "name" , "type", "point_of_differentiation", "details", "importance_level", "website" , 
-                "id","createdAt", "updatedAt"
-            ],
             where: {
                 company:{
                     id: params.companyId,

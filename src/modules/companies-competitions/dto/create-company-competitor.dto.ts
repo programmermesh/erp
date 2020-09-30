@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsString, IsNotEmpty, IsOptional, IsEnum } from "class-validator"
+import { IsString, IsNotEmpty, IsOptional, IsEnum, IsArray } from "class-validator"
 import { COMPETITORS_IMPORTANCE_LEVEL } from '../../../common/enum_values'
 
 export class CreateCompanyCompetitorDto {
@@ -35,4 +35,37 @@ export class CreateCompanyCompetitorDto {
     @IsString()
     @IsNotEmpty()
     readonly website: string
+
+    @ApiProperty({ description: 'This is the revenue stream [One-time revenue , recurring revenue]'})
+    @IsString()
+    @IsNotEmpty()
+    readonly revenue_stream: string
+
+    @ApiProperty({ description: 'These are the different prices'})
+    @IsArray()
+    @IsNotEmpty()
+    readonly price: string[]
+
+    @ApiProperty({ description: 'These are the different value_propositions'})
+    @IsArray()
+    @IsNotEmpty()
+    readonly value_proposition: string[]
+
+    @ApiProperty({ description: 'This is the customer experience'})
+    @IsString()
+    @IsNotEmpty()
+    readonly customer_experience: string
+    /*
+    @Column('varchar', { nullable: true })
+    revenue_stream: string
+
+    @Column("text", { array: true, default: [] })
+    price: string[];
+
+    @Column('varchar', { default: '' })
+    customer_experience: string
+
+    @Column("text", { array: true, default: [] })
+    value_proposition: string[];
+    */
 }

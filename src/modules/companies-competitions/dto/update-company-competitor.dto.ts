@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsString, IsNotEmpty, IsOptional, IsEnum } from "class-validator"
+import { IsString, IsNotEmpty, IsOptional, IsEnum, IsArray } from "class-validator"
 import { COMPETITORS_IMPORTANCE_LEVEL } from '../../../common/enum_values'
 
 export class UpdateCompanyCompetitorDto {
@@ -45,4 +45,32 @@ export class UpdateCompanyCompetitorDto {
     @IsOptional()
     @ApiPropertyOptional()
     readonly website: string
+
+    @ApiProperty({ description: 'This is the revenue stream [One-time revenue , recurring revenue]'})
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly revenue_stream: string
+
+    @ApiProperty({ description: 'These are the different prices'})
+    @IsArray()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly price: string[]
+
+    @ApiProperty({ description: 'These are the different value_propositions'})
+    @IsArray()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly value_proposition: string[]
+
+    @ApiProperty({ description: 'This is the customer experience'})
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly customer_experience: string
 }

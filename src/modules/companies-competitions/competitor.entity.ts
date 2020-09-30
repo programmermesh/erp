@@ -18,6 +18,18 @@ export class CompetitorEntity extends AbstractEntity {
     @Column('text')
     details: string
 
+    @Column('varchar', { nullable: true })
+    revenue_stream: string
+
+    @Column("simple-array", { array: true, default: [] })
+    price: string[];
+
+    @Column('varchar', { default: '' })
+    customer_experience: string
+
+    @Column("simple-array", { array: true, default: [] })
+    value_proposition: string[];
+
     @Column({
         type: 'enum',
         enum: COMPETITORS_IMPORTANCE_LEVEL,
