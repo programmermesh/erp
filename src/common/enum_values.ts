@@ -109,4 +109,10 @@ export enum COMPETITORS_IMPORTANCE_LEVEL {
     high = 'high',
     severe = 'severe'
 }
+
+export enum RESOURCES_ACTIVITIES_RESOURCES_TYPE {
+    resource = 'resource',
+    activity = 'activity',
+    partner = 'partner'
+}
   

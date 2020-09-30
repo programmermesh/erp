@@ -59,6 +59,7 @@ import { CompaniesPitchDecksFilesModule } from './modules/companies-pitch-decks-
 import { CompaniesContractsModule } from './modules/companies-contracts/companies-contracts.module';
 import { CompaniesContractFilesModule } from './modules/companies-contract-files/companies-contract-files.module';
 import { CompaniesConnectedHubModule } from './modules/companies-connected-hub/companies-connected-hub.module';
+import { CompaniesResourcesActivitiesPartnersModule } from './modules/companies-resources-activities-partners/companies-resources-activities-partners.module';
 
 @Module({
   imports: [ 
@@ -81,7 +82,7 @@ import { CompaniesConnectedHubModule } from './modules/companies-connected-hub/c
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
      CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
      CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, 
-     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule
+     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule, CompaniesResourcesActivitiesPartnersModule
   ],
   controllers: [AppController],
   providers: [AppService],
