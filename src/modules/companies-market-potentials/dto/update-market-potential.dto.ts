@@ -34,7 +34,6 @@ export class UpdateMarketPotentialDto {
 
     @ApiProperty({ description: 'This is the links field the market potentials'})
     @IsString()
-    @IsNotEmpty()
     @ApiPropertyOptional()
     @IsOptional()
     readonly links: string

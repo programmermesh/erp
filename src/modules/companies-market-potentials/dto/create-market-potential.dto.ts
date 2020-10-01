@@ -26,7 +26,8 @@ export class CreateMarketPotentialDto {
 
     @ApiProperty({ description: 'This is the links field the market potentials'})
     @IsString()
-    @IsNotEmpty()
+    @ApiPropertyOptional()
+    @IsOptional()
     readonly links: string
 
     @ApiProperty({ description: 'This is the description of the market potentials'})
