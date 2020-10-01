@@ -27,6 +27,7 @@ export class CustomerSegmentationsService {
             .leftJoin('customer.company','company')
             .leftJoinAndSelect('customer_segmentation.segmentation', 'segmentation')
             .where('company.id = :id', { id: params.companyId })
+            .andWhere('customer.id = :customerId', { customerId: params.customerId })
             //.andWhere('customer_segmentation.id = :customerSegmentationId', { customerSegmentationId: params.id  })
             .getMany()
         
@@ -65,6 +66,7 @@ export class CustomerSegmentationsService {
         const requestFound = await this.customerSegmentationsRepo.findOne({ 
             where: { 
                 segment_value: newData.segment_value,
+                //segment_values: newData.segment_values ,
                 segmentation: newData.segmentationId,
                 customer: {
                     id: params.customerId,
@@ -81,17 +83,19 @@ export class CustomerSegmentationsService {
             throw new NotFoundException(`${this.entity_prefix_name} with the value '${newData.segment_value}' already exists`)
         }else{   
             try {
-               
-
                 const saveThis = {
                     segment_value: newData.segment_value,
+                    segment_values: newData.segment_values,
                     group_index: newData.group_index,
                     segmentation: await this.segmentationsRepo.findOne(newData.segmentationId),
                     customer: await this.customerRepo.findOne(params.customerId)
                 }
                 
-                const result = await this.customerSegmentationsRepo.save(saveThis)                
-                
+                const result = await this.customerSegmentationsRepo.save(saveThis)   
+
+                //this.logger.log(result)
+                this.logger.warn(saveThis)
+
                 return Promise.resolve({
                     status: 'success',
                     result

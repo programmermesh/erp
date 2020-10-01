@@ -43,6 +43,7 @@ export class CustomerSegmentationsController {
         @Body() createCustomerSegmentationDto: CreateCustomerSegmentationDto
     ) {
         return this.customerSegmentationsService.create(params, req.user,createCustomerSegmentationDto)
+        //return createCustomerSegmentationDto
     }
 
     @Patch('/:id')

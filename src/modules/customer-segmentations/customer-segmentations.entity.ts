@@ -9,6 +9,9 @@ export class CustomerSegmentationsEntity extends AbstractEntity {
 
     @Column('text', { nullable: true})
     segment_value: string
+
+    @Column({ nullable: true , type: 'varchar', array: true })
+    segment_values: string[]
     
     @Column('text', { nullable: true})
     group_index: string

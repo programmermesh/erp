@@ -22,13 +22,13 @@ export class CompetitorEntity extends AbstractEntity {
     revenue_stream: string
 
     @Column("simple-array", { array: true, default: [] })
-    price: string[];
+    price: string[]
 
     @Column('varchar', { default: '' })
     customer_experience: string
 
     @Column("simple-array", { array: true, default: [] })
-    value_proposition: string[];
+    value_proposition: string[]
 
     @Column({
         type: 'enum',

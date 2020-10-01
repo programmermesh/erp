@@ -1,12 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsNotEmpty, IsString, IsNumber, IsOptional, IsUUID, IsBoolean } from "class-validator"
+import { IsNotEmpty, IsString, IsNumber, IsOptional, IsUUID, IsBoolean, IsArray } from "class-validator"
 
 export class CreateCustomerSegmentationDto {
 
     @ApiProperty({ description: 'This is the value assigned to the relation to the segmentation type '})
-    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
     @IsString()
     readonly segment_value: string
+
+    @ApiProperty({ description: 'This is the array of value assigned to the relation to the segmentation type '})
+    @IsNotEmpty()
+    @IsArray()
+    readonly segment_values: string[]
 
     @ApiProperty({ description: 'This is the segmentation ID' })
     @IsUUID()
