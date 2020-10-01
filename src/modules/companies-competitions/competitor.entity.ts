@@ -21,13 +21,13 @@ export class CompetitorEntity extends AbstractEntity {
     @Column('varchar', { nullable: true })
     revenue_stream: string
 
-    @Column("simple-array", { array: true, default: [] })
+    @Column({ nullable: true , type: 'varchar', array: true })
     price: string[]
 
     @Column('varchar', { default: '' })
     customer_experience: string
 
-    @Column("simple-array", { array: true, default: [] })
+    @Column({ nullable: true , type: 'varchar', array: true })
     value_proposition: string[]
 
     @Column({
