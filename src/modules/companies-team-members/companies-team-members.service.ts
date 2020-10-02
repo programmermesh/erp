@@ -255,7 +255,7 @@ export class CompaniesTeamMembersService {
         // IF newUser add a parameter
         const compose = `Hello! <br><br> You have been invited to be part a team member of <b>${company.name.toUpperCase()}</b>.<br><br>`+
                 `If you already have an account with Vibrant creator login to accept the invitation.<br>`+
-                `If this is your first time use you email "${invite_email}" as your email and password (No registration needed). (URL WILL GO HERE)`
+                `If this is your first time use you email "${invite_email}" as your email and password (No registration needed). <a href="${process.env.FRONTEND_BASE_URL}">${process.env.FRONTEND_BASE_URL}</a>`
                 
         await sendMail(
             invite_email,
