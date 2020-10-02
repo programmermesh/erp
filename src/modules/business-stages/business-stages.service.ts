@@ -13,11 +13,32 @@ export class BusinessStagesService {
     private entity_prefix_name: string = 'Business Sector'
     
     async getAll(): Promise<BusinessStage[]>{
-        return await this.businessStageRepo.find({            
+        let result =  await this.businessStageRepo.find({            
             order: {
                 name: 'ASC'
             }
         });
+        const defaultData = [
+            "Fully established stage", "Idea stage", "MVP Stage (Minimum Variable Product)", "Operational Stage", "Scaling Stage", "Testing Stage","Validation Stage"
+        ]
+        if(result && result.length){
+            //we have results
+            return result
+        } else {
+            // we have nothing in the table
+            for (let index = 0; index < defaultData.length; index++) {
+                const newEntry = new BusinessStage()
+                newEntry.name = defaultData[index]
+                await this.businessStageRepo.save(newEntry)
+            }
+            result = await this.businessStageRepo.find({            
+                order: {
+                    name: 'ASC'
+                }
+            })
+
+            return result
+        }
     }
 
     async getById(id: string): Promise<any>{

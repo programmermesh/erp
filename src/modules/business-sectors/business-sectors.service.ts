@@ -13,11 +13,41 @@ export class BusinessSectorsService {
     private entity_prefix_name: string = 'Business Sector'
     
     async getAll(): Promise<BusinessSector[]>{
-        return await this.businessSectorRepo.find({            
+        let result = await this.businessSectorRepo.find({            
             order: {
                 name: 'ASC'
             }
         });
+        const defaultData = [ "Accounting", "Agriculture", "Airlines/aviation",
+                    "Animation", "Apparel & fashion", "Architecture & Planning", "Automobile",
+                    "Banking", "Biotechnology", "Chemicals", "Computer hardware",
+                    "Computer Software", "Construction", "Consumer Goods", "Cosmetics", "Design", "Education",
+                    "Electronics", "Entertainment", "Environmental Services", "Finance", "Food & Beverages",
+                    "Gaming", "Government", "Health & Wellness", "Hospitality", "Human Resources",
+                    "Information Technology/Saas", "Insurance", "Legal Services", "Logistics",
+                    "Luxury Goods & Services", "Machinery", "Management Consulting", "Marketing & Advertising", "Media",
+                    "Medical", "Military", "Mining & Metals", "Motion Pictures & Film", "NGO",
+                    "Oil & Energy", "Others (type)", "Public Relations",
+                    "Real Estate", "Religious Institutions", "Restaurants" ,"Retail" ,"Sporting Goods" , 
+                    "Telecommunications" ,"Transportation" ,"Travel & Tourism" ,"Venture Capital" ]
+        if(result && result.length){
+            //we have results
+            return result
+        } else {
+            // we have nothing in the table
+            for (let index = 0; index < defaultData.length; index++) {
+                const newEntry = new BusinessSector()
+                newEntry.name = defaultData[index]
+                await this.businessSectorRepo.save(newEntry)
+            }
+            result = await this.businessSectorRepo.find({            
+                order: {
+                    name: 'ASC'
+                }
+            })
+
+            return result
+        }
     }
 
     async getById(id: string): Promise<any>{

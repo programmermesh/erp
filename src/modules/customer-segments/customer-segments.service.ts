@@ -13,11 +13,63 @@ export class CustomerSegmentsService {
     private entity_prefix_name: string = 'Customer segment'
     
     async getAll(): Promise<CustomerSegment[]>{
-        return await this.customerSegmentRepo.find({            
+        let result =  await this.customerSegmentRepo.find({            
             order: {
                 name: 'ASC'
             }
-        });
+        })
+        const defaultData = [
+            {
+                "initials": "B2B",
+                "name": "Business to Business",
+                "color_code": "#008080"
+            },
+            {
+                "initials": "B2C",
+                "name": "Business to Consumer",
+                "color_code": "#F90B98"
+            },
+            {
+                "initials": "B2G",
+                "name": "Business to Government",
+                "color_code": "#70F90B",
+            },
+            {
+                "initials": "C2C",
+                "name": "Consumer to Consumer",
+                "color_code": "#d3d3d3"
+            },
+            {
+                "initials": "G2B",
+                "name": "Government to Business",
+                "color_code": "#76d453",
+            },
+            {
+                "initials": "G2C",
+                "name": "Government to Consumer",
+                "color_code": "#d3d453",
+            }
+        ]
+        if(result && result.length){
+            //we have results
+            return result
+        } else {
+            // we have nothing in the table
+            for (let index = 0; index < defaultData.length; index++) {
+                const newEntry = new CustomerSegment()
+                newEntry.name = defaultData[index].name
+                newEntry.initials = defaultData[index].initials
+                newEntry.color_code = defaultData[index].color_code
+                await this.customerSegmentRepo.save(newEntry)
+            }
+            result = await this.customerSegmentRepo.find({            
+                order: {
+                    name: 'ASC'
+                }
+            })
+
+            return result
+        }
     }
 
     async getById(id: string): Promise<any>{
