@@ -39,7 +39,6 @@ export class UpdateCompanyDto {
     @IsString() readonly phone: string
 
     @ApiProperty({ description: 'This is the wesite of the company website URI' })
-    @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsString() readonly website: string
@@ -50,13 +49,13 @@ export class UpdateCompanyDto {
     @ApiPropertyOptional()
     @IsNumber() readonly customer_size: string
 
-    @ApiProperty({ description: 'This is the minimum investment amount of the company looking for ', minimum:1, default: 1 })
+    @ApiProperty({ description: 'This is the minimum investment amount of the company looking for ', minimum:0, default: 0})
     @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
     @IsNumber() readonly minimum_investment_amount?: number
 
-    @ApiProperty({ description: 'This is the maximum investment amount of the company looking for ', minimum:1, default: 1 })
+    @ApiProperty({ description: 'This is the maximum investment amount of the company looking for ', minimum:0, default: 0 })
     @IsNotEmpty()
     @IsOptional({ always: true })    
     @ApiPropertyOptional()
