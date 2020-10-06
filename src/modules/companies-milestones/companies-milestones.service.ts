@@ -27,7 +27,7 @@ export class CompaniesMilestonesService {
                 }
             },            
             order: {
-                achievement_date: 'DESC'
+                achievement_date: 'ASC'
             }
         });
         return { status: 'success', result }
