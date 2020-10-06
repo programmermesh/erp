@@ -10,12 +10,12 @@ export class UpdateCompanyRiskAnalysisDto {
     @ApiPropertyOptional()
     readonly title: string
 
-    @ApiProperty({ description: 'This is the type of the risk analysis', enum: RISK_ANALYSIS_TYPE})
-    @IsEnum(RISK_ANALYSIS_TYPE)
-    @IsNotEmpty()
-    @IsOptional()
-    @ApiPropertyOptional()
-    readonly type: RISK_ANALYSIS_TYPE
+    // @ApiProperty({ description: 'This is the type of the risk analysis', enum: RISK_ANALYSIS_TYPE})
+    // @IsEnum(RISK_ANALYSIS_TYPE)
+    // @IsNotEmpty()
+    // @IsOptional()
+    // @ApiPropertyOptional()
+    // readonly type: RISK_ANALYSIS_TYPE
 
     @ApiProperty({ description: 'This is the consiquences of the risk analysis'})
     @IsString()

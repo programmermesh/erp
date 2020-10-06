@@ -34,19 +34,20 @@ export class CreateCompanyDto {
     @IsString() readonly phone: string
 
     @ApiProperty({ description: 'This is the wesite of the company website URI' })
-    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
     @IsString() readonly website: string
 
     @ApiProperty({ description: 'This is the size of the company'})
     @IsNotEmpty()
     @IsString() readonly company_size: string
 
-    @ApiProperty({ description: 'This is the minimum investment amount of the company looking for ', minimum:1, default: 1 })
+    @ApiProperty({ description: 'This is the minimum investment amount of the company looking for ', minimum:0, default: 0 })
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsNumber() readonly minimum_investment_amount?: number
 
-    @ApiProperty({ description: 'This is the maximum investment amount of the company looking for ', minimum:1, default: 1 })
+    @ApiProperty({ description: 'This is the maximum investment amount of the company looking for ', minimum:0, default: 0 })
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsNumber() readonly max_investment_amount?: number
