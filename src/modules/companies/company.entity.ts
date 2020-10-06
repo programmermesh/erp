@@ -11,7 +11,6 @@ import { CompanySustainableGoalsEntity } from '../companies-sustainable-goals/co
 import { CompanyValuesEntity } from '../companies-values/company-values.entity'
 import { CostAndRevenuesEntity } from '../companies-cost-and-revenues/cost-and-revenues.entity'
 import { ConnectionGroupsEntity } from '../companies-connection-groups/connection-groups.entity'
-import { LeadListEntity } from '../companies-lead-list/lead-list.entity'
 import { CompanyMilestonesEntity } from '../companies-milestones/company-milestones.entity'
 import { PitchDecksEntity } from '../companies-pitch-decks/pitch-decks.entity'
 import { MarketPotentialEntity } from '../companies-market-potentials/market-potential.entity'
@@ -55,10 +54,10 @@ export class CompanyEntity extends AbstractEntity{
     @Column('varchar', { nullable: true})
     company_size: string
 
-    @Column('int', { nullable: true})
+    @Column('bigint', { nullable: true})
     minimum_investment_amount?: number
     
-    @Column('int', { nullable: true})
+    @Column('bigint', { nullable: true})
     max_investment_amount?: number
 
     @Column({ type: 'boolean', default: true })
@@ -97,10 +96,10 @@ export class CompanyEntity extends AbstractEntity{
     @Column('text', { nullable: true})
     others?: string
 
-    @Column('int', { nullable: true})
+    @Column('bigint', { nullable: true})
     min_valuation?: number
 
-    @Column('int', { nullable: true})
+    @Column('bigint', { nullable: true})
     max_valuation?: number
 
     @Column('text', { nullable: true})
