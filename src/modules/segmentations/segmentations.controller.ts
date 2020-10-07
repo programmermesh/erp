@@ -6,7 +6,7 @@ import { UpdateSegmenationDto } from './dto/updateDto'
 import { ValidParamId } from '../../common/valid-param-id.dto'
 import { SegmentationsService } from './segmentations.service'
 
-@ApiTags('Customer Segmentations (System Data)')
+@ApiTags('Customer Segmentations in Categories (System Data)')
 @Controller('segmentations')
 export class SegmentationsController {
     constructor(private readonly segmentationsService: SegmentationsService){}

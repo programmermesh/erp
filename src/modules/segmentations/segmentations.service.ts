@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
 
 import { SegmentationsEntity as Segmentation } from './segmentations.entity'
+import { CUSTOMERS_SEGMENTS_CATEGORIES } from '../../common/enum_values'
 import { CreateSegmenationDto} from './dto/createDto'
 import { UpdateSegmenationDto } from './dto/updateDto'
 
@@ -14,12 +15,49 @@ export class SegmentationsService {
     private entity_prefix_name: string = 'Segmentation'
     
     async getAll(): Promise<any>{
-        const result = await this.segmentationRepo.find({            
+        let result = await this.segmentationRepo.find({            
             order: {
                 title: 'DESC'
             }
         });
-        return { status: 'success', result }
+        if(result && result.length){
+            return { status: 'success', result }
+        }else{
+            const defaultData = [
+                { "title": "Usage", "category": "behavioral" },
+                { "title": "Type Of Buyer", "category": "demographic" },
+                { "title": "Technology involved", "category": "demographic" },
+                { "title": "Spending Pattern", "category": "behavioral" },
+                { "title": "Social Media Presence", "category": "psychographic" },
+                { "title": "Relationship Status", "category": "demographic" },
+                { "title": "Personality", "category": "psychographic" },
+                { "title": "Occupation", "category": "demographic" },
+                { "title": "Number of employees", "category": "demographic" },
+                { "title": "Mode of Payment", "category": "behavioral" },
+                { "title": "Market Capital", "category": "demographic" },
+                { "title": "Likes", "category": "behavioral" },
+                { "title": "Lifestyle", "category": "psychographic" },
+                { "title": "Industry served", "category": "demographic" },
+                { "title": "Industry", "category": "demographic" },
+                { "title": "Income Bracket", "category": "demographic" },
+                { "title": "Gender", "category": "demographic" },
+                { "title": "Education Stage", "category": "demographic" },
+                { "title": "Countries", "category": "geography" },
+                { "title": "Continent", "category": "geography" },
+                { "title": "Business Stage", "category": "demographic" },
+                { "title": "Brand Loyalty", "category": "behavioral" },
+                { "title": "Age Bracket", "category": "demographic" }
+              ]
+            for (let index = 0; index < defaultData.length; index++) {
+                const newEntry = new Segmentation()
+                newEntry.title = defaultData[index].title
+                newEntry.category = CUSTOMERS_SEGMENTS_CATEGORIES[defaultData[index].category] 
+                await this.segmentationRepo.save(newEntry)
+            }
+            result = await this.segmentationRepo.find({})
+            return result
+        }
+        
     }
 
     async getById(id: string): Promise<any>{

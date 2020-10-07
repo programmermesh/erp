@@ -16,11 +16,20 @@ export class CustomerSegmentationTypeService {
        private entity_prefix_name: string = 'Customer Segmentation Type'
        
        async getAll(): Promise<CustomerSegmentationType[]>{
-           return await this.customerSegmentationTypeRepo.find({         
-               order: {
-                   title: 'DESC'
-               }
-           });
+           let result = await this.customerSegmentationTypeRepo.find({});
+           if(result.length){
+               return result
+           }else{
+                const defaultData = ['demographic', 'phychographic', 'behavioral', 'geography']
+                for (let index = 0; index < defaultData.length; index++) {
+                    const newEntry = new CustomerSegmentationType()
+                    newEntry.title = defaultData[index]
+                    await this.customerSegmentationTypeRepo.save(newEntry)
+                }
+                result = await this.customerSegmentationTypeRepo.find({})
+                return result
+           }
+           
        }
     
        async getById(params: ValidParamId): Promise<any>{
