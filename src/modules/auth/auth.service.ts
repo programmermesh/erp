@@ -56,9 +56,15 @@ export class AuthService {
         try {
             const result = await this.passwordRepo.save(newResetPasswordRequest)
             const { users, ...sendResult } = result
-            /*PENDING::::SEND A LINK TO THE EMAIL*/
-            this.sendResetPasswordEmail(result.id, data.email)
-            return { status: 'success', result: 'Password reset request created successfully. Please check your email for more info on how to reset the password' }
+            if(!data.userIsSignedIn){
+                /*PENDING::::SEND A LINK TO THE EMAIL*/
+                this.sendResetPasswordEmail(result.id, data.email) 
+            }
+            
+            return { 
+                status: 'success', 
+                result: data.userIsSignedIn ? result.id : 'Password reset request created successfully. Please check your email for more info on how to reset the password'
+            }
         } catch (error) {
             this.logger.error(error.message, error.stack)
             throw new InternalServerErrorException()

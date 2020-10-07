@@ -1,11 +1,12 @@
-import { Controller, Post, Patch, Get, Body, Param} from '@nestjs/common';
-import { ApiTags, ApiResponse, ApiCreatedResponse, ApiOperation } from '@nestjs/swagger'
+import { Controller, Post, Patch, Get, Body, Param, UseGuards} from '@nestjs/common';
+import { ApiTags, ApiResponse, ApiCreatedResponse, ApiOperation, ApiBearerAuth } from '@nestjs/swagger'
 import  { AuthService } from './auth.service'
 import { ValidParamId } from '../../common/valid-param-id.dto'
 import { LoginDto } from './dto/login-dto'
 import { RefreshTokenDto } from './dto/token-refresh.dto'
 import { ResetPasswordRequestDto  } from './dto/reset-password-dto'
 import { UpdatePasswordRequestDto } from './dto/update-password.dto'
+import { AuthGuard } from '../../common/guards'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -35,6 +36,29 @@ export class AuthController {
     requestForPasswordChange(@Body() resetPasswordDto: ResetPasswordRequestDto){
         return this.authService.createResetPasswordRequest(resetPasswordDto)
     }
+
+    @Post('/signedin_reset_password_request')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary:'Create password reset request', description: 'This will be used to post a request to change the password and create an entry in the reset password table' })
+    requestForPasswordChangeSignedInUser(@Body() resetPasswordDto: ResetPasswordRequestDto){
+        return this.authService.createResetPasswordRequest(resetPasswordDto)
+    }
+
+    @Patch('/signedin_reset_password/:id')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Update a password', description: 'This will be used to update the password of a user who is signed in' })
+    @ApiResponse({ status: 201, description: 'Password updated successfully.'})
+    @ApiResponse({ status: 403, description: 'Forbidden.'})
+    signedinResetPassword(
+        @Param('id') id: string,
+        @Param() params: ValidParamId,
+        @Body() updatePasswordRequestDto: UpdatePasswordRequestDto 
+    ){
+        return this.authService.fulfilPasswordRequest(id, updatePasswordRequestDto)
+    }
+
 
     @Patch('/reset_password/:id')
     @ApiOperation({ summary: 'Update a password', description: 'This will be used to update the password of a user' })

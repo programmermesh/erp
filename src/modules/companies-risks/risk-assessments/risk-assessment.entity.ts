@@ -13,10 +13,10 @@ export class RiskAssessmentEntity extends AbstractEntity {
     description: string
     
     @Column({
-      type: 'enum',
-      enum: RISK_ASSESSTMENT_TYPE
+      type: 'varchar',
+      default: ''
     })
-    type: RISK_ASSESSTMENT_TYPE
+    type: string
 
     /* Many risks_assessments can belong to one company */
     @ManyToOne( type => CompanyEntity, company => company.risks_assessments )

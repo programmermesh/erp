@@ -59,11 +59,11 @@ export enum RISK_ASSESSTMENT_TYPE {
 }
 
 export enum RISK_ANALYSIS_TYPE {
-    low = 'low',
-    medium_low = 'medium_low',
-    medium = 'medium',
-    medium_high = 'medium_high',
-    high = 'high'
+    low = 'Low',
+    low_medium = 'Low Medium',
+    medium = 'Medium',
+    medium_high = 'Medium High',
+    high = 'High'
 }
 
 export enum COMPANY_NETWORK_INVITES_STATUS {
