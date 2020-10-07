@@ -13,9 +13,9 @@ export class CreateRiskAssessmentDto {
     @IsString()
     readonly description: string
     
-    @ApiProperty({ description: 'This is the type of the risk assessment', enum: RISK_ASSESSTMENT_TYPE})
-    @IsEnum(RISK_ASSESSTMENT_TYPE)
+    @ApiProperty({ description: 'This is the type of the risk assessment'})
+    @IsString()
     @IsNotEmpty()
-    readonly type: RISK_ASSESSTMENT_TYPE
+    readonly type: string
 
 }

@@ -17,11 +17,11 @@ export class UpdateRiskAssessmentDto {
     @ApiPropertyOptional()
     readonly description: string
     
-    @ApiProperty({ description: 'This is the type of the risk assessment', enum: RISK_ASSESSTMENT_TYPE})
-    @IsEnum(RISK_ASSESSTMENT_TYPE)
+    @ApiProperty({ description: 'This is the type of the risk assessment'})
+    @IsString()
     @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
-    readonly type: RISK_ASSESSTMENT_TYPE
+    readonly type: string
 
 }
