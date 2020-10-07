@@ -11,11 +11,10 @@ export class RiskAnalysisEntity extends AbstractEntity{
     title: string
 
     @Column({
-        type: 'enum',
-        enum: RISK_ANALYSIS_TYPE,
-        default: RISK_ANALYSIS_TYPE.medium
+        type: 'varchar',
+        default: ''
     })
-    type: RISK_ANALYSIS_TYPE
+    type: string
 
     @Column('varchar', { length: 255, nullable: true })
     consequences: string
