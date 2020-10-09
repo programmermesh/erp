@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, Logger, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, getRepository, Brackets } from 'typeorm';
+import { Repository, Brackets } from 'typeorm';
 
 import { CompanyEntity as Company } from './company.entity'
 import { CreateCompanyDto } from './dto/create-company.dto'
@@ -9,12 +9,11 @@ import { PaginationDto } from './dto/pagination.dto';
 
 import { UserEntity } from '../users/user.entity'
 import { CompanyCustomerSegmentsEntity as CompanyCustomerSegment } from '../companies-customer-segments/company-customer-segments.entity'
-import { CustomerSegmentEntity as CustomerSegment } from '../customer-segments/customer-segment.entity'
 import { CompanyBusinessStagesEntity as CompanyBusinessStage } from '../companies-business-stages/company-business-stages.entity'
-import { BusinessStagesEntity as BusinessStage } from '../business-stages/business-stages.entity'
-import { BusinessSectorsEntity as BusinessSector } from '../business-sectors/business-sectors.entity'
 import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from '../companies-business-sectors/company-business-sectors.entity'
 import { CompanyTeamMembersEntity as CompanyTeamMember } from '../companies-team-members/company-team-members.entity'
+import { AccessTypesEntity as AccessType } from '../access-types/access-types.entity'
+import { RolesEntity as Role } from '../companies-user-roles/roles.entity'
 
 @Injectable()
 export class CompaniesService {
@@ -22,12 +21,11 @@ export class CompaniesService {
         @InjectRepository(Company) private readonly companyRepo: Repository<Company>,
         @InjectRepository(UserEntity) private readonly userRepo: Repository<UserEntity>,
         @InjectRepository(CompanyCustomerSegment) private readonly companyCustomerSegmentRepo: Repository<CompanyCustomerSegment>,
-        @InjectRepository(CustomerSegment) private readonly customerSegmentRepo: Repository<CustomerSegment>,
         @InjectRepository(CompanyBusinessStage) private readonly companyBusinessStageRepo: Repository<CompanyBusinessStage>,
-        @InjectRepository(BusinessStage) private readonly businessStageRepo: Repository<BusinessStage>,
         @InjectRepository(CompanyBusinessSector) private readonly companyBusinessSectorRepo: Repository<CompanyBusinessSector>,
-        @InjectRepository(BusinessSector) private readonly businessSectorRepo: Repository<BusinessSector>,
-        @InjectRepository(CompanyTeamMember) private readonly companyTeamMemberRepo: Repository<CompanyTeamMember>
+        @InjectRepository(CompanyTeamMember) private readonly companyTeamMemberRepo: Repository<CompanyTeamMember>,
+        @InjectRepository(AccessType) private readonly accessTypeRepo: Repository<AccessType>,
+        @InjectRepository(Role) private readonly roleRepo: Repository<Role>
     ){}
     private logger = new Logger('Company service')
     
@@ -223,31 +221,46 @@ export class CompaniesService {
 
                 //save the business stages
                 let business_stages_result = []
-                if(companyData.business_stages.length > 0){
-                    // for (const [idx, element] of companyData.business_stages.entries()) {
-                    //     const newEntry = new CompanyBusinessStage()
-                    //     newEntry.company = result
-                    //     newEntry.business_stage = element
-                    //     const newResult = await this.companyBusinessStageRepo.save(newEntry)
-                    //     business_stages_result.push(newResult)
-                    // }     
+                if(companyData.business_stages.length > 0){  
                     let savedData = await this.saveBusinessStages(result, companyData.business_stages)
                     business_stages_result = [...savedData]            
                 }
 
                 //save the business sectors
                 let business_sectors_result = []
-                if(companyData.business_sectors.length > 0){
-                    // for (const [idx, element] of companyData.business_sectors.entries()) {
-                    //     const newEntry = new CompanyBusinessSector()
-                    //     newEntry.company = result
-                    //     newEntry.business_sector = element
-                    //     const newResult = await this.companyBusinessSectorRepo.save(newEntry)  
-                    //     business_sectors_result.push(newResult)
-                    // }    
+                if(companyData.business_sectors.length > 0){    
                     let savedData = await this.saveBusinessSectors(result, companyData.business_sectors)
                     business_sectors_result = [...savedData]             
                 }
+
+                /* CREATE THE OWNER AS A TEAM MEMBER */
+                const newTeamMemberData = new CompanyTeamMember()
+                newTeamMemberData.company = result
+                newTeamMemberData.user = user
+                newTeamMemberData.invite_email = user.email
+                newTeamMemberData.invite_accepted = true
+                newTeamMemberData.access_type = await this.accessTypeRepo.findOne({
+                    where: { name: 'Admin' }
+                })
+                
+                //check if the role exists
+                const userRoleFound = await this.roleRepo.findOne({
+                    where: {
+                        name: "Owner",  
+                        company: {  id: result.id } 
+                    }                      
+                }) 
+                if(userRoleFound){
+                    newTeamMemberData.role = userRoleFound
+                }else{
+                    //create a new user role
+                    const newEntry = new Role()
+                    newEntry.name = 'OWNER'
+                    newEntry.company = result
+                    newTeamMemberData.role = await this.roleRepo.save(newEntry)  
+                }
+                await this.companyTeamMemberRepo.save(newTeamMemberData)
+                /* END - CREATE THE OWNER AS A TEAM MEMBER */
 
                 //delete result.created_by.password
                 let final_result = { ...result, business_sectors_result, business_stages_result, customer_segments_result }  

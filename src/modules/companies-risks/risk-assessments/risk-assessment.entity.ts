@@ -14,7 +14,8 @@ export class RiskAssessmentEntity extends AbstractEntity {
     
     @Column({
       type: 'varchar',
-      default: ''
+      default: '',
+      length: 255
     })
     type: string
 

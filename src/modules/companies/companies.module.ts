@@ -12,6 +12,8 @@ import { BusinessStagesEntity as BusinessStage } from '../business-stages/busine
 import { BusinessSectorsEntity as BusinessSector } from '../business-sectors/business-sectors.entity'
 import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from '../companies-business-sectors/company-business-sectors.entity'
 import { CompanyTeamMembersEntity as CompanyTeamMember } from '../companies-team-members/company-team-members.entity'
+import { AccessTypesEntity as AccessType } from '../access-types/access-types.entity'
+import { RolesEntity as Role } from '../companies-user-roles/roles.entity'
 
 @Module({
   imports:[ 
@@ -19,7 +21,8 @@ import { CompanyTeamMembersEntity as CompanyTeamMember } from '../companies-team
       CompanyEntity, 
       UserEntity, CompanyCustomerSegment, CustomerSegment, 
       CompanyBusinessStage, BusinessStage,
-      CompanyBusinessSector, BusinessSector, CompanyTeamMember
+      CompanyBusinessSector, BusinessSector, CompanyTeamMember,
+      Role, AccessType
     ])],
   controllers: [CompaniesController],
   providers: [CompaniesService]

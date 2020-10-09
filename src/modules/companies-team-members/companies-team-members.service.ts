@@ -239,8 +239,6 @@ export class CompaniesTeamMembersService {
                 newTeamMemberData.role = await this.roleRepo.save(newEntry)  
             }
 
-                
-
             const result = await this.companyTeamMemberRepo.save(newTeamMemberData)
             return result
         } catch (error) {
