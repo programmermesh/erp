@@ -26,6 +26,9 @@ import { CustomerEntity } from '../companies-customers/customer.entity'
 import { ChannelsEntity } from '../companies-channels/channels.entity'
 import { ConnectedHubEntity } from '../companies-connected-hub/connected-hub.entity'
 import { ResourcesActivitiesPartnersEntity } from '../companies-resources-activities-partners/resources-activities-partners.entity'
+import { PerformanceIndicatorCustomerEntity } from '../companies-performance-indicator-customers/customer.entity'
+import { PerformanceIndicatorRevenueEntity } from '../companies-performance-indicator-revenue/revenue.entity'
+import { PerformanceIndicatorCostEntity } from '../companies-performance-indicator-cost/cost.entity'
 
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
@@ -227,4 +230,13 @@ export class CompanyEntity extends AbstractEntity{
     /* One company can be a member in many conversations */
     @OneToMany( type => ConversationsMembersEntity, conversation_member => conversation_member.company )
     conversation_members: ConversationsMembersEntity[]
+
+    @OneToMany( type =>PerformanceIndicatorCustomerEntity, performance_indicator_customers => performance_indicator_customers.company )
+    performance_indicator_customers: PerformanceIndicatorCustomerEntity[]
+
+    @OneToMany( type =>PerformanceIndicatorRevenueEntity, performance_indicator_revenues => performance_indicator_revenues.company )
+    performance_indicator_revenues: PerformanceIndicatorRevenueEntity[]
+
+    @OneToMany( type =>PerformanceIndicatorCostEntity, performance_indicator_cost => performance_indicator_cost.company )
+    performance_indicator_cost: PerformanceIndicatorRevenueEntity[]
 }

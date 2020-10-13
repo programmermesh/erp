@@ -60,6 +60,9 @@ import { CompaniesContractsModule } from './modules/companies-contracts/companie
 import { CompaniesContractFilesModule } from './modules/companies-contract-files/companies-contract-files.module';
 import { CompaniesConnectedHubModule } from './modules/companies-connected-hub/companies-connected-hub.module';
 import { CompaniesResourcesActivitiesPartnersModule } from './modules/companies-resources-activities-partners/companies-resources-activities-partners.module';
+import { CompaniesPerformanceIndicatorCustomersModule } from './modules/companies-performance-indicator-customers/companies-performance-indicator-customers.module';
+import { CompaniesPerformanceIndicatorRevenueModule } from './modules/companies-performance-indicator-revenue/companies-performance-indicator-revenue.module';
+import { CompaniesPerformanceIndicatorCostModule } from './modules/companies-performance-indicator-cost/companies-performance-indicator-cost.module';
 
 @Module({
   imports: [ 
@@ -82,7 +85,7 @@ import { CompaniesResourcesActivitiesPartnersModule } from './modules/companies-
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
      CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
      CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, 
-     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule, CompaniesResourcesActivitiesPartnersModule
+     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule, CompaniesResourcesActivitiesPartnersModule, CompaniesPerformanceIndicatorCustomersModule, CompaniesPerformanceIndicatorRevenueModule, CompaniesPerformanceIndicatorCostModule
   ],
   controllers: [AppController],
   providers: [AppService],
