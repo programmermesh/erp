@@ -10,8 +10,9 @@ export class CreateCustomerSegmentationDto {
     readonly segment_value: string
 
     @ApiProperty({ description: 'This is the array of value assigned to the relation to the segmentation type '})
-    @IsNotEmpty()
     @IsArray()
+    @IsOptional()
+    @ApiPropertyOptional()
     readonly segment_values: string[]
 
     @ApiProperty({ description: 'This is the segmentation ID' })

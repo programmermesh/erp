@@ -93,9 +93,6 @@ export class CustomerSegmentationsService {
                 
                 const result = await this.customerSegmentationsRepo.save(saveThis)   
 
-                //this.logger.log(result)
-                this.logger.warn(saveThis)
-
                 return Promise.resolve({
                     status: 'success',
                     result
