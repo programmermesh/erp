@@ -8,6 +8,7 @@ import { UserEntity as User } from '../users/user.entity'
 import { ValidParamId } from '../../common/valid-param-id.dto';
 import { CreateCustomersDto } from './dto/create.dto'
 import { UpdateCustomersDto } from './dto/update.dto'
+import { SearchDto } from './dto/searchDto'
 
 @Injectable()
 export class CompaniesPerformanceIndicatorCustomersService {
@@ -18,17 +19,34 @@ export class CompaniesPerformanceIndicatorCustomersService {
     private logger = new Logger('CompaniesPerformanceIndicatorCustomersService')
     private entity_prefix_name: string = 'Performance Indicator Customer'
     
-    async getAll( params: ValidParamId, user: User ): Promise<any>{
-        const result = await this.performanceIndicatorCustomerRepo.find({
-            where: {
-                company:{
-                    id: params.companyId
-                }
-            },            
-            order: {
-                date_only: 'DESC'
+    async getAll( params: ValidParamId, user: User, searchDto: SearchDto ): Promise<any>{
+        // const result = await this.performanceIndicatorCustomerRepo.find({
+        //     where: {
+        //         company:{
+        //             id: params.companyId
+        //         }
+        //     },            
+        //     order: {
+        //         date_only: 'DESC'
+        //     }
+        // });
+
+        
+        let query = this.performanceIndicatorCustomerRepo.createQueryBuilder('performance_indicator_customers')
+        .leftJoin('performance_indicator_customers.company', 'company')
+        .where('company.id = :id', { id: params.companyId })
+
+        if(searchDto.from){
+            const queryParams = {
+                from: new Date(`${searchDto.from}-01`),
+                to: new Date(`${searchDto.to}-01`)
             }
-        });
+    
+            query.andWhere( `"performance_indicator_customers"."date_only" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+        }
+        const result = await query.getMany()
+
+
         return { status: 'success', result }
     }
 
