@@ -7,6 +7,7 @@ import { PerformanceIndicatorRevenueEntity as  PerformanceIndicatorRevenue} from
 import { UserEntity as User } from '../users/user.entity'
 import { ValidParamId } from '../../common/valid-param-id.dto';
 import { CreateDto } from './dto/create.dto'
+import { SearchDto } from './dto/searchDto';
 
 @Injectable()
 export class CompaniesPerformanceIndicatorRevenueService {
@@ -17,17 +18,23 @@ export class CompaniesPerformanceIndicatorRevenueService {
     private logger = new Logger('CompaniesPerformanceIndicatorRevenueService')
     private entity_prefix_name: string = 'Performance Indicator Revenue'
     
-    async getAll( params: ValidParamId, user: User ): Promise<any>{
-        const result = await this.performanceIndicatorRevenueRepo.find({
-            where: {
-                company:{
-                    id: params.companyId
-                }
-            },            
-            order: {
-                date_only: 'DESC'
+    async getAll( params: ValidParamId, user: User, searchDto: SearchDto ): Promise<any>{
+        let query = this.performanceIndicatorRevenueRepo.createQueryBuilder('performance_indicator_revenue')
+        .leftJoin('performance_indicator_revenue.company', 'company')
+        .where('company.id = :id', { id: params.companyId })
+        .orderBy('performance_indicator_revenue.date_only', 'ASC')
+
+        if(searchDto.from){
+            const queryParams = {
+                from: new Date(`${searchDto.from}-01`),
+                to: new Date(`${searchDto.to}-01`)
             }
-        });
+    
+            query.andWhere( `"performance_indicator_revenue"."date_only" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+        }
+        const result = await query.getMany()
+
+
         return { status: 'success', result }
     }
 

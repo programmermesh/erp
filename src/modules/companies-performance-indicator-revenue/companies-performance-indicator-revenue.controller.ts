@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ValidParamId } from '../../common/valid-param-id.dto'
 import { AuthGuard } from '../../common/guards'
 import { CompaniesPerformanceIndicatorRevenueService } from './companies-performance-indicator-revenue.service'
 import { CreateDto } from './dto/create.dto'
+import { SearchDto } from './dto/searchDto';
 
 @ApiTags('Companies Performance Indicator Revenue')
 @Controller('/companies/:companyId/performance_indicator_revenues')
@@ -20,9 +21,10 @@ export class CompaniesPerformanceIndicatorRevenueController {
     @ApiOperation({ summary: 'Get all', description: 'This will be used to get a list data'  })
     get(
         @Param() params: ValidParamId,
-        @Request() req
+        @Request() req,        
+        @Query() searchDto: SearchDto
     ) {
-        return this.companiesPerformanceIndicatorRevenueService.getAll(params,req.user)
+        return this.companiesPerformanceIndicatorRevenueService.getAll(params,req.user, searchDto)
     }
 
     @Get('/:id')

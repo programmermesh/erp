@@ -20,21 +20,11 @@ export class CompaniesPerformanceIndicatorCustomersService {
     private entity_prefix_name: string = 'Performance Indicator Customer'
     
     async getAll( params: ValidParamId, user: User, searchDto: SearchDto ): Promise<any>{
-        // const result = await this.performanceIndicatorCustomerRepo.find({
-        //     where: {
-        //         company:{
-        //             id: params.companyId
-        //         }
-        //     },            
-        //     order: {
-        //         date_only: 'DESC'
-        //     }
-        // });
-
         
         let query = this.performanceIndicatorCustomerRepo.createQueryBuilder('performance_indicator_customers')
         .leftJoin('performance_indicator_customers.company', 'company')
         .where('company.id = :id', { id: params.companyId })
+        .orderBy('performance_indicator_customers.date_only', 'ASC')
 
         if(searchDto.from){
             const queryParams = {
