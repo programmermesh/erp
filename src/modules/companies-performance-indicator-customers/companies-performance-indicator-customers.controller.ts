@@ -28,6 +28,16 @@ export class CompaniesPerformanceIndicatorCustomersController {
         return this.companiesPerformanceIndicatorCustomersService.getAll(params,req.user, searchDto)
     }
 
+    @Get('/chart/data')
+    @ApiOperation({ summary: 'Get all', description: 'This will be used to get chart data'  })
+    getChartData(
+        @Param() params: ValidParamId,
+        @Request() req,
+        @Query() searchDto: SearchDto
+    ) {
+        return this.companiesPerformanceIndicatorCustomersService.getChartData(params,req.user, searchDto)
+    }
+
     @Get('/:id')
     @ApiOperation({ summary: 'Get By Id' , description: 'This will be used to get by ID' })
     getById(
