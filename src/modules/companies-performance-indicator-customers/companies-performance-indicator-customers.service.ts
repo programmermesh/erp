@@ -97,7 +97,10 @@ export class CompaniesPerformanceIndicatorCustomersService {
         //GET THE COMPUTED DATA AND RETURN
 
         const months_string = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        const months = customersData.map(item => months_string[new Date(item.date_only).getMonth()])
+        //const months = customersData.map(item => months_string[new Date(item.date_only).getMonth()])
+        const months = customersData.map(item => {
+            return months_string[new Date(item.date_only).getMonth()] + `(${new Date(item.date_only).getFullYear()})`
+        })
         const customersLostArray = customersData.map(item => (
             (item.last_month + item.acquired_customers) - item.this_month
         ))

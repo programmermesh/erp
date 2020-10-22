@@ -94,7 +94,9 @@ export class CompaniesPerformanceIndicatorCostService {
         const customersData = await queryCustomers.getMany()
 
         const months_string = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        const monthsArray = costsData.map(item => months_string[new Date(item.date_only).getMonth()])
+        const monthsArray = costsData.map(item => {
+            return months_string[new Date(item.date_only).getMonth()] + `(${new Date(item.date_only).getFullYear()})`
+        })
         const grossBurnRate = costsData.map(item => { return item.this_month})
         const totalGrossBurnRate = grossBurnRate.reduce(((acc, val) => acc+val),0)
         const nettBurnRate = costsData.map(item => {
