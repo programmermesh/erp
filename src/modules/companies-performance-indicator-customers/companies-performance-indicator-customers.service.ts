@@ -133,12 +133,12 @@ export class CompaniesPerformanceIndicatorCustomersService {
         const CAC = (cacArray.reduce((acc,val) => acc+val, 0)).toFixed(2)
 
         const sideSummaryData = [
-            { title: 'Customers Lost', value: totalCustomersLost > 0 ? totalCustomersLost : totalCustomersLost, symbol: '' },
-            { title: 'Increase of customers', value: percentageIncreaseOfCustomers, symbol: '%' },
-            { title: 'Churn', value: isNaN(totalChurns) ? 0 : totalChurns, symbol: '%' },
-            { title: 'ARPU', value: ARPU, symbol: '' },
-            { title: 'Change in ARPU', value: changesInARPU, symbol: '%' },
-            { title: 'CAC', value: CAC , symbol: '' }
+            { title: 'Customers Lost', value: totalCustomersLost > 0 ? totalCustomersLost : totalCustomersLost, symbol: '', details: 'Number of load customers in that period' },
+            { title: 'Increase of customers', value: percentageIncreaseOfCustomers, symbol: '%', details: 'Increase of customers in percentage' },
+            { title: 'Churn', value: isNaN(totalChurns) ? 0 : totalChurns, symbol: '%', details: 'Churn' },
+            { title: 'ARPU', value: ARPU, symbol: '', details: 'ARPU calculated' },
+            { title: 'Change in ARPU', value: changesInARPU, symbol: '%', details: 'Change in percentage' },
+            { title: 'CAC', value: CAC , symbol: '', details: 'CAC' }
           ]
 
         const result = {

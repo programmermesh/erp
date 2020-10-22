@@ -125,11 +125,11 @@ export class CompaniesPerformanceIndicatorCostService {
         const CAC = (cacArray.reduce((acc,val) => acc+val, 0)).toFixed(2)
 
         const summaryData = [
-            { title: 'Gross Burn Rate', value: totalGrossBurnRate, symbol: '$' },
-            { title: 'Nett Burn Rate', value: totalNettBurnRate, symbol: '$' },
-            { title: 'Average Gross Burn Rate', value: meanAverageGrossBurnRate, symbol: '$' },
-            { title: 'Runaway', value: runAway, symbol: '' },
-            { title: 'CAC', value: CAC, symbol: '' }
+            { title: 'Gross Burn Rate', value: totalGrossBurnRate, symbol: '$', details: 'This is the gross burn rate' },
+            { title: 'Nett Burn Rate', value: totalNettBurnRate, symbol: '$', details: 'Nett burn rate = ' },
+            { title: 'Average Gross Burn Rate', value: meanAverageGrossBurnRate, symbol: '$', details: 'Avg Gross burn rate' },
+            { title: 'Runaway', value: runAway, symbol: '', details: 'Runaway' },
+            { title: 'CAC', value: CAC, symbol: '', details: 'CAC' }
         ]
 
         const result = {
