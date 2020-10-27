@@ -125,11 +125,11 @@ export class CompaniesPerformanceIndicatorCostService {
         const CAC = (cacArray.reduce((acc,val) => acc+val, 0)).toFixed(2)
 
         const summaryData = [
-            { title: 'Gross Burn Rate', value: totalGrossBurnRate, symbol: '$', details: 'This is the gross burn rate' },
-            { title: 'Nett Burn Rate', value: totalNettBurnRate, symbol: '$', details: 'Nett burn rate = ' },
-            { title: 'Average Gross Burn Rate', value: meanAverageGrossBurnRate, symbol: '$', details: 'Avg Gross burn rate' },
-            { title: 'Runaway', value: runAway, symbol: '', details: 'Runaway' },
-            { title: 'CAC', value: CAC, symbol: '', details: 'CAC' }
+            { title: 'Gross Burn Rate', value: totalGrossBurnRate, symbol: '$', details: 'The total amount of operating costs your company incurs in expenses each month.' },
+            { title: 'Nett Burn Rate', value: totalNettBurnRate, symbol: '$', details: 'The total amount of money your company loses each month.' },
+            { title: 'Average Gross Burn Rate', value: meanAverageGrossBurnRate, symbol: '$', details: 'Total amount of operating costs your company incurs in expenses each month, averaged over the chosen period.' },
+            { title: 'Runaway', value: runAway, symbol: '', details: 'RThe length of time in which your company will remain solvent, assuming that you are unable to raise more money. How many months do you have left before you run out of money.' },
+            { title: 'CAC', value: CAC, symbol: '', details: 'Customer acquisition cost is the total expense incurred by your company in order to acquire a new customer.' }
         ]
 
         const result = {

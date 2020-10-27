@@ -133,12 +133,12 @@ export class CompaniesPerformanceIndicatorCustomersService {
         const CAC = (cacArray.reduce((acc,val) => acc+val, 0)).toFixed(2)
 
         const sideSummaryData = [
-            { title: 'Customers Lost', value: totalCustomersLost > 0 ? totalCustomersLost : totalCustomersLost, symbol: '', details: 'Number of load customers in that period' },
-            { title: 'Increase of customers', value: percentageIncreaseOfCustomers, symbol: '%', details: 'Increase of customers in percentage' },
-            { title: 'Churn', value: isNaN(totalChurns) ? 0 : totalChurns, symbol: '%', details: 'Churn' },
-            { title: 'ARPU', value: ARPU, symbol: '', details: 'ARPU calculated' },
-            { title: 'Change in ARPU', value: changesInARPU, symbol: '%', details: 'Change in percentage' },
-            { title: 'CAC', value: CAC , symbol: '', details: 'CAC' }
+            { title: 'Customers Lost', value: totalCustomersLost > 0 ? totalCustomersLost : totalCustomersLost, symbol: '', details: 'Customers lost within the chosen periode.' },
+            { title: 'Increase of customers', value: percentageIncreaseOfCustomers, symbol: '%', details: 'Increase of customers within the chosen periode. ' },
+            { title: 'Churn', value: isNaN(totalChurns) ? 0 : totalChurns, symbol: '%', details: 'The rate at which customers stop doing business with an entity. Most commonly expressed as the percentage of service subscribers who discontinue their subscriptions within a given time period.' },
+            { title: 'ARPU', value: ARPU, symbol: '', details: 'Average revenue per unit also known as average revenue per user or ARPU, is the measure of the revenue generated per unit or user. ' },
+            { title: 'Change in ARPU', value: changesInARPU, symbol: '%', details: 'Changes (%) in average revenue per user (unit).' },
+            { title: 'CAC', value: CAC , symbol: '', details: 'Customer acquisition cost is the total expense incurred by your company in order to acquire a new customer.' }
           ]
 
         const result = {
