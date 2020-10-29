@@ -31,8 +31,8 @@ import { PerformanceIndicatorRevenueEntity } from '../companies-performance-indi
 import { PerformanceIndicatorCostEntity } from '../companies-performance-indicator-cost/cost.entity'
 
 export const bigint: ValueTransformer = {
-  to: (entityValue: number) => entityValue,
-  from: (databaseValue: string): number => parseInt(databaseValue, 10)
+  to: (entityValue: number) => entityValue ? entityValue : 0,
+  from: (databaseValue: string): number => parseInt(databaseValue ? databaseValue : '0', 10)
 }
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{

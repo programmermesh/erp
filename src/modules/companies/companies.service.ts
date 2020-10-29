@@ -336,6 +336,7 @@ export class CompaniesService {
 
         try {
             this.companyRepo.merge(companyExists, updateData)
+            console.log(updateData)
             const result = await this.companyRepo.save(companyExists)
             //save the customer segments
             if(updateData.customer_segments && updateData.customer_segments.length > 0){
