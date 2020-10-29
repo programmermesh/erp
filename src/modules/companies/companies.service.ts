@@ -243,10 +243,20 @@ export class CompaniesService {
                     where: { name: 'Admin' }
                 })
                 
+
+                // DEFAULT ROLES FOR THE COMPANY
+                const default_roles = ['CO-FOUNDER', 'CTO', 'CFO', 'CIO', 'PRO', 'OWNER']
+                for (let index = 0; index < default_roles.length; index++) {
+                    const newEntry = new Role()
+                    newEntry.name = default_roles[index]
+                    newEntry.company = result
+                    await this.roleRepo.save(newEntry)  
+                }
+
                 //check if the role exists
                 const userRoleFound = await this.roleRepo.findOne({
                     where: {
-                        name: "Owner",  
+                        name: "OWNER",  
                         company: {  id: result.id } 
                     }                      
                 }) 

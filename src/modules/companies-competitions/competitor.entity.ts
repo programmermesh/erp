@@ -18,8 +18,11 @@ export class CompetitorEntity extends AbstractEntity {
     @Column('text')
     details: string
 
-    @Column('varchar', { nullable: true })
+    @Column({ nullable: true , type: 'varchar' })
     revenue_stream: string
+
+    @Column({ nullable: true , type: 'text', array: true })
+    other_revenue_streams: string[]
 
     @Column({ nullable: true , type: 'varchar', array: true })
     price: string[]

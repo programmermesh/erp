@@ -48,10 +48,15 @@ export class UpdateCompanyCompetitorDto {
 
     @ApiProperty({ description: 'This is the revenue stream [One-time revenue , recurring revenue]'})
     @IsString()
-    @IsNotEmpty()
     @IsOptional()
     @ApiPropertyOptional()
     readonly revenue_stream: string
+
+    @ApiProperty({ description: 'This is the revenue stream '})
+    @IsArray()
+    @IsOptional()
+    @ApiPropertyOptional()
+    readonly other_revenue_streams: string[]
 
     @ApiProperty({ description: 'These are the different prices'})
     @IsArray()
