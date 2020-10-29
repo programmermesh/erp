@@ -12,7 +12,7 @@ export class CompetitorEntity extends AbstractEntity {
     @Column('varchar', { length: 255 })
     type: string
 
-    @Column('varchar', { length: 255 })
+    @Column('text', { nullable: true })
     point_of_differentiation: string
 
     @Column('text')
@@ -40,7 +40,7 @@ export class CompetitorEntity extends AbstractEntity {
     })
     importance_level: COMPETITORS_IMPORTANCE_LEVEL
 
-    @Column('varchar', { length: 255, nullable: true })
+    @Column('text', { nullable: true })
     website: string
 
     /* Many competitors can be link to one company */
