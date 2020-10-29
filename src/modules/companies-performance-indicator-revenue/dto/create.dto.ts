@@ -33,24 +33,4 @@ export class CreateDto {
     @IsNotEmpty()
     readonly date_only: Date
 
-    /*
-    @Column('bigint',{ default: 0})
-    last_month: number
-
-    @Column('bigint',{ default: 0})
-    this_month: number
-
-    @Column('bigint',{ default: 0})
-    generated_revenue: number
-
-    @Column('bigint',{ default: 0})
-    reserve_from_previous_period: number
-
-    @Column('bigint',{ default: 0})
-    funding: number
-
-    @Column({ type: 'date' })
-    date_only: Date
-    */
-
 }

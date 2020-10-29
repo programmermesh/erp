@@ -6,7 +6,7 @@ import { CompanyEntity } from '../companies/company.entity'
 export const bigint: ValueTransformer = {
     to: (entityValue: number) => entityValue,
     from: (databaseValue: string): number => parseInt(databaseValue, 10)
-  }
+}
 
 
 @Entity('performance_indicator_revenue')

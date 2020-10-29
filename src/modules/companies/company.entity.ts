@@ -1,4 +1,4 @@
-import { Entity, Column , OneToMany,  ManyToOne } from 'typeorm'
+import { Entity, Column , OneToMany,  ManyToOne, ValueTransformer } from 'typeorm'
 import { COMPANY_TYPE } from '../../common/enum_values'
 import { AbstractEntity } from '../../common/abstract.entity'
 import { UserEntity } from '../users/user.entity'
@@ -30,6 +30,10 @@ import { PerformanceIndicatorCustomerEntity } from '../companies-performance-ind
 import { PerformanceIndicatorRevenueEntity } from '../companies-performance-indicator-revenue/revenue.entity'
 import { PerformanceIndicatorCostEntity } from '../companies-performance-indicator-cost/cost.entity'
 
+export const bigint: ValueTransformer = {
+  to: (entityValue: number) => entityValue,
+  from: (databaseValue: string): number => parseInt(databaseValue, 10)
+}
 @Entity('company')
 export class CompanyEntity extends AbstractEntity{
     
@@ -57,10 +61,10 @@ export class CompanyEntity extends AbstractEntity{
     @Column('varchar', { nullable: true})
     company_size: string
 
-    @Column('bigint', { nullable: true})
+    @Column('bigint', { nullable: true, default: 0,  transformer: [bigint]})
     minimum_investment_amount?: number
     
-    @Column('bigint', { nullable: true})
+    @Column('bigint', { nullable: true, default: 0,  transformer: [bigint]})
     max_investment_amount?: number
 
     @Column({ type: 'boolean', default: true })
@@ -99,10 +103,10 @@ export class CompanyEntity extends AbstractEntity{
     @Column('text', { nullable: true})
     others?: string
 
-    @Column('bigint', { nullable: true})
+    @Column('bigint', { nullable: true, default: 0,  transformer: [bigint]})
     min_valuation?: number
 
-    @Column('bigint', { nullable: true})
+    @Column('bigint', { nullable: true, default: 0,  transformer: [bigint]})
     max_valuation?: number
 
     @Column('text', { nullable: true})
