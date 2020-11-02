@@ -27,31 +27,26 @@ export class UpdateUserDto {
     @IsString() readonly city: string 
 
     @ApiProperty({ description: 'This is the user facebook URI' })
-    @IsNotEmpty()
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsString() readonly facebook: string
 
     @ApiProperty({  description: 'This is the user linkedin URI' })
-    @IsNotEmpty()
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsString() readonly linkedin: string
 
     @ApiProperty({ description: 'This is the user twitter URI' })
-    @IsNotEmpty()
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsString() readonly twitter: string
 
     @ApiProperty({  description: 'This is the user youtube URI' })
-    @IsNotEmpty()
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsString() readonly youtube: string
 
     @ApiProperty({ description: 'This is the user other URI' })
-    @IsNotEmpty()
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsString() readonly others: string
