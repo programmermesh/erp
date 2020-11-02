@@ -144,12 +144,23 @@ export class CompaniesService {
     }
 
     async getCompanyById(id: string, user: UserEntity): Promise<any>{
-        const result = await this.companyRepo.findOne({ 
-            where: { 
-                id,
-                //created_by:user.id
-            } 
-        })
+        const result = await this.companyRepo.createQueryBuilder('company')
+            .where("company.created_by = :owner", {owner: user.id })
+            .andWhere("company.id = :id", {id})
+            .leftJoinAndSelect('company.created_by', 'company_owner')                      
+            .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+            .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+            .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+            .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+            .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+            .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+            .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
+            .orderBy('company.createdAt', 'DESC')              
+            .getOne()
+            
         if(result){
             return { status: 'success', result }
         }else{

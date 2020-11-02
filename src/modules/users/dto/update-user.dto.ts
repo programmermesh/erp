@@ -1,5 +1,6 @@
-import { IsString, IsOptional, IsNotEmpty, IsBoolean} from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty, IsBoolean, IsUUID} from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { CompanyEntity } from '../../companies/company.entity'
 
 export class UpdateUserDto {   
     @ApiProperty({ description: 'This is the user first name and last name' })
@@ -50,6 +51,11 @@ export class UpdateUserDto {
     @IsOptional({ always: true })
     @ApiPropertyOptional()
     @IsString() readonly others: string
+
+    @ApiProperty({ description: 'This is company ID of the last accessed company' })
+    @IsOptional({ always: true })
+    @ApiPropertyOptional()
+    @IsUUID() readonly last_accessed_company: CompanyEntity
 
     @ApiProperty({ description: 'This is a field used to activate or disable a user .', default: true })
     @IsNotEmpty()

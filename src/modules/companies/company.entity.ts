@@ -126,6 +126,10 @@ export class CompanyEntity extends AbstractEntity{
     /* Many Companies can be created by one user */
     @ManyToOne( type => UserEntity, user => user.owner )
     created_by: UserEntity
+
+    // One company can have many users last access
+    @OneToMany( type => UserEntity, users => users.last_accessed_company )
+    last_accessed_by_user: UserEntity[]
     
     /* One company can have many team members */
     @OneToMany( type => CompanyTeamMembersEntity, team_member => team_member.company)

@@ -1,4 +1,4 @@
-import { Entity,Column,OneToMany} from 'typeorm'
+import { Entity,Column,OneToMany, OneToOne, JoinColumn} from 'typeorm'
  import { AbstractEntity } from '../../common/abstract.entity'
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
 import { ResetPasswordRequestEntity } from '../auth/reset-password.entity'
@@ -44,6 +44,13 @@ export class UserEntity extends AbstractEntity {
 
     @Column('text', { nullable: true})
     others: string
+
+    // @Column('varchar', { length: 255 ,nullable: true})
+    // last_accessed_company: string
+
+    @OneToOne(() => CompanyEntity, company => company.last_accessed_by_user)
+    @JoinColumn()
+    last_accessed_company: CompanyEntity
 
     @Column({ type: 'boolean', default: true })
     is_active?: boolean     

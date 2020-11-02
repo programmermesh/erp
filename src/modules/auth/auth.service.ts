@@ -28,15 +28,21 @@ export class AuthService {
             throw new UnauthorizedException('Invalid Credentials')
         }
 
-        let { profile_photo, firstname_lastname } = validUser
+        let { profile_photo, firstname_lastname, last_accessed_company, email, id } = validUser
 
-        const payload = { email: validUser.email, id: validUser.id, name: firstname_lastname, profile_photo }
+        const payload = { email , id , name: firstname_lastname, profile_photo, last_accessed_company }
         const access_token = this.jwtService.sign(payload)       
         return { access_token }
     }
 
     generateToken(validUser: UserEntity):string{
-        const payload = { email: validUser.email, id: validUser.id, name: validUser.firstname_lastname, profile_photo: validUser.profile_photo }
+        const payload = { 
+            email: validUser.email, 
+            id: validUser.id, 
+            name: validUser.firstname_lastname, 
+            profile_photo: validUser.profile_photo, 
+            last_accessed_company: validUser.last_accessed_company 
+        }
         const access_token = this.jwtService.sign(payload)       
         return access_token
     }
