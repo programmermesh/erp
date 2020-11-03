@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto'
 import { uploadImageToS3 } from '../../utils/s3UploadImages'
 import { FILETYPE } from '../../common/enum_values'
 import { AuthService } from '../auth/auth.service'
+import { sendMail } from '../../utils/sendEmail'
 
 @Injectable()
 export class UsersService {
@@ -41,6 +42,8 @@ export class UsersService {
             throw new HttpException('Email entered is already registered', HttpStatus.BAD_REQUEST);
         }else{
             const user = await this.userRepo.save(userData)
+            // SEND THE USER A REGISTRATION MESSAGE
+            this.sendConfirmationEmail(user.email, user.firstname_lastname)
             if(user){
                 //SEND A VERIFICATION EMAIL 
                 const { password, ...result } = user    
@@ -123,6 +126,21 @@ export class UsersService {
         return this.userRepo.findOne({ 
             where: {email}
         })
+    }
+
+    private async sendConfirmationEmail( email: string, name: string){
+        const compose = `Hello ${name}. <br><br>Your account registration was successful with VibrantCreator.<br><br>`+
+                `You can proceed to login to your acccount using your email and address in the link below.<br><br>`+
+                `<h5><a style="color: #ee491f;" href="${process.env.FRONTEND_BASE_URL}/login">${process.env.FRONTEND_BASE_URL}</a></h5><br> `+
+                `<p>Thank you for joining <span style="color: #ee491f;"><b>VibrantCreator</b></span> and we look forward to seeing you onboard.</p>`+
+                `Best Regards, <br/> VibrantCreator Team`
+                
+        await sendMail(
+            email,
+            "Account Registration",
+            "Successful registration for an account",
+            compose)
+        return true
     }
         
 }
