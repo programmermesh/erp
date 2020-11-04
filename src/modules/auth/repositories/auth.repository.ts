@@ -20,22 +20,15 @@ export class AuthRepository extends Repository<UserEntity> {
             .addSelect('row.password')
             .where('row.email = :name', {name: loginDto.email})
             .leftJoinAndSelect('row.last_accessed_company', 'company')
-            //.leftJoinAndSelect('company.created_by', 'company_owner')
-            // .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
-            // .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
-            // .leftJoinAndSelect('company.business_stages', 'company_business_stages')
-            // .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
-            // .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
-            // .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
-            // .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
-            // .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
-            // .leftJoinAndSelect('company.team_members', 'team_members')
-            // .leftJoinAndSelect('team_members.user', 'memberProfile')
             .getOne();  
             
         if(user && ( await this.passwordsAreEqual(user.password, loginDto.password) )){
             //const { password, ...result } = user
-            return user
+            const { last_accessed_company, ...result } = user // MINIMIZE the data been sent back to create a token
+            return {
+                ...result,
+                last_accessed_company: (last_accessed_company && last_accessed_company.id) ? { id: last_accessed_company.id } : null//just return the ID of the company
+            }
         }else{
             return null
         }

@@ -63,6 +63,7 @@ import { CompaniesResourcesActivitiesPartnersModule } from './modules/companies-
 import { CompaniesPerformanceIndicatorCustomersModule } from './modules/companies-performance-indicator-customers/companies-performance-indicator-customers.module';
 import { CompaniesPerformanceIndicatorRevenueModule } from './modules/companies-performance-indicator-revenue/companies-performance-indicator-revenue.module';
 import { CompaniesPerformanceIndicatorCostModule } from './modules/companies-performance-indicator-cost/companies-performance-indicator-cost.module';
+import { UserSessionsModule } from './modules/user-sessions/user-sessions.module';
 
 @Module({
   imports: [ 
@@ -85,7 +86,7 @@ import { CompaniesPerformanceIndicatorCostModule } from './modules/companies-per
      CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
      CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
      CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, 
-     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule, CompaniesResourcesActivitiesPartnersModule, CompaniesPerformanceIndicatorCustomersModule, CompaniesPerformanceIndicatorRevenueModule, CompaniesPerformanceIndicatorCostModule
+     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule, CompaniesResourcesActivitiesPartnersModule, CompaniesPerformanceIndicatorCustomersModule, CompaniesPerformanceIndicatorRevenueModule, CompaniesPerformanceIndicatorCostModule, UserSessionsModule
   ],
   controllers: [AppController],
   providers: [AppService],

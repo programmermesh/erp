@@ -2,6 +2,7 @@ import { Entity,Column,OneToMany, OneToOne, JoinColumn} from 'typeorm'
  import { AbstractEntity } from '../../common/abstract.entity'
 import { CompanyTeamMembersEntity } from '../companies-team-members/company-team-members.entity'
 import { ResetPasswordRequestEntity } from '../auth/reset-password.entity'
+import { UserSessionsEntity } from '../user-sessions/user-sessions.entity'
 import { CompanyEntity } from '../companies/company.entity' 
 import { Exclude } from 'class-transformer';
 
@@ -62,6 +63,10 @@ export class UserEntity extends AbstractEntity {
     /*One user can have many companies*/
     @OneToMany( type => CompanyEntity, company => company.created_by )
     owner: CompanyEntity[]
+
+    /*ONE USER CAN HAVE MANY USER SESSIONS*/
+    @OneToMany( type => UserSessionsEntity, user_session => user_session.user )
+    sessions: UserSessionsEntity[]
 
     /* One user can have many password requests but one active one*/
     @OneToMany( type => ResetPasswordRequestEntity, reset_password_request => reset_password_request.isActive )
