@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { ValidParamId } from '../../common/valid-param-id.dto';
 import { CreateUserSessionDto as CreateDto } from './dto/create.dto'
 import { UpdateUserSessionDto as UpdateDto } from './dto/update.dto'
+import { SearchDto } from './dto/search.dto'
 import { UserSessionsEntity as UserSessions } from './user-sessions.entity'
 import { UserEntity as User } from '../users/user.entity'
 
@@ -18,14 +19,101 @@ export class UserSessionsService {
     private logger = new Logger('UserSessionsService')
     private entity_prefix_name: string = 'User session'
     
-    async getAll( user: User): Promise<any>{
-        const result = await this.userSessionsRepo.find({                        
-            order: {
-                createdAt: 'DESC'
-            },
-            relations: ['user']
-        });
-        return { status: 'success', result }
+    async getAll( user: User, searchDto: SearchDto): Promise<any>{
+        // parse the numbers is the searchDTo
+        searchDto.page = searchDto.page ? Number(searchDto.page) : 1
+        searchDto.limit = searchDto.limit ? Number(searchDto.limit) : 20
+        //const skippeditems = (searchDto.page && searchDto.limit)? ((Number(searchDto.page) - 1) * Number(searchDto.limit)) : 0 
+        const skippeditems = (searchDto.page - 1) * searchDto.limit
+        const query = this.userSessionsRepo.createQueryBuilder('userSessions')
+        
+        if(searchDto.in_use){
+            // Need to fetch only the logged users 
+            query.andWhere('userSessions.in_use = :in_use', { in_use: searchDto.in_use ? true: false })
+        }
+
+        if(searchDto.active ){
+            query.andWhere('userSessions.active = :active', { active: searchDto.active ? true: false })
+        }
+
+        const totalCount = await query.getCount() 
+
+        const result = await query.orderBy('userSessions.createdAt', 'DESC')
+            .leftJoinAndSelect('userSessions.user','user')
+            .skip(skippeditems)              
+            .take(searchDto.limit ? searchDto.limit : 50)           
+            .getMany()
+        
+
+        return { 
+            status: 'success', 
+            result,
+            page: searchDto.page,
+            limit: searchDto.limit,
+            totalCount
+        }
+
+        /*
+        const skippeditems = (paginationDto.page - 1) * paginationDto.limit
+
+        //const totalCount = await this.companyRepo.count()
+        const totalCount = await this.companyRepo.createQueryBuilder('company')
+            .where('company.created_by != :id', { id: user.id} )
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                })
+            )       
+            .leftJoinAndSelect("company.created_by", "company_owner")                      
+            .leftJoinAndSelect("company.business_sectors", "company_business_sectors")
+            .leftJoinAndSelect('company_business_sectors.business_sector',"system_business_sector")
+            .leftJoinAndSelect("company.business_stages", "company_business_stages")
+            .leftJoinAndSelect('company_business_stages.business_stage',"system_business_stage")
+            .leftJoinAndSelect("company.customer_segments", "company_customer_segements")
+            .leftJoinAndSelect('company_customer_segements.customer_segment',"system_customer_segment")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
+            .getCount()
+        
+
+        const result = await this.companyRepo.createQueryBuilder('company')            
+            .where('company.created_by != :id', { id: user.id} )
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where("LOWER(company.name) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.elevator_pitch) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere('LOWER(company.country) like LOWER(:term)', {term: '%' + paginationDto.searchWord + '%' })
+                    .orWhere("LOWER(company.city) like LOWER(:term)", {term: '%' + paginationDto.searchWord + '%' })
+                })
+            )
+            .leftJoinAndSelect('company.created_by', 'company_owner')                      
+            .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+            .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+            .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+            .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+            .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+            .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+            .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+            .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+            .leftJoinAndSelect('company.team_members', 'team_members')
+            .leftJoinAndSelect('team_members.user', 'memberProfile')
+            .orderBy('company.createdAt', 'DESC')           
+            .skip(skippeditems)
+            .take(paginationDto.limit)           
+            .getMany()
+            
+        return { 
+            status: 'success', 
+            result,
+            page: paginationDto.page,
+            limit: paginationDto.limit,
+            totalCount
+        }
+        */
+
     }
 
     async getById(params: ValidParamId, user: User): Promise<any>{

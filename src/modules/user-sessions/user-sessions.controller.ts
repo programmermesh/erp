@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, UseGuards, Request, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ValidParamId } from '../../common/valid-param-id.dto'
@@ -6,6 +6,7 @@ import { AuthGuard } from '../../common/guards'
 import { UserSessionsService } from './user-sessions.service'
 import { CreateUserSessionDto as CreateDto } from './dto/create.dto'
 import { UpdateUserSessionDto as UpdateDto } from './dto/update.dto'
+import { SearchDto } from './dto/search.dto';
 
 @ApiTags('User Sessions')
 @Controller('/users_sessions')
@@ -20,9 +21,10 @@ export class UserSessionsController {
     @Get()
     @ApiOperation({ summary: 'Get all user sessions', description: 'This will be used to get a list of user session'  })
     get(
-        @Request() req
+        @Request() req,
+        @Query() searchDto: SearchDto
     ) {
-        return this.userSessionsService.getAll(req.user)
+        return this.userSessionsService.getAll(req.user, searchDto)
     }
 
     @Get('/:id')
