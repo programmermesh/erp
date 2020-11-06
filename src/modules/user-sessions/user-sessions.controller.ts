@@ -27,6 +27,15 @@ export class UserSessionsController {
         return this.userSessionsService.getAll(req.user, searchDto)
     }
 
+    @Get('/statistics/data')
+    @ApiOperation({ summary: 'Get dated statistics data ', description: 'This will be used to get a list combined statistic of user session'  })
+    getDatedStatisticData(
+        @Request() req,
+        @Query() searchDto: SearchDto
+    ) {
+        return this.userSessionsService.getDatedStatisticData(req.user, searchDto)
+    }
+
     @Get('/:id')
     @ApiOperation({ summary: 'Get a company pitch decks profile' , description: 'This will be used to get the a company pitch decks using the ID' })
     getById(

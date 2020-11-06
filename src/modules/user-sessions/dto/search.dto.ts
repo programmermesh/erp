@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class SearchDto {
@@ -24,4 +24,16 @@ export class SearchDto {
     @ApiPropertyOptional()
     @IsOptional()
     active: number
+
+    @ApiProperty({ description: 'The date to begin the filter from' })
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsString()
+    from: string
+
+    @ApiProperty({ description: 'The last date to filter data to' })
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsString()
+    to: string
 }
