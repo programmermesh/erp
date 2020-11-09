@@ -57,47 +57,89 @@ export class UserSessionsService {
     }
 
    async getDatedStatisticData( user: User, searchDto: SearchDto): Promise<any>{
-    // parse the numbers is the searchDTo
-    searchDto.page = searchDto.page ? Number(searchDto.page) : 1
-    searchDto.limit = searchDto.limit ? Number(searchDto.limit) : 20
+        // parse the numbers is the searchDTo
+        searchDto.page = searchDto.page ? Number(searchDto.page) : 1
+        searchDto.limit = searchDto.limit ? Number(searchDto.limit) : 20
 
-    const skippeditems = (searchDto.page - 1) * searchDto.limit
-    const query = this.userSessionsRepo.createQueryBuilder('user_sessions')
-        .select("SUM(user_sessions.active_time)", 'total_active_time')
-        .addSelect("user.email", "email")
-        //.groupBy("user_sessions.user")
-        .groupBy("user.id")               
-        .leftJoin('user_sessions.user','user')
-        //.groupBy("user.id")
-        //.addGroupBy("user_sessions.id")
-        //.addGroupBy("user.id")
+        const skippeditems = (searchDto.page - 1) * searchDto.limit
+        const query = this.userSessionsRepo.createQueryBuilder('user_sessions')
+            .select("SUM(user_sessions.active_time)", 'total_active_time')
+            .addSelect("user.email", "email")
+            //.groupBy("user_sessions.user")
+            .groupBy("user.id")               
+            .leftJoin('user_sessions.user','user')
+            //.groupBy("user.id")
+            //.addGroupBy("user_sessions.id")
+            //.addGroupBy("user.id")
 
-    if(searchDto.from){
-        const queryParams = {
-            from: new Date(`${searchDto.from}`),
-            to: new Date(`${searchDto.to}`)
+        if(searchDto.from){
+            const queryParams = {
+                from: new Date(`${searchDto.from}`),
+                to: new Date(`${searchDto.to}`)
+            }
+
+            query.andWhere( `"user_sessions"."created_at" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+        }    
+
+        const totalCount = await query.getCount() 
+
+        const result = await query//.orderBy('user_sessions.createdAt', 'DESC')
+            .skip(skippeditems)              
+            .take(searchDto.limit ? searchDto.limit : 20)           
+            .getRawMany()
+        
+
+        return { 
+            status: 'success', 
+            result,
+            page: searchDto.page,
+            limit: searchDto.limit,
+            totalCount
         }
 
-        query.andWhere( `"user_sessions"."created_at" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
-    }    
-
-    const totalCount = await query.getCount() 
-
-    const result = await query//.orderBy('user_sessions.createdAt', 'DESC')
-        .skip(skippeditems)              
-        .take(searchDto.limit ? searchDto.limit : 20)           
-        .getRawMany()
-    
-
-    return { 
-        status: 'success', 
-        result,
-        page: searchDto.page,
-        limit: searchDto.limit,
-        totalCount
     }
 
-}
+    async getDatedUserStatisticData( user: User, searchDto: SearchDto): Promise<any>{
+        // parse the numbers is the searchDTo
+        searchDto.page = searchDto.page ? Number(searchDto.page) : 1
+        searchDto.limit = searchDto.limit ? Number(searchDto.limit) : 20
+
+        const skippeditems = (searchDto.page - 1) * searchDto.limit
+        const query = this.userRepo.createQueryBuilder('user')
+            .leftJoinAndSelect("user.sessions", "user_sessions")
+            .select('user')
+            
+
+        if(searchDto.from){
+            const queryParams = {
+                from: new Date(`${searchDto.from}`),
+                to: new Date(`${searchDto.to}`)
+            }
+
+            //query.andWhere( `"user_sessions"."created_at" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+            query.andWhere( `"user"."created_at" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+        }    
+
+        const totalCount = await query.getCount() 
+
+        console.log(searchDto)
+
+        const result = await query.orderBy('user.createdAt', 'DESC')
+            .skip(skippeditems)              
+            .take(searchDto.limit ? searchDto.limit : 20)           
+            //.getRawMany()
+            .getMany()
+        
+
+        return { 
+            status: 'success', 
+            result,
+            page: searchDto.page,
+            limit: searchDto.limit,
+            totalCount
+        }
+
+    }
 
     async getById(params: ValidParamId, user: User): Promise<any>{
         const result = await this.findById(params)
