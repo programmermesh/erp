@@ -7,6 +7,7 @@ import { UpdateCompanyDto } from './dto/update-company.dto'
 import { PaginationDto } from './dto/pagination.dto'
 import { CompaniesService } from './companies.service'
 import { AuthGuard } from '../../common/guards'
+import { SearchDto } from './dto/search.dto';
 
 @ApiTags('Companies')
 @Controller('companies')
@@ -15,6 +16,17 @@ import { AuthGuard } from '../../common/guards'
 export class CompaniesController {
     constructor(private readonly companiesService: CompaniesService){}
     
+    @Get('/superadmin/all_companies')
+    @UseGuards(AuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get all companies (Admin)', description: 'This will be used to get a list of companies '  })
+    getAllCompaniesSuperAdmin(
+        @Request() req,
+        @Query() searchDto: SearchDto
+    ) {
+        return this.companiesService.getAllCompaniesSuperAdmin(req.user, searchDto)
+    }
+
     @Get()
     @UseGuards(AuthGuard)
     @ApiBearerAuth()

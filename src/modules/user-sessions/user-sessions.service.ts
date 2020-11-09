@@ -123,8 +123,6 @@ export class UserSessionsService {
 
         const totalCount = await query.getCount() 
 
-        console.log(searchDto)
-
         const result = await query.orderBy('user.createdAt', 'DESC')
             .skip(skippeditems)              
             .take(searchDto.limit ? searchDto.limit : 20)           

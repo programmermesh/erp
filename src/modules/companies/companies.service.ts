@@ -14,6 +14,7 @@ import { CompanyBusinessSectorsEntity as CompanyBusinessSector } from '../compan
 import { CompanyTeamMembersEntity as CompanyTeamMember } from '../companies-team-members/company-team-members.entity'
 import { AccessTypesEntity as AccessType } from '../access-types/access-types.entity'
 import { RolesEntity as Role } from '../companies-user-roles/roles.entity'
+import { SearchDto } from './dto/search.dto';
 
 @Injectable()
 export class CompaniesService {
@@ -47,6 +48,53 @@ export class CompaniesService {
             .getMany()
         
         return { status: 'success', result }
+    }
+
+    async getAllCompaniesSuperAdmin( user: UserEntity, searchDto: SearchDto): Promise<any>{
+        // parse the numbers is the searchDTo
+        searchDto.page = searchDto.page ? Number(searchDto.page) : 1
+        searchDto.limit = searchDto.limit ? Number(searchDto.limit) : 20
+
+        const skippeditems = (searchDto.page - 1) * searchDto.limit
+        const query = this.companyRepo.createQueryBuilder('company')
+        .leftJoinAndSelect('company.created_by', 'company_owner')                      
+        .leftJoinAndSelect('company.business_sectors', 'company_business_sectors')
+        .leftJoinAndSelect('company_business_sectors.business_sector','system_business_sector')
+        .leftJoinAndSelect('company.business_stages', 'company_business_stages')
+        .leftJoinAndSelect('company_business_stages.business_stage','system_business_stage')
+        .leftJoinAndSelect('company.customer_segments', 'company_customer_segements')
+        .leftJoinAndSelect('company_customer_segements.customer_segment','system_customer_segment')
+        .leftJoinAndSelect("company.sustainable_goals", "company_sustainable_goals")
+        .leftJoinAndSelect('company_sustainable_goals.sustainable_goal',"system_sustainable_goal")
+        .leftJoinAndSelect('company.team_members', 'team_members')
+        .leftJoinAndSelect('team_members.user', 'memberProfile')            
+
+        if(searchDto.from){
+            const queryParams = {
+                from: new Date(`${searchDto.from}`),
+                to: new Date(`${searchDto.to}`)
+            }
+
+            //query.andWhere( `"user_sessions"."created_at" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+            query.andWhere( `"company"."created_at" BETWEEN :begin AND :end` ,{ begin: queryParams.from, end: queryParams.to })
+        }    
+
+        const totalCount = await query.getCount() 
+
+        const result = await query.orderBy('company.createdAt', 'DESC')
+            .skip(skippeditems)              
+            .take(searchDto.limit ? searchDto.limit : 20)
+            .getMany()
+        
+
+        return { 
+            status: 'success', 
+            result,
+            page: searchDto.page,
+            limit: searchDto.limit,
+            totalCount
+        }
+
     }
 
     async getTeamCompanies(user: UserEntity): Promise<any> {
