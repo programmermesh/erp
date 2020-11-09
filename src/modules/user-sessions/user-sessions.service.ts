@@ -107,7 +107,8 @@ export class UserSessionsService {
         const skippeditems = (searchDto.page - 1) * searchDto.limit
         const query = this.userRepo.createQueryBuilder('user')
             .leftJoinAndSelect("user.sessions", "user_sessions")
-            .select('user')
+            .leftJoinAndSelect("user.owner", "companies")
+            //.select('user')
             
 
         if(searchDto.from){
