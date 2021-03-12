@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CompaniesModule } from './modules/companies/companies.module';
@@ -47,8 +47,8 @@ import { CompaniesCustomersProblemsModule } from './modules/companies-customers-
 import { CompaniesCustomersProblemsSolutionsModule } from './modules/companies-customers-problems-solutions/companies-customers-problems-solutions.module';
 import { CompaniesConnectionGroupsModule } from './modules/companies-connection-groups/companies-connection-groups.module';
 import { CompaniesConnectionGroupsLeadlistModule } from './modules/companies-connection-groups-leadlist/companies-connection-groups-leadlist.module';
-import { CompaniesCustomersModule } from './modules/companies-customers/companies-customers.module'
-import { DetailsModule } from './modules/channels/details/details.module'
+import { CompaniesCustomersModule } from './modules/companies-customers/companies-customers.module';
+import { DetailsModule } from './modules/channels/details/details.module';
 import { CompanyConnectionGroupsCategoriesModule } from './modules/companies-connection-groups-categories/company-connection-groups-categories.module';
 import { SegmentationsModule } from './modules/segmentations/segmentations.module';
 import { CustomerSegmentationsModule } from './modules/customer-segmentations/customer-segmentations.module';
@@ -64,29 +64,74 @@ import { CompaniesPerformanceIndicatorCustomersModule } from './modules/companie
 import { CompaniesPerformanceIndicatorRevenueModule } from './modules/companies-performance-indicator-revenue/companies-performance-indicator-revenue.module';
 import { CompaniesPerformanceIndicatorCostModule } from './modules/companies-performance-indicator-cost/companies-performance-indicator-cost.module';
 import { UserSessionsModule } from './modules/user-sessions/user-sessions.module';
+import { TaskManagerModule } from './modules/task-manager/task-manager.module';
 
 @Module({
-  imports: [ 
+  imports: [
     TypeOrmModule.forRoot(),
-    CompaniesModule, UsersModule, AuthModule, CustomerSegmentsModule,
-    CompaniesCustomerSegmentsModule, BusinessSectorsModule,
-    CompaniesBusinessSectorsModule, BusinessStagesModule,
-    CompaniesBusinessStagesModule, CompaniesTeamMembersModule,
-    CompaniesUserRolesModule, AccessTypesModule, 
-    SustainableGoalsModule, CompaniesSustainableGoalsModule, 
-    CompaniesPhotosModule, 
-    CompaniesConnectionsModule, CompaniesMilestonesModule, 
-    RiskAnalysisModule, RiskAssessmentsModule, CompaniesLeadListModule, CompaniesPitchDecksModule, 
-    CompaniesCostAndRevenuesModule, CompaniesValuesModule, CompaniesCompetitionsModule,
-    CompaniesMarketPotentialsModule, CompaniesRelationsModule,
-    RelationsModule, ChannelsModule, CompaniesConversationsModule, CompaniesConversationsMembersModule, 
-    CompaniesConversationsMessagesModule, CompanyRiskAnalysisUsersModule, CompaniesMarketPotentialFilesModule, 
-    CompaniesMarketPotentialEstimatesCoverageModule, CompaniesMarketPotentialCustomersModule, EducationStagesModule, 
-    IncomeBracketsModule, CustomerSegmentationTypeModule, CustomerSegmTypeSubcategoryModule, CustomerSegmTypeSubcategoryValuesModule,
-     CompaniesCustomerSegmentDetailsModule, CompaniesCustomersProblemsModule, CompaniesCustomersProblemsSolutionsModule, 
-     CompaniesConnectionGroupsModule, CompaniesConnectionGroupsLeadlistModule,
-     CompaniesCustomersModule, DetailsModule, CompanyConnectionGroupsCategoriesModule, 
-     SegmentationsModule, CustomerSegmentationsModule, CompanyChannelsModule, CompanyChannelsCategoryModule, CompaniesChannelsRelationshipModule, CompaniesPitchDecksFilesModule, CompaniesContractsModule, CompaniesContractFilesModule, CompaniesConnectedHubModule, CompaniesResourcesActivitiesPartnersModule, CompaniesPerformanceIndicatorCustomersModule, CompaniesPerformanceIndicatorRevenueModule, CompaniesPerformanceIndicatorCostModule, UserSessionsModule
+    CompaniesModule,
+    UsersModule,
+    AuthModule,
+    CustomerSegmentsModule,
+    TaskManagerModule,
+    CompaniesCustomerSegmentsModule,
+    BusinessSectorsModule,
+    CompaniesBusinessSectorsModule,
+    BusinessStagesModule,
+    CompaniesBusinessStagesModule,
+    CompaniesTeamMembersModule,
+    CompaniesUserRolesModule,
+    AccessTypesModule,
+    SustainableGoalsModule,
+    CompaniesSustainableGoalsModule,
+    CompaniesPhotosModule,
+    CompaniesConnectionsModule,
+    CompaniesMilestonesModule,
+    RiskAnalysisModule,
+    RiskAssessmentsModule,
+    CompaniesLeadListModule,
+    CompaniesPitchDecksModule,
+    CompaniesCostAndRevenuesModule,
+    CompaniesValuesModule,
+    CompaniesCompetitionsModule,
+    CompaniesMarketPotentialsModule,
+    CompaniesRelationsModule,
+    RelationsModule,
+    ChannelsModule,
+    CompaniesConversationsModule,
+    CompaniesConversationsMembersModule,
+    CompaniesConversationsMessagesModule,
+    CompanyRiskAnalysisUsersModule,
+    CompaniesMarketPotentialFilesModule,
+    CompaniesMarketPotentialEstimatesCoverageModule,
+    CompaniesMarketPotentialCustomersModule,
+    EducationStagesModule,
+    IncomeBracketsModule,
+    CustomerSegmentationTypeModule,
+    CustomerSegmTypeSubcategoryModule,
+    CustomerSegmTypeSubcategoryValuesModule,
+    CompaniesCustomerSegmentDetailsModule,
+    CompaniesCustomersProblemsModule,
+    CompaniesCustomersProblemsSolutionsModule,
+    CompaniesConnectionGroupsModule,
+    CompaniesConnectionGroupsLeadlistModule,
+    CompaniesCustomersModule,
+    DetailsModule,
+    CompanyConnectionGroupsCategoriesModule,
+    SegmentationsModule,
+    CustomerSegmentationsModule,
+    CompanyChannelsModule,
+    CompanyChannelsCategoryModule,
+    CompaniesChannelsRelationshipModule,
+    CompaniesPitchDecksFilesModule,
+    CompaniesContractsModule,
+    CompaniesContractFilesModule,
+    CompaniesConnectedHubModule,
+    CompaniesResourcesActivitiesPartnersModule,
+    CompaniesPerformanceIndicatorCustomersModule,
+    CompaniesPerformanceIndicatorRevenueModule,
+    CompaniesPerformanceIndicatorCostModule,
+    UserSessionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

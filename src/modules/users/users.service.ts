@@ -142,42 +142,42 @@ export class UsersService {
     }
   }
 
-  async onboarding(id: any, userDate: OnboardingDto) {
-    const userFound = await this.userRepo.findOne(id);
-    if (!userFound) {
-      throw new HttpException(`User does not exist`, HttpStatus.BAD_REQUEST);
-    } else {
-      (userFound.department = userDate.department),
-        (userFound.role = userDate.role),
-        (userFound.business_objectives = userDate.business_objectives),
-        (userFound.business_stage = userDate.business_stage),
-        (userFound.company_name = userDate.company_name),
-        (userFound.team_size = userDate.team_size),
-        (userFound.investors_time_reference =
-          userDate.investors_time_reference);
-      userFound.is_active = true;
+  // async onboarding(id: any, userDate: OnboardingDto) {
+  //   const userFound = await this.userRepo.findOne(id);
+  //   if (!userFound) {
+  //     throw new HttpException(`User does not exist`, HttpStatus.BAD_REQUEST);
+  //   } else {
+  //     (userFound.department = userDate.department),
+  //       (userFound.role = userDate.role),
+  //       (userFound.business_objectives = userDate.business_objectives),
+  //       (userFound.business_stage = userDate.business_stage),
+  //       (userFound.company_name = userDate.company_name),
+  //       (userFound.team_size = userDate.team_size),
+  //       (userFound.investors_time_reference =
+  //         userDate.investors_time_reference);
+  //     userFound.is_active = true;
 
-      const user = await this.userRepo.save(userFound);
-      //await this.userRepo.findOne(id);
-      this.sendConfirmationEmail(userFound.email, userFound.firstname_lastname);
+  //     const user = await this.userRepo.save(userFound);
+  //     //await this.userRepo.findOne(id);
+  //     this.sendConfirmationEmail(userFound.email, userFound.firstname_lastname);
 
-      //SEND A VERIFICATION EMAIL
-      //CREATE A TOKEN FOR THE REGISTERED USER
-      const payload = {
-        email: userFound.email,
-        id: userFound.id,
-        name: userFound.firstname_lastname,
-        profile_photo: userFound.profile_photo,
-      };
-      const token = this.authService.generateToken(userFound);
-      return {
-        user: user,
-        token: token,
-        ResponseCode: '00',
-        ResponseDescription: 'User created successfully',
-      };
-    }
-  }
+  //     //SEND A VERIFICATION EMAIL
+  //     //CREATE A TOKEN FOR THE REGISTERED USER
+  //     const payload = {
+  //       email: userFound.email,
+  //       id: userFound.id,
+  //       name: userFound.firstname_lastname,
+  //       profile_photo: userFound.profile_photo,
+  //     };
+  //     const token = this.authService.generateToken(userFound);
+  //     return {
+  //       user: user,
+  //       token: token,
+  //       ResponseCode: '00',
+  //       ResponseDescription: 'User created successfully',
+  //     };
+  //   }
+  // }
 
   async uploadProfilePhoto(user: User, file: any, fileType: FILETYPE) {
     const userFound = await this.userRepo.findOne(user.id);
