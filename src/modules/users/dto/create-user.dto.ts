@@ -19,55 +19,6 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
-  @ApiProperty({ description: 'This is the user company name' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  company_name: string;
-
-  @ApiProperty({ description: 'This is the user department' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  department: string;
-
-  @ApiProperty({ description: 'This is the user role' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  role: string;
-
-  @ApiProperty({ description: 'This is the user team size' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  team_size: string;
-
-  @ApiProperty({ description: 'This is the business stage' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  business_stage: string;
-
-  @ApiProperty({ description: 'This is the user business objectives' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  business_objectives: string;
-
-  @ApiProperty({ description: 'This is the user investors reference' })
-  @IsNotEmpty()
-  @IsString()
-  @IsOptional()
-  @ApiPropertyOptional()
-  investors_time_reference: string;
-
   @ApiProperty({ description: 'active' })
   @IsNotEmpty()
   @IsString()

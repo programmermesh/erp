@@ -28,7 +28,6 @@ import { ResendEmailDto } from './dto/resend-email.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FILETYPE } from '../../common/enum_values';
-import { OnboardingDto } from './dto/onboarding.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -108,19 +107,19 @@ export class UsersController {
     return await this.userService.resendVerifyEmail(resendEmailDto);
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Patch('/onboarding/:id')
-  @ApiOperation({
-    summary: 'Onboarding user',
-    description: 'Onboarding user',
-  })
-  @ApiResponse({ status: 200, description: 'Creating new user successful.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiBody({ type: OnboardingDto })
-  @ApiParam({ name: 'id' })
-  async onboarding(@Param('id') id: any, @Body() onboardingDto: OnboardingDto) {
-    return await this.userService.onboarding(id, onboardingDto);
-  }
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // @Patch('/onboarding/:id')
+  // @ApiOperation({
+  //   summary: 'Onboarding user',
+  //   description: 'Onboarding user',
+  // })
+  // @ApiResponse({ status: 200, description: 'Creating new user successful.' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized' })
+  // @ApiBody({ type: OnboardingDto })
+  // @ApiParam({ name: 'id' })
+  // async onboarding(@Param('id') id: any, @Body() onboardingDto: OnboardingDto) {
+  //   return await this.userService.onboarding(id, onboardingDto);
+  // }
 
   @UseInterceptors(ClassSerializerInterceptor)
   @Patch('/me')
